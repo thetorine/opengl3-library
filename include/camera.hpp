@@ -23,6 +23,7 @@ public:
     void rotateKey(dir_t dir, float dt);
     void rotateMouse(float dx, float dy);
 
+	glm::vec3 getPos();
     glm::vec3 getFacingDir();
     glm::mat4 getViewMatrix();
 };

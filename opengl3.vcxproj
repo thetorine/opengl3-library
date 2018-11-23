@@ -147,14 +147,16 @@
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\shape\cube.cpp" />
     <ClCompile Include="src\shape\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\shader.hpp" />
-    <ClInclude Include="include\shape\shape.h" />
-    <ClInclude Include="include\shape\square.h" />
+    <ClInclude Include="include\shape\cube.hpp" />
+    <ClInclude Include="include\shape\shape.hpp" />
+    <ClInclude Include="include\shape\square.hpp" />
     <ClInclude Include="include\utilities.hpp" />
   </ItemGroup>
   <ItemGroup>

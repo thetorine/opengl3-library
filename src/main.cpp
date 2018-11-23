@@ -13,7 +13,7 @@
 
 #include "camera.hpp"
 #include "shader.hpp"
-#include "shape/square.h"
+#include "shape/cube.hpp"
 #include "utilities.hpp"
 
 #define WIDTH 1280
@@ -94,28 +94,13 @@ int main() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	square model;
+	cube model;
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
     int frameCount = 0;
 
 	glm::mat4 i(1.0f);
-	glm::mat4 m1 =
-		glm::translate(i, glm::vec3(0.0f, 0.0f, 1.0f)) *
-		glm::rotate(i, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 m2 =
-		glm::translate(i, glm::vec3(1.0f, 0.0f, 0.0f)) *
-		glm::rotate(i, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 m3 =
-		glm::translate(i, glm::vec3(1.0f, 0.0f, 1.0f)) *
-		glm::rotate(i, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 m4 =
-		glm::translate(i, glm::vec3(0.0f, 1.0f, 0.0f)) *
-		glm::rotate(i, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	glm::mat4 m5 =
-		glm::translate(i, glm::vec3(0.0f, 0.0f, 1.0f)) *
-		glm::rotate(i, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
         double currentTime = glfwGetTime();
@@ -142,13 +127,15 @@ int main() {
         setViewMatrix(cam.getViewMatrix());
         setProjMatrix(projMatrix);
 		setInt("tex", 0);
+		setVec3("lightPos", cam.getPos());
+
+		setVec3("lightIntensity", glm::vec3(0.3f));
+		setFloat("ambientCoeff", 0.5f);
+		setFloat("diffuseCoeff", 1.0f);
+		setFloat("specularCoeff", 1.0f);
+		setFloat("phongExp", 100.0f);
 
 		model.draw(i);
-		model.draw(m1);
-		model.draw(m2);
-		model.draw(m3);
-		model.draw(m4);
-		model.draw(m5);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

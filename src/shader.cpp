@@ -40,6 +40,7 @@ bool compileShader() {
     glAttachShader(programID, fragmentShaderID);
 
     glBindAttribLocation(programID, POSITION_LOCATION, "position");
+	glBindAttribLocation(programID, NORMAL_POSITION, "normal");
 	glBindAttribLocation(programID, UV_LOCATION, "uv");
     glLinkProgram(programID);
 
@@ -123,7 +124,17 @@ void setProjMatrix(glm::mat4 matrix) {
     glUniformMatrix4fv(projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
 }
 
+void setVec3(std::string var, glm::vec3 value) {
+	GLint location = glGetUniformLocation(programID, var.c_str());
+	glUniform3fv(location, 1, &value[0]);
+}
+
 void setInt(std::string var, int value) {
     GLint location = glGetUniformLocation(programID, var.c_str());
     glUniform1i(location, value);
+}
+
+void setFloat(std::string var, float value) {
+	GLint location = glGetUniformLocation(programID, var.c_str());
+	glUniform1f(location, value);
 }

@@ -34,6 +34,10 @@ void camera::rotateMouse(float dx, float dy) {
     rotation.y -= dx;
 }
 
+glm::vec3 camera::getPos() {
+	return pos;
+}
+
 glm::vec3 camera::getFacingDir() {
     return glm::normalize(glm::vec3(
         glm::sin(glm::radians(rotation.y)) * glm::cos(glm::radians(rotation.x)),

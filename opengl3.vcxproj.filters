@@ -30,6 +30,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\lodepng.cpp" />
     <ClCompile Include="src\shape\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
+    <ClCompile Include="src\shape\cube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -38,9 +39,10 @@
     <ClInclude Include="include\shader.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shape\shape.h" />
-    <ClInclude Include="include\shape\square.h" />
     <ClInclude Include="include\utilities.hpp" />
+    <ClInclude Include="include\shape\cube.hpp" />
+    <ClInclude Include="include\shape\shape.hpp" />
+    <ClInclude Include="include\shape\square.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">
