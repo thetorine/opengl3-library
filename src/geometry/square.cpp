@@ -1,4 +1,4 @@
-#include "shape/square.hpp"
+#include "geometry/square.hpp"
 #include "shader.hpp"
 #include "utilities.hpp"
 

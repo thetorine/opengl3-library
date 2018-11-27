@@ -5,8 +5,9 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 
-#define VERTEX_SHADER "res/shaders/vertex_shader.glsl"
-#define FRAGMENT_SHADER "res/shaders/fragment_shader.glsl"
+#define SHADER_NAME "phong"
+#define VERTEX_SHADER "res/shaders/" SHADER_NAME "/vertex.glsl"
+#define FRAGMENT_SHADER "res/shaders/" SHADER_NAME "/fragment.glsl"
 
 #define POSITION_LOCATION 0
 #define NORMAL_POSITION 1

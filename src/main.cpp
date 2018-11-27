@@ -13,7 +13,8 @@
 
 #include "camera.hpp"
 #include "shader.hpp"
-#include "shape/cube.hpp"
+#include "geometry/mesh.hpp"
+#include "geometry/cube.hpp"
 #include "utilities.hpp"
 
 #define WIDTH 1280
@@ -29,7 +30,7 @@ int main() {
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwWindowHint(GLFW_SAMPLES, 16);
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "My Title", NULL, NULL);
     if (window == NULL) {
@@ -71,7 +72,7 @@ int main() {
     );
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -94,13 +95,13 @@ int main() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	cube model;
+	mesh cube("res/models/teapot.obj");
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
     int frameCount = 0;
 
-	glm::mat4 i(1.0f);
+	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f));
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
         double currentTime = glfwGetTime();
@@ -121,21 +122,22 @@ int main() {
         glfwSetCursorPos(window, WIDTH / 2, HEIGHT / 2);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glUseProgram(getProgramID());
 
         setViewMatrix(cam.getViewMatrix());
         setProjMatrix(projMatrix);
 		setInt("tex", 0);
-		setVec3("lightPos", cam.getPos());
+		setVec3("lightPos", glm::vec3(5, 3, -5));
 
-		setVec3("lightIntensity", glm::vec3(0.3f));
+		setVec3("lightIntensity", glm::vec3(0.4f, 0.0f, 0.0f));
 		setFloat("ambientCoeff", 0.5f);
 		setFloat("diffuseCoeff", 1.0f);
 		setFloat("specularCoeff", 1.0f);
-		setFloat("phongExp", 100.0f);
+		setFloat("phongExp", 32.0f);
 
-		model.draw(i);
+		cube.draw(i);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

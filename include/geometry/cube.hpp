@@ -2,8 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "shape/shape.hpp"
-#include "shape/square.hpp"
+#include "geometry/shape.hpp"
+#include "geometry/square.hpp"
 
 class cube : public shape
 {

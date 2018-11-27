@@ -1,4 +1,4 @@
-#include "shape/cube.hpp"
+#include "geometry/cube.hpp"
 #include "shader.hpp"
 #include "utilities.hpp"
 

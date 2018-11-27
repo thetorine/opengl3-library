@@ -28,9 +28,10 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\lodepng.cpp" />
-    <ClCompile Include="src\shape\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
-    <ClCompile Include="src\shape\cube.cpp" />
+    <ClCompile Include="src\geometry\cube.cpp" />
+    <ClCompile Include="src\geometry\square.cpp" />
+    <ClCompile Include="src\geometry\mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -40,9 +41,11 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\utilities.hpp" />
-    <ClInclude Include="include\shape\cube.hpp" />
-    <ClInclude Include="include\shape\shape.hpp" />
-    <ClInclude Include="include\shape\square.hpp" />
+    <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h" />
+    <ClInclude Include="include\geometry\cube.hpp" />
+    <ClInclude Include="include\geometry\shape.hpp" />
+    <ClInclude Include="include\geometry\square.hpp" />
+    <ClInclude Include="include\geometry\mesh.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">
@@ -50,12 +53,19 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\fragment_shader.glsl">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\vertex_shader.glsl">
-      <Filter>res\shaders</Filter>
-    </None>
     <None Include="packages.config" />
+    <None Include=".gitignore" />
+    <None Include="res\shaders\phong\fragment.glsl">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\phong\vertex.glsl">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\blinn\fragment.glsl" />
+    <None Include="res\shaders\blinn\vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\models\cube.obj" />
+    <Object Include="res\models\teapot.obj" />
   </ItemGroup>
 </Project>

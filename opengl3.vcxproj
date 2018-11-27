@@ -105,8 +105,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\Programming\Languages\C++\opengl3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\lib\tinyobjloader\include;$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TINYOBJLOADER_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -134,8 +134,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>F:\Programming\Languages\C++\opengl3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\lib\tinyobjloader\include;$(SolutionDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TINYOBJLOADER_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -145,27 +145,43 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader.cpp" />
-    <ClCompile Include="src\shape\cube.cpp" />
-    <ClCompile Include="src\shape\square.cpp" />
+    <ClCompile Include="src\geometry\cube.cpp" />
+    <ClCompile Include="src\geometry\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp" />
+    <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\shader.hpp" />
-    <ClInclude Include="include\shape\cube.hpp" />
-    <ClInclude Include="include\shape\shape.hpp" />
-    <ClInclude Include="include\shape\square.hpp" />
+    <ClInclude Include="include\geometry\cube.hpp" />
+    <ClInclude Include="include\geometry\shape.hpp" />
+    <ClInclude Include="include\geometry\square.hpp" />
     <ClInclude Include="include\utilities.hpp" />
+    <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="packages.config" />
-    <None Include="res\shaders\fragment_shader.glsl" />
-    <None Include="res\shaders\vertex_shader.glsl" />
+    <None Include="res\shaders\blinn\fragment.glsl" />
+    <None Include="res\shaders\blinn\vertex.glsl" />
+    <None Include="res\shaders\phong\fragment.glsl" />
+    <None Include="res\shaders\phong\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\models\cube.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Object>
+    <Object Include="res\models\teapot.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

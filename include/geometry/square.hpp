@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shape/shape.hpp"
+#include "geometry/shape.hpp"
 
 class square : public shape
 {
