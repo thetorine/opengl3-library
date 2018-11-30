@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
+    <ClCompile Include="src\geometry\sphere.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\geometry\cube.cpp" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
+    <ClInclude Include="include\geometry\sphere.hpp" />
     <ClInclude Include="include\shader.hpp" />
     <ClInclude Include="include\geometry\cube.hpp" />
     <ClInclude Include="include\geometry\shape.hpp" />

@@ -15,6 +15,7 @@
 #include "shader.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/cube.hpp"
+#include "geometry/sphere.hpp"
 #include "utilities.hpp"
 
 #define WIDTH 1280
@@ -72,7 +73,7 @@ int main() {
     );
 
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -95,13 +96,13 @@ int main() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	mesh cube("res/models/teapot.obj");
+	sphere sphere(0.5f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
     int frameCount = 0;
 
-	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f));
+	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
         double currentTime = glfwGetTime();
@@ -135,9 +136,9 @@ int main() {
 		setFloat("ambientCoeff", 0.5f);
 		setFloat("diffuseCoeff", 1.0f);
 		setFloat("specularCoeff", 1.0f);
-		setFloat("phongExp", 32.0f);
+		setFloat("phongExp", 8.0f);
 
-		cube.draw(i);
+		sphere.draw(glm::mat4(1.0f));
 
         glfwSwapBuffers(window);
         glfwPollEvents();
