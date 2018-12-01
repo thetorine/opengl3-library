@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <memory>
 #include <iostream>
 #include <vector>
 
@@ -95,8 +96,8 @@ int main() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	mesh mesh("res/models/teapot.obj");
-	//sphere mesh(1.0f);
+	//mesh model("res/models/teapot.obj");
+	sphere model(1.0f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
@@ -105,7 +106,7 @@ int main() {
 	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
-        double currentTime = glfwGetTime();
+		float currentTime = static_cast<float>(glfwGetTime());
         float dt = currentTime - lastTime;
         lastTime = currentTime;
 
@@ -136,9 +137,9 @@ int main() {
 		setFloat("ambientCoeff", 0.5f);
 		setFloat("diffuseCoeff", 1.0f);
 		setFloat("specularCoeff", 1.0f);
-		setFloat("phongExp", 8.0f);
+		setFloat("phongExp", 32.0f);
 
-		mesh.draw(i);
+		model.draw(i);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

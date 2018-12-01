@@ -43,25 +43,40 @@ mesh::mesh(std::string file) {
 	normalBuffer.transferBuffer();
 }
 
+mesh::mesh(std::vector<float> &vertices, std::vector<float> &normals, std::vector<int> &indices) {
+	vertexBuffer.addAll(vertices);
+	normalBuffer.addAll(normals);
+	indexBuffer.addAll(indices);
+
+	vertexBuffer.transferBuffer();
+	normalBuffer.transferBuffer();
+	indexBuffer.transferBuffer();
+
+	hasIndices = true;
+}
+
 mesh::~mesh() {
 
 }
 
-void mesh::draw(glm::mat4 model) {
+void mesh::draw(glm::mat4 &model) {
 	setModelMatrix(model);
 
 	glEnableVertexAttribArray(POSITION_LOCATION);
 	vertexBuffer.useBuffer();
-	glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+	glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glEnableVertexAttribArray(NORMAL_POSITION);
 	normalBuffer.useBuffer();
-	glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_TRUE, 0, (void *)0);
+	glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_TRUE, 0, nullptr);
 
-	glEnable(GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset(1.0f, 1.0f);
-	glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size());
-	glDisable(GL_POLYGON_OFFSET_FILL);
+	
+	if (!hasIndices)
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer.size()));
+	else {
+		indexBuffer.useBuffer();
+		glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indexBuffer.size()), GL_UNSIGNED_INT, (void *)0);
+	}
 
 	glDisableVertexAttribArray(POSITION_LOCATION);
 	glDisableVertexAttribArray(UV_LOCATION);

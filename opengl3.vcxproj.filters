@@ -65,6 +65,7 @@
     </None>
     <None Include="res\shaders\blinn\fragment.glsl" />
     <None Include="res\shaders\blinn\vertex.glsl" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="res\models\cube.obj" />

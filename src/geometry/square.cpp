@@ -12,20 +12,20 @@ square::~square() {
 
 }
 
-void square::draw(glm::mat4 model) {
+void square::draw(glm::mat4 &model) {
 	setModelMatrix(model);
 
 	glEnableVertexAttribArray(POSITION_LOCATION);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
+	glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glEnableVertexAttribArray(NORMAL_POSITION);
 	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-	glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_TRUE, 0, (void *)0);
+	glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_TRUE, 0, nullptr);
 
 	glEnableVertexAttribArray(UV_LOCATION);
 	glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-	glVertexAttribPointer(UV_LOCATION, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
+	glVertexAttribPointer(UV_LOCATION, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	glEnable(GL_POLYGON_OFFSET_FILL);
 	glPolygonOffset(1.0f, 1.0f);

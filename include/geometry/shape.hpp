@@ -6,6 +6,6 @@ class shape
 {
 public:
 	virtual ~shape() = default;
-	virtual void draw(glm::mat4 model) = 0;
+	virtual void draw(glm::mat4 &model) = 0;
 };
 

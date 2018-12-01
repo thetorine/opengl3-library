@@ -7,10 +7,14 @@
 // x = r cos(t) y = r sin(t)
 
 sphere::sphere(float radius) {
-	static const float pi = (float)std::acos(-1);
+	static const float pi = static_cast<float>(std::acos(-1));
 
 	float sampleRate = 0.1f;
-	int pointCount = (int)std::ceil(2.0f * pi / sampleRate);
+	int pointCount = static_cast<int>(std::ceil(2.0f * pi / sampleRate));
+
+	std::vector<float> vertices;
+	std::vector<float> normals;
+	std::vector<int> indices;
 
 	for (float yTheta = 0.0f; yTheta <= pi; yTheta += sampleRate) {
 		float xzR = radius * std::sin(yTheta);
@@ -20,50 +24,28 @@ sphere::sphere(float radius) {
 			float x = xzR * std::cos(xzTheta);
 			float z = xzR * std::sin(xzTheta);
 
-			vertexBuffer.addElement(x);
-			vertexBuffer.addElement(y);
-			vertexBuffer.addElement(z);
-
 			glm::vec3 n = glm::normalize(glm::vec3(x, y, z));
-			normalBuffer.addElement(n.x);
-			normalBuffer.addElement(n.y);
-			normalBuffer.addElement(n.z);
 
-			int count = vertexBuffer.size() / 3;
+			vertices.insert(std::end(vertices), { x, y, z });
+			normals.insert(std::end(normals), { n.x, n.y, n.z });
+
+			int count = static_cast<int>(vertices.size() / 3);
 			if (count > pointCount) {
-				indexBuffer.addElement(count - 1);
-				indexBuffer.addElement(count - 2);
-				indexBuffer.addElement(count - pointCount);
-			
-				indexBuffer.addElement(count - 1);
-				indexBuffer.addElement(count - pointCount);
-				indexBuffer.addElement(count - pointCount + 1);
+				indices.insert(std::end(indices), 
+					{ count - 1, count - 2, count - pointCount });
+				indices.insert(std::end(indices), 
+					{ count - 1, count - pointCount, count - pointCount + 1 });
 			}
 		}
 	}
 
-	vertexBuffer.transferBuffer();
-	indexBuffer.transferBuffer();
-	normalBuffer.transferBuffer();
+	sphereMesh = std::make_unique<mesh>(vertices, normals, indices);
 }
 
 sphere::~sphere() {
 
 }
 
-void sphere::draw(glm::mat4 model) {
-	setModelMatrix(model);
-
-	glEnableVertexAttribArray(POSITION_LOCATION);
-	vertexBuffer.useBuffer();
-	glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-
-	glEnableVertexAttribArray(NORMAL_POSITION);
-	normalBuffer.useBuffer();
-	glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
-
-	indexBuffer.useBuffer();
-	glDrawElements(GL_TRIANGLES, indexBuffer.size(), GL_UNSIGNED_INT, (void *)0);
-
-	glDisableVertexAttribArray(POSITION_LOCATION);
+void sphere::draw(glm::mat4 &model) {
+	sphereMesh->draw(model);
 }

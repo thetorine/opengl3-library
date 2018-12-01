@@ -7,7 +7,7 @@ class square : public shape
 public:
 	square();
 	~square();
-	void draw(glm::mat4 model);
+	void draw(glm::mat4 &model);
 private:
 	uint32_t vertexBuffer;
 	uint32_t normalBuffer;

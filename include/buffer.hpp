@@ -8,13 +8,14 @@ class buffer
 {
 public:
 	buffer(GLuint mode);
-	buffer(std::vector<T> data, GLuint mode);
+	buffer(std::vector<T> &data, GLuint mode);
 	~buffer();
 	void transferBuffer();
 	void useBuffer();
 	
 	void addElement(T element);
-	int size();
+	void addAll(std::vector<T> &elements);
+	size_t size();
 private:
 	GLuint bufferIndex;
 	std::vector<T> data;

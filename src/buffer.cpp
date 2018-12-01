@@ -6,7 +6,7 @@ buffer<T>::buffer(GLuint mode) {
 }
 
 template <class T>
-buffer<T>::buffer(std::vector<T> data, GLuint mode) {
+buffer<T>::buffer(std::vector<T> &data, GLuint mode) {
 	this->data = data;
 	this->mode = mode;
 
@@ -15,7 +15,7 @@ buffer<T>::buffer(std::vector<T> data, GLuint mode) {
 
 template <class T>
 buffer<T>::~buffer() {
-
+	glDeleteBuffers(1, &bufferIndex);
 }
 
 template <class T>
@@ -36,7 +36,12 @@ void buffer<T>::addElement(T element) {
 }
 
 template <class T>
-int buffer<T>::size() {
+void buffer<T>::addAll(std::vector<T> &elements) {
+	data.insert(std::end(data), std::begin(elements), std::end(elements));
+}
+
+template <class T>
+size_t buffer<T>::size() {
 	return data.size();
 }
 
