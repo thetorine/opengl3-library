@@ -5,7 +5,7 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 
-#define SHADER_NAME "phong"
+#define SHADER_NAME "cel"
 #define VERTEX_SHADER "res/shaders/" SHADER_NAME "/vertex.glsl"
 #define FRAGMENT_SHADER "res/shaders/" SHADER_NAME "/fragment.glsl"
 

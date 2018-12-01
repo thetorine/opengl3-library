@@ -1,6 +1,7 @@
 #pragma once
 
 #include "geometry/shape.hpp"
+#include "buffer.hpp"
 
 class sphere : public shape
 {
@@ -9,11 +10,7 @@ public:
 	~sphere();
 	void draw(glm::mat4 model);
 private:
-	uint32_t vertexBuffer;
-	uint32_t indexBuffer;
-	uint32_t normalBuffer;
-
-	uint32_t vertexCount;
-	uint32_t indexCount;
-	uint32_t normalCount;
+	buffer<float> vertexBuffer = buffer<float>(GL_ARRAY_BUFFER);
+	buffer<int> indexBuffer = buffer<int>(GL_ELEMENT_ARRAY_BUFFER);
+	buffer<float> normalBuffer = buffer<float>(GL_ARRAY_BUFFER);
 };

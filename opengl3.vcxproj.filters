@@ -29,10 +29,10 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\lodepng.cpp" />
     <ClCompile Include="src\utilities.cpp" />
-    <ClCompile Include="src\geometry\cube.cpp" />
     <ClCompile Include="src\geometry\square.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\sphere.cpp" />
+    <ClCompile Include="src\buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -43,11 +43,11 @@
     </ClInclude>
     <ClInclude Include="include\utilities.hpp" />
     <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h" />
-    <ClInclude Include="include\geometry\cube.hpp" />
     <ClInclude Include="include\geometry\shape.hpp" />
     <ClInclude Include="include\geometry\square.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\geometry\sphere.hpp" />
+    <ClInclude Include="include\buffer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">

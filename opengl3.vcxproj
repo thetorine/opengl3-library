@@ -144,21 +144,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\buffer.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\sphere.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader.cpp" />
-    <ClCompile Include="src\geometry\cube.cpp" />
     <ClCompile Include="src\geometry\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\buffer.hpp" />
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\geometry\sphere.hpp" />
     <ClInclude Include="include\shader.hpp" />
-    <ClInclude Include="include\geometry\cube.hpp" />
     <ClInclude Include="include\geometry\shape.hpp" />
     <ClInclude Include="include\geometry\square.hpp" />
     <ClInclude Include="include\utilities.hpp" />

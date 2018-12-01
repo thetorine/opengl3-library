@@ -14,7 +14,6 @@
 #include "camera.hpp"
 #include "shader.hpp"
 #include "geometry/mesh.hpp"
-#include "geometry/cube.hpp"
 #include "geometry/sphere.hpp"
 #include "utilities.hpp"
 
@@ -73,7 +72,7 @@ int main() {
     );
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -96,7 +95,8 @@ int main() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	sphere sphere(0.5f);
+	mesh mesh("res/models/teapot.obj");
+	//sphere mesh(1.0f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
@@ -138,7 +138,7 @@ int main() {
 		setFloat("specularCoeff", 1.0f);
 		setFloat("phongExp", 8.0f);
 
-		sphere.draw(glm::mat4(1.0f));
+		mesh.draw(i);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "buffer.hpp"
 #include "geometry/shape.hpp"
 
 class mesh : public shape
@@ -11,8 +12,6 @@ public:
 	~mesh();
 	void draw(glm::mat4 model);
 private:
-	int vertexCount;
-	uint32_t vertexBuffer;
-	uint32_t normalBuffer;
-	uint32_t indexBuffer;
+	buffer<float> vertexBuffer = buffer<float>(GL_ARRAY_BUFFER);
+	buffer<float> normalBuffer = buffer<float>(GL_ARRAY_BUFFER);
 };
