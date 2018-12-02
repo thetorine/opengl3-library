@@ -13,7 +13,7 @@ square::~square() {
 }
 
 void square::draw(glm::mat4 &model) {
-	setModelMatrix(model);
+	shader::getInstance()->setModelMatrix(model);
 
 	glEnableVertexAttribArray(POSITION_LOCATION);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);

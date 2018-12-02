@@ -150,6 +150,8 @@
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\sphere.cpp" />
+    <ClCompile Include="src\lighting.cpp" />
+    <ClCompile Include="src\lighting\point_light.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\geometry\square.cpp" />
@@ -160,6 +162,8 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\geometry\sphere.hpp" />
+    <ClInclude Include="include\lighting.hpp" />
+    <ClInclude Include="include\lighting\point_light.hpp" />
     <ClInclude Include="include\shader.hpp" />
     <ClInclude Include="include\geometry\shape.hpp" />
     <ClInclude Include="include\geometry\square.hpp" />
@@ -174,6 +178,8 @@
     <None Include="res\shaders\blinn\vertex.glsl" />
     <None Include="res\shaders\phong\fragment.glsl" />
     <None Include="res\shaders\phong\vertex.glsl" />
+    <None Include="res\shaders\phong_ml\fragment.glsl" />
+    <None Include="res\shaders\phong_ml\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png" />

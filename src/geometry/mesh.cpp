@@ -60,7 +60,7 @@ mesh::~mesh() {
 }
 
 void mesh::draw(glm::mat4 &model) {
-	setModelMatrix(model);
+	shader::getInstance()->setModelMatrix(model);
 
 	glEnableVertexAttribArray(POSITION_LOCATION);
 	vertexBuffer.useBuffer();

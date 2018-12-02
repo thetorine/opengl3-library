@@ -33,6 +33,8 @@
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\sphere.cpp" />
     <ClCompile Include="src\buffer.cpp" />
+    <ClCompile Include="src\lighting.cpp" />
+    <ClCompile Include="src\lighting\point_light.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -48,6 +50,8 @@
     <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\geometry\sphere.hpp" />
     <ClInclude Include="include\buffer.hpp" />
+    <ClInclude Include="include\lighting.hpp" />
+    <ClInclude Include="include\lighting\point_light.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">
@@ -66,6 +70,8 @@
     <None Include="res\shaders\blinn\fragment.glsl" />
     <None Include="res\shaders\blinn\vertex.glsl" />
     <None Include="ClassDiagram.cd" />
+    <None Include="res\shaders\phong_ml\vertex.glsl" />
+    <None Include="res\shaders\phong_ml\fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Object Include="res\models\cube.obj" />

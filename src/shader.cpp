@@ -1,32 +1,34 @@
 #include <stdio.h>
 
-#include <string>
-#include <fstream>
-#include <sstream>
+
 #include <vector>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "shader.hpp"
+#include "utilities.hpp"
 
-GLuint vertexShaderID;
-GLuint fragmentShaderID;
-GLuint programID;
+static std::shared_ptr<shader> shaderObj;
 
-GLint modelMatrixUniform;
-GLint viewMatrixUniform;
-GLint projMatrixUniform;
+shader::shader(std::string shaderName)
+	:shaderName(shaderName) {
+	if (!compileShader()) {
+		printf("Unable to compile shader\n");
+		exit(-1);
+	}
+}
 
-bool compileShader(GLuint shaderID, std::string file);
-std::string readFile(std::string file);
+shader::~shader() {
 
-bool compileShader() {
+}
+
+bool shader::compileShader() {
     vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
     fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-    bool r1 = compileShader(vertexShaderID, VERTEX_SHADER);
-    bool r2 = compileShader(fragmentShaderID, FRAGMENT_SHADER);
+    bool r1 = compileShader(vertexShaderID, SHADER_DIR + shaderName + "/vertex.glsl");
+    bool r2 = compileShader(fragmentShaderID, SHADER_DIR + shaderName + "/fragment.glsl");
 
     if (!r1 || !r2) {
         printf("Unable to compile shaders\n");
@@ -76,7 +78,7 @@ bool compileShader() {
     return true;
 }
 
-bool compileShader(GLuint shaderID, std::string file) {
+bool shader::compileShader(GLuint shaderID, std::string file) {
     GLint success = 0;
     std::string shaderCode = readFile(file);
     const GLchar *shaderString = (GLchar *)shaderCode.c_str();
@@ -101,40 +103,41 @@ bool compileShader(GLuint shaderID, std::string file) {
     return true;
 }
 
-std::string readFile(std::string file) {
-    std::ifstream t(file);
-    std::stringstream buffer;
-    buffer << t.rdbuf();
-    return buffer.str();
+void shader::useShader() {
+	glUseProgram(programID);
 }
 
-GLuint getProgramID() {
-    return programID;
-}
-
-void setModelMatrix(glm::mat4 matrix) {
+void shader::setModelMatrix(glm::mat4 matrix) {
     glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
 }
 
-void setViewMatrix(glm::mat4 matrix) {
+void shader::setViewMatrix(glm::mat4 matrix) {
     glUniformMatrix4fv(viewMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
 }
 
-void setProjMatrix(glm::mat4 matrix) {
+void shader::setProjMatrix(glm::mat4 matrix) {
     glUniformMatrix4fv(projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
 }
 
-void setVec3(std::string var, glm::vec3 value) {
+void shader::setVec3(std::string var, glm::vec3 value) {
 	GLint location = glGetUniformLocation(programID, var.c_str());
 	glUniform3fv(location, 1, &value[0]);
 }
 
-void setInt(std::string var, int value) {
+void shader::setInt(std::string var, int value) {
     GLint location = glGetUniformLocation(programID, var.c_str());
     glUniform1i(location, value);
 }
 
-void setFloat(std::string var, float value) {
+void shader::setFloat(std::string var, float value) {
 	GLint location = glGetUniformLocation(programID, var.c_str());
 	glUniform1f(location, value);
+}
+
+void shader::createShader(std::string shaderName) {
+	shaderObj = std::make_shared<shader>(shaderName);
+}
+
+std::shared_ptr<shader> &shader::getInstance() {
+	return shaderObj;
 }

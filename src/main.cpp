@@ -13,7 +13,7 @@
 #include <lodepng.h>
 
 #include "camera.hpp"
-#include "shader.hpp"
+#include "lighting.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
 #include "utilities.hpp"
@@ -44,11 +44,6 @@ int main() {
 
     if (glewInit() != GLEW_OK) {
         printf("Failed to initialize GLEW\n");
-        return -1;
-    }
-
-    if (!compileShader()) {
-        printf("Failed to compile shaders\n");
         return -1;
     }
 
@@ -105,6 +100,13 @@ int main() {
 
 	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
+	shader::createShader("phong_ml");
+	shader::getInstance()->useShader();
+
+	lighting lightingObj;
+	lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
+	lightingObj.addPointLight(glm::vec3(5, 3, 5), glm::vec3(1.0f), 1.0f);
+
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
 		float currentTime = static_cast<float>(glfwGetTime());
         float dt = currentTime - lastTime;
@@ -126,18 +128,12 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        glUseProgram(getProgramID());
+		shader::getInstance()->setViewMatrix(cam.getViewMatrix());
+		shader::getInstance()->setProjMatrix(projMatrix);
 
-        setViewMatrix(cam.getViewMatrix());
-        setProjMatrix(projMatrix);
-		setInt("tex", 0);
-		setVec3("lightPos", glm::vec3(5, 3, -5));
-
-		setVec3("lightIntensity", glm::vec3(0.4f, 0.0f, 0.0f));
-		setFloat("ambientCoeff", 0.5f);
-		setFloat("diffuseCoeff", 1.0f);
-		setFloat("specularCoeff", 1.0f);
-		setFloat("phongExp", 32.0f);
+		lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
+		lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
+		lightingObj.updateShader();
 
 		model.draw(i);
 

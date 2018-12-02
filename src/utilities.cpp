@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 
+#include <fstream>
+#include <sstream>
+
 GLuint genVAO() {
 	GLuint vertexArrayID;
 	glGenVertexArrays(1, &vertexArrayID);
@@ -15,4 +18,11 @@ GLuint bufferData(const void *data, int size, GLuint mode) {
 	glBindBuffer(mode, bufferID);
 	glBufferData(mode, size, data, GL_STATIC_DRAW);
 	return bufferID;
+}
+
+std::string readFile(std::string file) {
+	std::ifstream t(file);
+	std::stringstream buffer;
+	buffer << t.rdbuf();
+	return buffer.str();
 }
