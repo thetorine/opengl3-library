@@ -69,7 +69,6 @@
     </None>
     <None Include="res\shaders\blinn\fragment.glsl" />
     <None Include="res\shaders\blinn\vertex.glsl" />
-    <None Include="ClassDiagram.cd" />
     <None Include="res\shaders\phong_ml\vertex.glsl" />
     <None Include="res\shaders\phong_ml\fragment.glsl" />
   </ItemGroup>
