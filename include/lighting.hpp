@@ -8,6 +8,9 @@
 #include "shader.hpp"
 #include "lighting/point_light.hpp"
 
+#define PHONG_SHADER 0
+#define CEL_SHADER 1
+
 class lighting {
 public:
 	lighting();
@@ -18,6 +21,7 @@ public:
 
 	void updateShader();
 
+	void setShaderType(int type);
 	void setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp);
 	void setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse);
 private:

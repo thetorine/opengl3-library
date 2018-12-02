@@ -1,32 +1,44 @@
 #version 330 core
 
 #define LIGHT_SOURCE_COUNT 2
+#define PHONG_SHADER 0
+#define CEL_SHADER 1
 
+// Incoming from vertex shader
+in vec3 m;
+in vec4 viewPos;
+
+// Outgoing from fragment shader
+out vec4 fragmentColor;
+
+// Matrices
+uniform mat4 viewMatrix;
+
+// Light source properties
 struct point_light {
 	vec3 pos;
 	vec3 color;
 	float intensity;
 	bool on;
 };
-
-in vec3 m;
-in vec4 viewPos;
-
-out vec4 fragmentColor;
-
-uniform mat4 viewMatrix;
-
 uniform point_light pointLights[LIGHT_SOURCE_COUNT];
 
+// Material properties
 uniform float ambientCoeff;
 uniform float diffuseCoeff;
 uniform float specularCoeff;
 uniform float phongExp;
 
+// The reflective properties of the material
+// How much does the material reflect for each RGB component
 uniform vec3 ambientIntensity;
 uniform vec3 diffuseIntensity;
 
+// 0 = Phong, 1 = Cel
+uniform int shaderType;
+
 vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity);
+vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 
 void main() {
 	vec3 v = normalize(-viewPos.xyz);
@@ -35,7 +47,12 @@ void main() {
 	for (int i = 0; i < LIGHT_SOURCE_COUNT; i++) {
 		if (!pointLights[i].on) continue;
 		vec3 s = (viewMatrix * vec4(pointLights[i].pos, 1.0) - viewPos).xyz;
-		colorSum += getPhongIntensity(s, v, pointLights[i].color, pointLights[i].intensity);
+
+		switch (shaderType) {
+			case PHONG_SHADER: colorSum += getPhongIntensity(s, v, pointLights[i].color, pointLights[i].intensity); break;
+			case CEL_SHADER: colorSum += getCelIntensity(s, v, pointLights[i].color, pointLights[i].intensity); break;
+			default: colorSum = vec3(1.0);
+		}
 	}
 	
 	fragmentColor = vec4(colorSum, 1.0);
@@ -53,4 +70,30 @@ vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
 		specular = vec3(max(pow(specularCoeff * dot(r, v), phongExp), 0.0));
 
 	return ambient + diffuse + specular;
+}
+
+vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
+	vec3 r = normalize(reflect(-s, m));
+	float dotResult = dot(m, normalize(s));
+
+	vec3 ambient = ambientIntensity * ambientCoeff * color * intensity;
+	vec3 diffuse = vec3(0.0);
+	vec3 specular = vec3(0.0);
+
+	if (dotResult > 0) {
+		float diffuseTerm = dotResult;
+		float specularTerm = pow(specularCoeff * dot(r, v), phongExp);
+
+		int bands = 3;
+		diffuse = round(diffuseTerm * bands) / bands * diffuseIntensity * diffuseCoeff * color * intensity;
+
+		if (specularTerm > 0.5)
+			specular = vec3(max(pow(specularCoeff, phongExp), 0.0));
+	}
+
+	vec3 sum = ambient + diffuse + specular;
+	if (dot(v, m) < mix(0.2, 0.35, max(0.0, dotResult)))
+		sum = vec3(0.0);
+
+	return sum;
 }

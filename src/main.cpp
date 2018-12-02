@@ -23,6 +23,8 @@
 
 void processCamera(GLFWwindow *window, camera &cam, double mdx, double mdy, float dt);
 
+bool shader = false;
+
 int main() {
     glewExperimental = true;
     if (!glfwInit()) {
@@ -105,7 +107,7 @@ int main() {
 
 	lighting lightingObj;
 	lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
-	lightingObj.addPointLight(glm::vec3(5, 3, 5), glm::vec3(1.0f), 1.0f);
+	lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
 		float currentTime = static_cast<float>(glfwGetTime());
@@ -133,6 +135,7 @@ int main() {
 
 		lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
 		lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
+		lightingObj.setShaderType(shader);
 		lightingObj.updateShader();
 
 		model.draw(i);
@@ -157,5 +160,7 @@ void processCamera(GLFWwindow *window, camera &cam, double mdx, double mdy, floa
         cam.move(UP, dt);
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         cam.move(DOWN, dt);
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		shader = !shader;
     cam.rotateMouse(mdx * 0.1f, mdy * 0.1f);
 }

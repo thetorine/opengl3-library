@@ -17,6 +17,10 @@ void lighting::addDirectionalLight(glm::vec3 direction, glm::vec3 color, float i
 
 }
 
+void lighting::setShaderType(int type) {
+	shader::getInstance()->setInt("shaderType", type);
+}
+
 void lighting::updateShader() {
 	for (int i = 0; i < pointLightList.size(); i++) {
 		char buffer[16];
