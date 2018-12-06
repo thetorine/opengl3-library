@@ -56,7 +56,7 @@ int main() {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetCursorPos(window, WIDTH / 2, HEIGHT / 2);
 
-	engine::Camera cam(
+    engine::Camera cam(
         glm::vec3(0.0f, 0.0f, -5.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
@@ -70,50 +70,50 @@ int main() {
         0.1f
     );
 
-	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
 
-	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
-	std::vector<unsigned char> image;
-	unsigned int width, height;
-	unsigned error = lodepng::decode(image, width, height, "res/textures/square.png");
-	printf("%d %d\n", width, height);
+    std::vector<unsigned char> image;
+    unsigned int width, height;
+    unsigned error = lodepng::decode(image, width, height, "res/textures/square.png");
+    printf("%d %d\n", width, height);
 
-	glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0);
 
-	GLuint tex;
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
+    GLuint tex;
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
-	glGenerateMipmap(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
-	//mesh model("res/models/teapot.obj");
-	geometry::Sphere model(1.0f);
+    //mesh model("res/models/teapot.obj");
+    geometry::Sphere model(1.0f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
     int frameCount = 0;
 
-	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+    glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
-	engine::Shader::createShader("local");
-	engine::Shader::getInstance()->useShader();
+    engine::Shader::createShader("local");
+    engine::Shader::getInstance()->useShader();
 
-	illumination::Lighting lightingObj;
-	//lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
-	//lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
-	lightingObj.addDirectionalLight(glm::vec3(1, 0, 0), glm::vec3(1.0f), 1.0f);
-	lightingObj.addDirectionalLight(glm::vec3(-1, 1, 0), glm::vec3(1.0f), 1.0f);
+    illumination::Lighting lightingObj;
+    //lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
+    //lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
+    lightingObj.addDirectionalLight(glm::vec3(1, 0, 0), glm::vec3(1.0f), 1.0f);
+    lightingObj.addDirectionalLight(glm::vec3(-1, 1, 0), glm::vec3(1.0f), 1.0f);
 
-    while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
-		double currentTime = glfwGetTime();
+    while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0) {
+        double currentTime = glfwGetTime();
         float dt = static_cast<float>(currentTime - lastTime);
         lastTime = currentTime;
 
@@ -131,17 +131,17 @@ int main() {
         glfwSetCursorPos(window, WIDTH / 2.0, HEIGHT / 2.0);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		engine::Shader::getInstance()->setViewMatrix(cam.getViewMatrix());
-		engine::Shader::getInstance()->setProjMatrix(projMatrix);
+        engine::Shader::getInstance()->setViewMatrix(cam.getViewMatrix());
+        engine::Shader::getInstance()->setProjMatrix(projMatrix);
 
-		lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
-		lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
-		lightingObj.setShaderType(shader);
-		lightingObj.updateShader();
+        lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
+        lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
+        lightingObj.setShaderType(shader);
+        lightingObj.updateShader();
 
-		model.draw(i);
+        model.draw(i);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -163,7 +163,7 @@ void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy
         cam.move(engine::UP, dt);
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         cam.move(engine::DOWN, dt);
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-		shader = !shader;
+    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+        shader = !shader;
     cam.rotateMouse(mdx * 0.1f, mdy * 0.1f);
 }

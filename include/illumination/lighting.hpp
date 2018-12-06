@@ -12,21 +12,21 @@
 #define CEL_SHADER 1
 
 namespace illumination {
-	class Lighting {
-	public:
-		Lighting();
-		~Lighting();
+    class Lighting {
+    public:
+        Lighting();
+        ~Lighting();
 
-		void addPointLight(glm::vec3 pos, glm::vec3 color, float intensity);
-		void addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity);
+        void addPointLight(glm::vec3 pos, glm::vec3 color, float intensity);
+        void addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity);
 
-		void updateShader();
+        void updateShader();
 
-		void setShaderType(int type);
-		void setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp);
-		void setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse);
-	private:
-		std::vector<PointLight> m_pointLights;
-		std::vector<DirectionalLight> m_directionalLights;
-	};
+        void setShaderType(int type);
+        void setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp);
+        void setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse);
+    private:
+        std::vector<PointLight> m_pointLights;
+        std::vector<DirectionalLight> m_directionalLights;
+    };
 }

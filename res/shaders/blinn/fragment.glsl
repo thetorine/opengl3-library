@@ -19,21 +19,21 @@ uniform float specularCoeff;
 uniform float phongExp;
 
 void main() {
-	vec3 s = (viewMatrix * vec4(lightPos, 1) - viewPos).xyz;
-	vec3 v = normalize(-viewPos.xyz); // in view coords - camera at (0, 0, 0)
-	vec3 h = normalize((normalize(s) + v) / 2.0);
-	
-	vec3 ambient = lightIntensity * ambientCoeff;
+    vec3 s = (viewMatrix * vec4(lightPos, 1) - viewPos).xyz;
+    vec3 v = normalize(-viewPos.xyz); // in view coords - camera at (0, 0, 0)
+    vec3 h = normalize((normalize(s) + v) / 2.0);
+    
+    vec3 ambient = lightIntensity * ambientCoeff;
 
-	float dotResult = dot(m, normalize(s));
-	vec3 diffuse = vec3(0.0f);
-	diffuse = max(lightIntensity * diffuseCoeff * dotResult, 0.0f);
+    float dotResult = dot(m, normalize(s));
+    vec3 diffuse = vec3(0.0f);
+    diffuse = max(lightIntensity * diffuseCoeff * dotResult, 0.0f);
 
-	vec3 specular = vec3(0.0);
-	if (dotResult > 0)
-		specular = vec3(1.0) * max(pow(specularCoeff * dot(h, m), phongExp), 0.0f);
+    vec3 specular = vec3(0.0);
+    if (dotResult > 0)
+        specular = vec3(1.0) * max(pow(specularCoeff * dot(h, m), phongExp), 0.0f);
 
-	vec3 lightSum = ambient + diffuse + specular;
+    vec3 lightSum = ambient + diffuse + specular;
 
-	color = vec4(lightSum, 1.0);
+    color = vec4(lightSum, 1.0);
 }

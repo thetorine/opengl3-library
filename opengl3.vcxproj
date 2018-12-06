@@ -146,15 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\buffer.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\engine\buffer.cpp" />
+    <ClCompile Include="src\engine\shader.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\sphere.cpp" />
     <ClCompile Include="src\illumination\directional_light.cpp" />
     <ClCompile Include="src\illumination\lighting.cpp" />
     <ClCompile Include="src\illumination\point_light.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\engine\shader.cpp" />
     <ClCompile Include="src\geometry\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>

@@ -10,136 +10,136 @@
 
 namespace engine {
 
-	static std::shared_ptr<Shader> shaderObj;
+    static std::shared_ptr<Shader> shaderObj;
 
-	Shader::Shader(std::string shaderName)
-		: m_shaderName(shaderName) {
-		if (!compileShader()) {
-			printf("Unable to compile shader\n");
-			exit(-1);
-		}
-	}
+    Shader::Shader(std::string shaderName)
+        : m_shaderName(shaderName) {
+        if (!compileShader()) {
+            printf("Unable to compile shader\n");
+            exit(-1);
+        }
+    }
 
-	Shader::~Shader() {
+    Shader::~Shader() {
 
-	}
+    }
 
-	bool Shader::compileShader() {
-		m_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-		m_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+    bool Shader::compileShader() {
+        m_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+        m_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-		bool r1 = compileShader(m_vertexShaderID, SHADER_DIR + m_shaderName + "/vertex.glsl");
-		bool r2 = compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl");
+        bool r1 = compileShader(m_vertexShaderID, SHADER_DIR + m_shaderName + "/vertex.glsl");
+        bool r2 = compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl");
 
-		if (!r1 || !r2) {
-			printf("Unable to compile shaders\n");
-			glDeleteShader(m_fragmentShaderID);
-			glDeleteShader(m_vertexShaderID);
-			return false;
-		}
+        if (!r1 || !r2) {
+            printf("Unable to compile shaders\n");
+            glDeleteShader(m_fragmentShaderID);
+            glDeleteShader(m_vertexShaderID);
+            return false;
+        }
 
-		m_programID = glCreateProgram();
-		glAttachShader(m_programID, m_vertexShaderID);
-		glAttachShader(m_programID, m_fragmentShaderID);
+        m_programID = glCreateProgram();
+        glAttachShader(m_programID, m_vertexShaderID);
+        glAttachShader(m_programID, m_fragmentShaderID);
 
-		glBindAttribLocation(m_programID, POSITION_LOCATION, "position");
-		glBindAttribLocation(m_programID, NORMAL_POSITION, "normal");
-		glBindAttribLocation(m_programID, UV_LOCATION, "uv");
-		glLinkProgram(m_programID);
+        glBindAttribLocation(m_programID, POSITION_LOCATION, "position");
+        glBindAttribLocation(m_programID, NORMAL_POSITION, "normal");
+        glBindAttribLocation(m_programID, UV_LOCATION, "uv");
+        glLinkProgram(m_programID);
 
-		GLint linkStatus = 0;
-		glGetProgramiv(m_programID, GL_LINK_STATUS, &linkStatus);
+        GLint linkStatus = 0;
+        glGetProgramiv(m_programID, GL_LINK_STATUS, &linkStatus);
 
-		if (linkStatus == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetProgramiv(m_programID, GL_INFO_LOG_LENGTH, &maxLength);
+        if (linkStatus == GL_FALSE) {
+            GLint maxLength = 0;
+            glGetProgramiv(m_programID, GL_INFO_LOG_LENGTH, &maxLength);
 
-			GLchar *errorLog = new GLchar[maxLength];
-			glGetProgramInfoLog(m_programID, maxLength, &maxLength, &errorLog[0]);
+            GLchar *errorLog = new GLchar[maxLength];
+            glGetProgramInfoLog(m_programID, maxLength, &maxLength, &errorLog[0]);
 
-			printf("%s\n", (char *)errorLog);
+            printf("%s\n", (char *)errorLog);
 
-			glDeleteProgram(m_programID);
-			glDeleteShader(m_vertexShaderID);
-			glDeleteShader(m_fragmentShaderID);
+            glDeleteProgram(m_programID);
+            glDeleteShader(m_vertexShaderID);
+            glDeleteShader(m_fragmentShaderID);
 
-			return false;
-		}
+            return false;
+        }
 
-		glDetachShader(m_programID, m_vertexShaderID);
-		glDetachShader(m_programID, m_fragmentShaderID);
+        glDetachShader(m_programID, m_vertexShaderID);
+        glDetachShader(m_programID, m_fragmentShaderID);
 
-		glDeleteShader(m_vertexShaderID);
-		glDeleteShader(m_fragmentShaderID);
+        glDeleteShader(m_vertexShaderID);
+        glDeleteShader(m_fragmentShaderID);
 
-		m_modelMatrixUniform = glGetUniformLocation(m_programID, "modelMatrix");
-		m_viewMatrixUniform = glGetUniformLocation(m_programID, "viewMatrix");
-		m_projMatrixUniform = glGetUniformLocation(m_programID, "projMatrix");
+        m_modelMatrixUniform = glGetUniformLocation(m_programID, "modelMatrix");
+        m_viewMatrixUniform = glGetUniformLocation(m_programID, "viewMatrix");
+        m_projMatrixUniform = glGetUniformLocation(m_programID, "projMatrix");
 
-		return true;
-	}
+        return true;
+    }
 
-	bool Shader::compileShader(GLuint shaderID, std::string file) {
-		GLint success = 0;
-		std::string shaderCode = readFile(file);
-		const GLchar *shaderString = (GLchar *)shaderCode.c_str();
+    bool Shader::compileShader(GLuint shaderID, std::string file) {
+        GLint success = 0;
+        std::string shaderCode = readFile(file);
+        const GLchar *shaderString = (GLchar *)shaderCode.c_str();
 
-		glShaderSource(shaderID, 1, &shaderString, NULL);
-		glCompileShader(shaderID);
-		glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+        glShaderSource(shaderID, 1, &shaderString, NULL);
+        glCompileShader(shaderID);
+        glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
 
-		if (success == GL_FALSE) {
-			GLint maxLength = 0;
-			glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+        if (success == GL_FALSE) {
+            GLint maxLength = 0;
+            glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
-			GLchar *errorLog = new GLchar[maxLength];
-			glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
+            GLchar *errorLog = new GLchar[maxLength];
+            glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-			printf("%s\n", (char *)errorLog);
+            printf("%s\n", (char *)errorLog);
 
-			glDeleteShader(shaderID);
-			return false;
-		}
+            glDeleteShader(shaderID);
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	void Shader::useShader() {
-		glUseProgram(m_programID);
-	}
+    void Shader::useShader() {
+        glUseProgram(m_programID);
+    }
 
-	void Shader::setModelMatrix(glm::mat4 matrix) {
-		glUniformMatrix4fv(m_modelMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
-	}
+    void Shader::setModelMatrix(glm::mat4 matrix) {
+        glUniformMatrix4fv(m_modelMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
+    }
 
-	void Shader::setViewMatrix(glm::mat4 matrix) {
-		glUniformMatrix4fv(m_viewMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
-	}
+    void Shader::setViewMatrix(glm::mat4 matrix) {
+        glUniformMatrix4fv(m_viewMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
+    }
 
-	void Shader::setProjMatrix(glm::mat4 matrix) {
-		glUniformMatrix4fv(m_projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
-	}
+    void Shader::setProjMatrix(glm::mat4 matrix) {
+        glUniformMatrix4fv(m_projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
+    }
 
-	void Shader::setVec3(std::string var, glm::vec3 value) {
-		GLint location = glGetUniformLocation(m_programID, var.c_str());
-		glUniform3fv(location, 1, &value[0]);
-	}
+    void Shader::setVec3(std::string var, glm::vec3 value) {
+        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        glUniform3fv(location, 1, &value[0]);
+    }
 
-	void Shader::setInt(std::string var, int value) {
-		GLint location = glGetUniformLocation(m_programID, var.c_str());
-		glUniform1i(location, value);
-	}
+    void Shader::setInt(std::string var, int value) {
+        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        glUniform1i(location, value);
+    }
 
-	void Shader::setFloat(std::string var, float value) {
-		GLint location = glGetUniformLocation(m_programID, var.c_str());
-		glUniform1f(location, value);
-	}
+    void Shader::setFloat(std::string var, float value) {
+        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        glUniform1f(location, value);
+    }
 
-	void Shader::createShader(std::string shaderName) {
-		shaderObj = std::make_shared<Shader>(shaderName);
-	}
+    void Shader::createShader(std::string shaderName) {
+        shaderObj = std::make_shared<Shader>(shaderName);
+    }
 
-	std::shared_ptr<Shader> &Shader::getInstance() {
-		return shaderObj;
-	}
+    std::shared_ptr<Shader> &Shader::getInstance() {
+        return shaderObj;
+    }
 }

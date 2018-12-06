@@ -31,11 +31,9 @@
     <ClCompile Include="src\geometry\sphere.cpp" />
     <ClCompile Include="src\illumination\lighting.cpp" />
     <ClCompile Include="src\illumination\point_light.cpp" />
-    <ClCompile Include="src\engine\buffer.cpp" />
-    <ClCompile Include="src\engine\shader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\illumination\directional_light.cpp" />
+    <ClCompile Include="src\engine\buffer.cpp" />
+    <ClCompile Include="src\engine\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
