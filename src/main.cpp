@@ -13,7 +13,8 @@
 #include <lodepng.h>
 
 #include "camera.hpp"
-#include "lighting.hpp"
+#include "engine/shader.hpp"
+#include "illumination/lighting.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
 #include "utilities.hpp"
@@ -21,7 +22,7 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
-void processCamera(GLFWwindow *window, camera &cam, double mdx, double mdy, float dt);
+void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy, float dt);
 
 bool shader = false;
 
@@ -49,13 +50,13 @@ int main() {
         return -1;
     }
 
-    genVAO();
+    engine::genVAO();
 
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetCursorPos(window, WIDTH / 2, HEIGHT / 2);
 
-    camera cam(
+	engine::Camera cam(
         glm::vec3(0.0f, 0.0f, -5.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
@@ -65,7 +66,7 @@ int main() {
     glm::mat4 modelMatrix = glm::mat4(1.0f);
     glm::mat4 projMatrix = glm::infinitePerspective(
         glm::radians(60.0f),
-        (float)WIDTH / (float)HEIGHT,
+        static_cast<float>(WIDTH) / static_cast<float>(HEIGHT),
         0.1f
     );
 
@@ -94,7 +95,7 @@ int main() {
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	//mesh model("res/models/teapot.obj");
-	sphere model(1.0f);
+	geometry::Sphere model(1.0f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
@@ -102,16 +103,18 @@ int main() {
 
 	glm::mat4 i = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 
-	shader::createShader("phong_ml");
-	shader::getInstance()->useShader();
+	engine::Shader::createShader("local");
+	engine::Shader::getInstance()->useShader();
 
-	lighting lightingObj;
-	lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
-	lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
+	illumination::Lighting lightingObj;
+	//lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
+	//lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
+	lightingObj.addDirectionalLight(glm::vec3(1, 0, 0), glm::vec3(1.0f), 1.0f);
+	lightingObj.addDirectionalLight(glm::vec3(-1, 1, 0), glm::vec3(1.0f), 1.0f);
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(window) == 0 ) {
-		float currentTime = static_cast<float>(glfwGetTime());
-        float dt = currentTime - lastTime;
+		double currentTime = glfwGetTime();
+        float dt = static_cast<float>(currentTime - lastTime);
         lastTime = currentTime;
 
         frameCount++;
@@ -124,14 +127,14 @@ int main() {
         double mx, my;
         glfwGetCursorPos(window, &mx, &my);
 
-        processCamera(window, cam, mx - WIDTH / 2, my - HEIGHT / 2, dt);
-        glfwSetCursorPos(window, WIDTH / 2, HEIGHT / 2);
+        processCamera(window, cam, static_cast<float>(mx - WIDTH / 2), static_cast<float>(my - HEIGHT / 2), dt);
+        glfwSetCursorPos(window, WIDTH / 2.0, HEIGHT / 2.0);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-		shader::getInstance()->setViewMatrix(cam.getViewMatrix());
-		shader::getInstance()->setProjMatrix(projMatrix);
+		engine::Shader::getInstance()->setViewMatrix(cam.getViewMatrix());
+		engine::Shader::getInstance()->setProjMatrix(projMatrix);
 
 		lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
 		lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
@@ -147,19 +150,19 @@ int main() {
     return 0;
 }
 
-void processCamera(GLFWwindow *window, camera &cam, double mdx, double mdy, float dt) {
+void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy, float dt) {
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cam.move(FORWARD, dt);
+        cam.move(engine::FORWARD, dt);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cam.move(BACK, dt);
+        cam.move(engine::BACK, dt);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cam.move(LEFT, dt);
+        cam.move(engine::LEFT, dt);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cam.move(RIGHT, dt);
+        cam.move(engine::RIGHT, dt);
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        cam.move(UP, dt);
+        cam.move(engine::UP, dt);
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-        cam.move(DOWN, dt);
+        cam.move(engine::DOWN, dt);
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		shader = !shader;
     cam.rotateMouse(mdx * 0.1f, mdy * 0.1f);

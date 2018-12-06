@@ -2,50 +2,54 @@
 
 #include "camera.hpp"
 
-camera::camera(glm::vec3 pos, glm::vec3 rotation, glm::vec3 up)
-: pos(pos), rotation(rotation), up(up) {}
+namespace engine {
 
-camera::~camera() {}
+	Camera::Camera(glm::vec3 pos, glm::vec3 rotation, glm::vec3 up)
+		: m_pos(pos), m_rotation(rotation), m_up(up) {}
 
-void camera::move(dir_t dir, float dt) {
-    if (dir == FORWARD)
-        pos += getFacingDir() * MOVE_SPEED * dt;
-    if (dir == BACK)
-        pos -= getFacingDir() * MOVE_SPEED * dt;
-    if (dir == LEFT)
-        pos += glm::cross(up, getFacingDir()) * MOVE_SPEED * dt;
-    if (dir == RIGHT)
-        pos += glm::cross(getFacingDir(), up) * MOVE_SPEED * dt;
-    if (dir == UP)
-        pos += up * MOVE_SPEED * dt;
-    if (dir == DOWN)
-        pos -= up * MOVE_SPEED * dt;
-}
+	Camera::~Camera() {}
 
-void camera::rotateKey(dir_t dir, float dt) {
-    if (dir == LEFT)
-        rotation.y += ROTATE_SPEED * dt;
-    if (dir == RIGHT)
-        rotation.y += -ROTATE_SPEED * dt;
-}
+	void Camera::move(dir_t dir, float dt) {
+		if (dir == FORWARD)
+			m_pos += getFacingDir() * MOVE_SPEED * dt;
+		if (dir == BACK)
+			m_pos -= getFacingDir() * MOVE_SPEED * dt;
+		if (dir == LEFT)
+			m_pos += glm::cross(m_up, getFacingDir()) * MOVE_SPEED * dt;
+		if (dir == RIGHT)
+			m_pos += glm::cross(getFacingDir(), m_up) * MOVE_SPEED * dt;
+		if (dir == UP)
+			m_pos += m_up * MOVE_SPEED * dt;
+		if (dir == DOWN)
+			m_pos -= m_up * MOVE_SPEED * dt;
+	}
 
-void camera::rotateMouse(float dx, float dy) {
-    rotation.x -= dy;
-    rotation.y -= dx;
-}
+	void Camera::rotateKey(dir_t dir, float dt) {
+		if (dir == LEFT)
+			m_rotation.y += ROTATE_SPEED * dt;
+		if (dir == RIGHT)
+			m_rotation.y += -ROTATE_SPEED * dt;
+	}
 
-glm::vec3 camera::getPos() {
-	return pos;
-}
+	void Camera::rotateMouse(float dx, float dy) {
+		m_rotation.x -= dy;
+		m_rotation.y -= dx;
+	}
 
-glm::vec3 camera::getFacingDir() {
-    return glm::normalize(glm::vec3(
-        glm::sin(glm::radians(rotation.y)) * glm::cos(glm::radians(rotation.x)),
-        glm::sin(glm::radians(rotation.x)),
-        glm::cos(glm::radians(rotation.y)) * glm::cos(glm::radians(rotation.x))
-    ));
-}
+	glm::vec3 Camera::getPos() {
+		return m_pos;
+	}
 
-glm::mat4 camera::getViewMatrix() {
-    return glm::lookAt(pos, pos + getFacingDir(), up);
+	glm::vec3 Camera::getFacingDir() {
+		return glm::normalize(glm::vec3(
+			glm::sin(glm::radians(m_rotation.y)) * glm::cos(glm::radians(m_rotation.x)),
+			glm::sin(glm::radians(m_rotation.x)),
+			glm::cos(glm::radians(m_rotation.y)) * glm::cos(glm::radians(m_rotation.x))
+		));
+	}
+
+	glm::mat4 Camera::getViewMatrix() {
+		return glm::lookAt(m_pos, m_pos + getFacingDir(), m_up);
+	}
+
 }

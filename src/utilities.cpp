@@ -5,24 +5,27 @@
 #include <fstream>
 #include <sstream>
 
-GLuint genVAO() {
-	GLuint vertexArrayID;
-	glGenVertexArrays(1, &vertexArrayID);
-	glBindVertexArray(vertexArrayID);
-	return vertexArrayID;
-}
+namespace engine {
 
-GLuint bufferData(const void *data, int size, GLuint mode) {
-	GLuint bufferID;
-	glGenBuffers(1, &bufferID);
-	glBindBuffer(mode, bufferID);
-	glBufferData(mode, size, data, GL_STATIC_DRAW);
-	return bufferID;
-}
+	GLuint genVAO() {
+		GLuint vertexArrayID;
+		glGenVertexArrays(1, &vertexArrayID);
+		glBindVertexArray(vertexArrayID);
+		return vertexArrayID;
+	}
 
-std::string readFile(std::string file) {
-	std::ifstream t(file);
-	std::stringstream buffer;
-	buffer << t.rdbuf();
-	return buffer.str();
+	GLuint bufferData(const void *data, int size, GLuint mode) {
+		GLuint bufferID;
+		glGenBuffers(1, &bufferID);
+		glBindBuffer(mode, bufferID);
+		glBufferData(mode, size, data, GL_STATIC_DRAW);
+		return bufferID;
+	}
+
+	std::string readFile(std::string file) {
+		std::ifstream t(file);
+		std::stringstream buffer;
+		buffer << t.rdbuf();
+		return buffer.str();
+	}
 }

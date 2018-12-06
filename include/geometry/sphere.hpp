@@ -4,14 +4,15 @@
 
 #include "geometry/shape.hpp"
 #include "geometry/mesh.hpp"
-#include "buffer.hpp"
+#include "engine/buffer.hpp"
 
-class sphere : public shape
-{
-public:
-	sphere(float radius);
-	~sphere();
-	void draw(glm::mat4 &model);
-private:
-	std::unique_ptr<mesh> sphereMesh;
-};
+namespace geometry {
+	class Sphere : public Shape {
+	public:
+		Sphere(float radius);
+		~Sphere();
+		void draw(glm::mat4 &model);
+	private:
+		std::unique_ptr<Mesh> m_sphereMesh;
+	};
+}

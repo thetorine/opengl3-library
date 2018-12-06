@@ -15,6 +15,14 @@ out vec4 fragmentColor;
 uniform mat4 viewMatrix;
 
 // Light source properties
+struct directional_light {
+	vec3 dir;
+	vec3 color;
+	float intensity;
+	bool on;
+};
+uniform directional_light directionalLights[LIGHT_SOURCE_COUNT];
+
 struct point_light {
 	vec3 pos;
 	vec3 color;
@@ -37,6 +45,7 @@ uniform vec3 diffuseIntensity;
 // 0 = Phong, 1 = Cel
 uniform int shaderType;
 
+vec3 getIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 
@@ -47,15 +56,24 @@ void main() {
 	for (int i = 0; i < LIGHT_SOURCE_COUNT; i++) {
 		if (!pointLights[i].on) continue;
 		vec3 s = (viewMatrix * vec4(pointLights[i].pos, 1.0) - viewPos).xyz;
+		colorSum += getIntensity(s, v, pointLights[i].color, pointLights[i].intensity);
+	}
 
-		switch (shaderType) {
-			case PHONG_SHADER: colorSum += getPhongIntensity(s, v, pointLights[i].color, pointLights[i].intensity); break;
-			case CEL_SHADER: colorSum += getCelIntensity(s, v, pointLights[i].color, pointLights[i].intensity); break;
-			default: colorSum = vec3(1.0);
-		}
+	for (int i = 0; i < LIGHT_SOURCE_COUNT; i++) {
+		if (!directionalLights[i].on) continue;
+		vec3 s = (viewMatrix * vec4(directionalLights[i].dir, 0.0)).xyz;
+		colorSum += getIntensity(s, v, directionalLights[i].color, directionalLights[i].intensity);
 	}
 	
 	fragmentColor = vec4(colorSum, 1.0);
+}
+
+vec3 getIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
+	switch (shaderType) {
+		case PHONG_SHADER: return getPhongIntensity(s, v, color, intensity);
+		case CEL_SHADER: return getCelIntensity(s, v, color, intensity);
+	}
+	return vec3(0.0);
 }
 
 vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
