@@ -154,6 +154,7 @@
     <ClCompile Include="src\illumination\directional_light.cpp" />
     <ClCompile Include="src\illumination\lighting.cpp" />
     <ClCompile Include="src\illumination\point_light.cpp" />
+    <ClCompile Include="src\input\keyboard.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\geometry\square.cpp" />
     <ClCompile Include="src\utilities.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="include\engine\shader.hpp" />
     <ClInclude Include="include\geometry\shape.hpp" />
     <ClInclude Include="include\geometry\square.hpp" />
+    <ClInclude Include="include\input\keyboard.hpp" />
     <ClInclude Include="include\utilities.hpp" />
     <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h" />
   </ItemGroup>

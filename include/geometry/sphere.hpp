@@ -3,10 +3,10 @@
 #include <memory>
 
 #include "geometry/shape.hpp"
-#include "geometry/mesh.hpp"
-#include "engine/buffer.hpp"
 
 namespace geometry {
+    class Mesh;
+
     class Sphere : public Shape {
     public:
         Sphere(float radius);

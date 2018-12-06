@@ -1,7 +1,8 @@
 #include <vector>
 
-#include "geometry/sphere.hpp"
 #include "utilities.hpp"
+#include "geometry/mesh.hpp"
+#include "geometry/sphere.hpp"
 
 namespace geometry {
 

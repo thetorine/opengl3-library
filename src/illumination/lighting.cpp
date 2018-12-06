@@ -1,7 +1,9 @@
-#include "illumination/Lighting.hpp"
-#include "engine/shader.hpp"
-
 #include <stdio.h>
+
+#include "engine/shader.hpp"
+#include "illumination/lighting.hpp"
+#include "illumination/directional_light.hpp"
+#include "illumination/point_light.hpp"
 
 namespace illumination {
 
@@ -20,12 +22,13 @@ namespace illumination {
         m_directionalLights.push_back(DirectionalLight(direction, color, intensity));
     }
 
-    void Lighting::setShaderType(int type) {
-        engine::Shader::getInstance()->setInt("shaderType", type);
+    void Lighting::nextShaderType() {
+        m_currentShader = (m_currentShader + 1) % SHADER_COUNT;
+        engine::Shader::getInstance()->setInt("shaderType", m_currentShader);
     }
 
     void Lighting::updateShader() {
-        for (int i = 0; i < m_pointLights.size(); i++) {
+        for (int i = 0; i < m_pointLights.size(); ++i) {
             char buffer[16];
             snprintf(buffer, sizeof(buffer), "pointLights[%d]", i);
             std::string structName = buffer;
@@ -36,7 +39,7 @@ namespace illumination {
             engine::Shader::getInstance()->setInt(structName + ".on", true);
         }
 
-        for (int i = 0; i < m_directionalLights.size(); i++) {
+        for (int i = 0; i < m_directionalLights.size(); ++i) {
             char buffer[22];
             snprintf(buffer, sizeof(buffer), "directionalLights[%d]", i);
             std::string structName = buffer;

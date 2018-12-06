@@ -15,16 +15,16 @@
 #include "camera.hpp"
 #include "engine/shader.hpp"
 #include "illumination/lighting.hpp"
+#include "input/keyboard.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
+#include "geometry/square.hpp"
 #include "utilities.hpp"
 
 #define WIDTH 1280
 #define HEIGHT 720
 
 void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy, float dt);
-
-bool shader = false;
 
 int main() {
     glewExperimental = true;
@@ -55,6 +55,7 @@ int main() {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetCursorPos(window, WIDTH / 2, HEIGHT / 2);
+    glfwSetKeyCallback(window, &input::glfwKeyCallback);
 
     engine::Camera cam(
         glm::vec3(0.0f, 0.0f, -5.0f),
@@ -94,8 +95,7 @@ int main() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
     glGenerateMipmap(GL_TEXTURE_2D);
 
-    //mesh model("res/models/teapot.obj");
-    geometry::Sphere model(1.0f);
+    geometry::Mesh model("res/models/teapot.obj");
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
@@ -129,6 +129,9 @@ int main() {
 
         processCamera(window, cam, static_cast<float>(mx - WIDTH / 2), static_cast<float>(my - HEIGHT / 2), dt);
         glfwSetCursorPos(window, WIDTH / 2.0, HEIGHT / 2.0);
+        if (input::wasPressed(GLFW_KEY_T)) {
+            lightingObj.nextShaderType();
+        }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -138,7 +141,6 @@ int main() {
 
         lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
         lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
-        lightingObj.setShaderType(shader);
         lightingObj.updateShader();
 
         model.draw(i);
@@ -151,19 +153,17 @@ int main() {
 }
 
 void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy, float dt) {
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_W))
         cam.move(engine::FORWARD, dt);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_S))
         cam.move(engine::BACK, dt);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_A))
         cam.move(engine::LEFT, dt);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_D))
         cam.move(engine::RIGHT, dt);
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_LEFT_SHIFT))
         cam.move(engine::UP, dt);
-    if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+    if (input::isPressed(GLFW_KEY_LEFT_CONTROL))
         cam.move(engine::DOWN, dt);
-    if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-        shader = !shader;
     cam.rotateMouse(mdx * 0.1f, mdy * 0.1f);
 }

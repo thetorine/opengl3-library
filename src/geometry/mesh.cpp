@@ -1,10 +1,10 @@
 #pragma once
 
-#include <vector>
 #include <tiny_obj_loader.h>
+#include <vector>
 
-#include "engine/shader.hpp"
 #include "utilities.hpp"
+#include "engine/shader.hpp"
 #include "geometry/mesh.hpp"
 
 namespace geometry {
@@ -26,11 +26,11 @@ namespace geometry {
             exit(1);
         }
 
-        for (size_t s = 0; s < shapes.size(); s++) {
+        for (size_t s = 0; s < shapes.size(); ++s) {
             size_t indexOffset = 0;
-            for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) {
+            for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); ++f) {
                 int fv = shapes[s].mesh.num_face_vertices[f];
-                for (size_t v = 0; v < fv; v++) {
+                for (size_t v = 0; v < fv; ++v) {
                     tinyobj::index_t idx = shapes[s].mesh.indices[indexOffset + v];
 
                     m_vertexBuffer->addElement(attrib.vertices[3 * idx.vertex_index + 0]);
@@ -52,7 +52,8 @@ namespace geometry {
     Mesh::Mesh(std::vector<float> &vertices, std::vector<float> &normals, std::vector<int> &indices)
         : m_vertexBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
         m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
-        m_indexBuffer(std::make_unique<engine::Buffer<int>>(GL_ELEMENT_ARRAY_BUFFER))
+        m_indexBuffer(std::make_unique<engine::Buffer<int>>(GL_ELEMENT_ARRAY_BUFFER)),
+        m_hasIndices(true)
     {
         m_vertexBuffer->addAll(vertices);
         m_normalBuffer->addAll(normals);
@@ -61,8 +62,6 @@ namespace geometry {
         m_vertexBuffer->transferBuffer();
         m_normalBuffer->transferBuffer();
         m_indexBuffer->transferBuffer();
-
-        m_hasIndices = true;
     }
 
     Mesh::~Mesh() {

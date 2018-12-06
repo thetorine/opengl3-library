@@ -2,7 +2,8 @@
 
 #define LIGHT_SOURCE_COUNT 2
 #define PHONG_SHADER 0
-#define CEL_SHADER 1
+#define BLINN_SHADER 1
+#define CEL_SHADER 2
 
 // Incoming from vertex shader
 in vec3 m;
@@ -48,6 +49,7 @@ uniform int shaderType;
 vec3 getIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity);
+vec3 getBlinnIntensity(vec3 s, vec3 v, vec3 color, float intensity);
 
 void main() {
     vec3 v = normalize(-viewPos.xyz);
@@ -72,6 +74,7 @@ vec3 getIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
     switch (shaderType) {
         case PHONG_SHADER: return getPhongIntensity(s, v, color, intensity);
         case CEL_SHADER: return getCelIntensity(s, v, color, intensity);
+        case BLINN_SHADER: return getBlinnIntensity(s, v, color, intensity); 
     }
     return vec3(0.0);
 }
@@ -114,4 +117,18 @@ vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
         sum = vec3(0.0);
 
     return sum;
+}
+
+vec3 getBlinnIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
+    vec3 h = normalize((normalize(s) + v) / 2.0);
+    float dotResult = dot(m, normalize(s));
+
+    vec3 ambient = ambientIntensity * ambientCoeff * color * intensity;
+    vec3 diffuse = max(diffuseIntensity * diffuseCoeff * color * intensity * dotResult, 0.0);
+    vec3 specular = vec3(0.0);
+
+    if (dotResult > 0)
+        specular = vec3(max(pow(specularCoeff * dot(h, m), phongExp * 2.0), 0.0));
+
+    return ambient + diffuse + specular;
 }

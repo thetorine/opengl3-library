@@ -14,14 +14,6 @@ namespace engine {
         return vertexArrayID;
     }
 
-    GLuint bufferData(const void *data, int size, GLuint mode) {
-        GLuint bufferID;
-        glGenBuffers(1, &bufferID);
-        glBindBuffer(mode, bufferID);
-        glBufferData(mode, size, data, GL_STATIC_DRAW);
-        return bufferID;
-    }
-
     std::string readFile(std::string file) {
         std::ifstream t(file);
         std::stringstream buffer;
