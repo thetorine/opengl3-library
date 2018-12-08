@@ -29,7 +29,7 @@ namespace engine {
         void setFloat(std::string var, float value);
 
         static void createShader(std::string shaderName);
-        static std::shared_ptr<Shader> &getInstance();
+        static std::unique_ptr<Shader> &getInstance();
     private:
         bool compileShader(GLuint shaderID, std::string file);
 

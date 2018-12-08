@@ -72,7 +72,7 @@ int main() {
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
 
-    glEnable(GL_TEXTURE_2D);
+    /*glEnable(GL_TEXTURE_2D);
 
     std::vector<unsigned char> image;
     unsigned int width, height;
@@ -91,7 +91,7 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    glGenerateMipmap(GL_TEXTURE_2D);*/
 
     geometry::Mesh model("res/models/teapot.obj");
 
@@ -112,15 +112,16 @@ int main() {
             cam.getFacingDir(),
             glm::vec3(1.0),
             1.0f,
-            30.0f,
-            96.0f);
+            15.0f,
+            10.0f,
+            128.0f,
+            0.05f);
     illumination::Lighting lightingObj;
     lightingObj.addSpotlight(torchLight);
     lightingObj.addDirectionalLight(
         glm::vec3(1.0f, 0.0f, 0.0f),
         glm::vec3(1.0f),
-        0.0f
-    );
+        0.3f);
 
     lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
     lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));

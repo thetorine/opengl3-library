@@ -9,7 +9,7 @@
 
 namespace engine {
 
-    static std::shared_ptr<Shader> shaderObj;
+    static std::unique_ptr<Shader> shaderObj;
 
     Shader::Shader(std::string shaderName)
         : m_shaderName(shaderName) {
@@ -135,10 +135,10 @@ namespace engine {
     }
 
     void Shader::createShader(std::string shaderName) {
-        shaderObj = std::make_shared<Shader>(shaderName);
+        shaderObj = std::make_unique<Shader>(shaderName);
     }
 
-    std::shared_ptr<Shader> &Shader::getInstance() {
+    std::unique_ptr<Shader> &Shader::getInstance() {
         return shaderObj;
     }
 }
