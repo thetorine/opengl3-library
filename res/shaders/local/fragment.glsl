@@ -38,6 +38,7 @@ struct spotlight {
     vec3 color;
     float intensity;
     float cutoff;
+    float attenPow;
     bool on;
 };
 uniform spotlight spotlights[LIGHT_SOURCE_COUNT];
@@ -84,7 +85,7 @@ void main() {
 
         float sfDot = dot(normalize(-s), normalize(f));
         if (acos(sfDot) <= radians(spotlights[i].cutoff / 2.0)) { 
-            colorSum += getIntensity(s, v, spotlights[i].color, spotlights[i].intensity);
+            colorSum += pow(sfDot, spotlights[i].attenPow) * getIntensity(s, v, spotlights[i].color, spotlights[i].intensity);
         }
     }
     

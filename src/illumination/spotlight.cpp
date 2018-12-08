@@ -5,12 +5,14 @@
 
 namespace illumination {
 
-    Spotlight::Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color, float intensity, float cutoff) 
+    Spotlight::Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color, 
+        float intensity, float cutoff, float attenPow) 
         : m_pos(pos),
           m_dir(dir),
           m_color(color),
           m_intensity(intensity),
-          m_cutoff(cutoff)
+          m_cutoff(cutoff),
+          m_attenPow(attenPow)
     {}
 
     Spotlight::~Spotlight() {
@@ -27,6 +29,7 @@ namespace illumination {
         engine::Shader::getInstance()->setVec3(structName + ".color", m_color);
         engine::Shader::getInstance()->setFloat(structName + ".intensity", m_intensity);
         engine::Shader::getInstance()->setFloat(structName + ".cutoff", m_cutoff);
+        engine::Shader::getInstance()->setFloat(structName + ".attenPow", m_attenPow);
         engine::Shader::getInstance()->setInt(structName + ".on", true);
     }
 

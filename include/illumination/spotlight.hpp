@@ -5,7 +5,8 @@
 namespace illumination {
     class Spotlight : public LightType {
     public:
-        Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color, float intensity, float cutoff);
+        Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color,
+            float intensity, float cutoff, float attenPow);
         ~Spotlight();
         void setShaderParams(int index);
         void setFacingFrom(glm::vec3 pos, glm::vec3 dir);
@@ -15,5 +16,6 @@ namespace illumination {
         glm::vec3 m_color;
         float m_intensity;
         float m_cutoff;
+        float m_attenPow;
     };
 }

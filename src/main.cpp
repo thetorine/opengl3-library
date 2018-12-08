@@ -112,13 +112,14 @@ int main() {
             cam.getFacingDir(),
             glm::vec3(1.0),
             1.0f,
-            30.0f);
+            30.0f,
+            96.0f);
     illumination::Lighting lightingObj;
     lightingObj.addSpotlight(torchLight);
     lightingObj.addDirectionalLight(
         glm::vec3(1.0f, 0.0f, 0.0f),
         glm::vec3(1.0f),
-        0.8f
+        0.0f
     );
 
     lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
