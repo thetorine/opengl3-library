@@ -93,7 +93,8 @@ int main() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image[0]);
     glGenerateMipmap(GL_TEXTURE_2D);*/
 
-    geometry::Mesh model("res/models/teapot.obj");
+    //geometry::Mesh model("res/models/teapot.obj");
+    geometry::Sphere model(1.0f);
 
     double lastTime = glfwGetTime();
     double frameTime = lastTime;
