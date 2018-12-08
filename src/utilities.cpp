@@ -1,9 +1,7 @@
-#include "utilities.hpp"
-
-#include <stdio.h>
-
 #include <fstream>
 #include <sstream>
+
+#include "utilities.hpp"
 
 namespace engine {
 

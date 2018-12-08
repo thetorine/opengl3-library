@@ -1,9 +1,10 @@
-#include <stdio.h>
+#include <algorithm>
 
 #include "engine/shader.hpp"
 #include "illumination/lighting.hpp"
 #include "illumination/directional_light.hpp"
 #include "illumination/point_light.hpp"
+#include "illumination/spotlight.hpp"
 
 namespace illumination {
 
@@ -15,11 +16,15 @@ namespace illumination {
     }
 
     void Lighting::addPointLight(glm::vec3 pos, glm::vec3 color, float intensity) {
-        m_pointLights.push_back(PointLight(pos, color, intensity));
+        m_pointLights.push_back(std::make_shared<PointLight>(pos, color, intensity));
     }
 
     void Lighting::addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity) {
-        m_directionalLights.push_back(DirectionalLight(direction, color, intensity));
+        m_directionalLights.push_back(std::make_shared<DirectionalLight>(direction, color, intensity));
+    }
+
+    void Lighting::addSpotlight(std::shared_ptr<Spotlight> spotlight) {
+        m_spotlights.push_back(spotlight);
     }
 
     void Lighting::nextShaderType() {
@@ -28,27 +33,13 @@ namespace illumination {
     }
 
     void Lighting::updateShader() {
-        for (int i = 0; i < m_pointLights.size(); ++i) {
-            char buffer[16];
-            snprintf(buffer, sizeof(buffer), "pointLights[%d]", i);
-            std::string structName = buffer;
+        auto setShaderParams = [index = 0](std::shared_ptr<LightType> &value) mutable {
+            value->setShaderParams(index++);
+        };
 
-            engine::Shader::getInstance()->setVec3(structName + ".pos", m_pointLights[i].getPos());
-            engine::Shader::getInstance()->setVec3(structName + ".color", m_pointLights[i].getColor());
-            engine::Shader::getInstance()->setFloat(structName + ".intensity", m_pointLights[i].getIntensity());
-            engine::Shader::getInstance()->setInt(structName + ".on", true);
-        }
-
-        for (int i = 0; i < m_directionalLights.size(); ++i) {
-            char buffer[22];
-            snprintf(buffer, sizeof(buffer), "directionalLights[%d]", i);
-            std::string structName = buffer;
-
-            engine::Shader::getInstance()->setVec3(structName + ".dir", m_directionalLights[i].getDir());
-            engine::Shader::getInstance()->setVec3(structName + ".color", m_directionalLights[i].getColor());
-            engine::Shader::getInstance()->setFloat(structName + ".intensity", m_directionalLights[i].getIntensity());
-            engine::Shader::getInstance()->setInt(structName + ".on", true);
-        }
+        std::for_each(m_pointLights.begin(), m_pointLights.end(), setShaderParams);
+        std::for_each(m_directionalLights.begin(), m_directionalLights.end(), setShaderParams);
+        std::for_each(m_spotlights.begin(), m_spotlights.end(), setShaderParams);
     }
 
     void Lighting::setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp) {

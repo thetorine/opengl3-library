@@ -1,5 +1,3 @@
-#include "utilities.hpp"
-#include "engine/shader.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/square.hpp"
 

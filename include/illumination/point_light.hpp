@@ -2,15 +2,14 @@
 
 #include <glm/glm.hpp>
 
+#include "illumination/light_type.hpp"
+
 namespace illumination {
-    class PointLight {
+    class PointLight: public LightType {
     public:
         PointLight(glm::vec3 pos, glm::vec3 color, float intensity);
         ~PointLight();
-
-        glm::vec3 getPos();
-        glm::vec3 getColor();
-        float getIntensity();
+        void setShaderParams(int index);
     private:
         glm::vec3 m_pos;
         glm::vec3 m_color;

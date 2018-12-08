@@ -1,6 +1,5 @@
 #include <vector>
 
-#include "utilities.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
 

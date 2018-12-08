@@ -1,5 +1,4 @@
-#include <stdio.h>
-
+#include <cstdio>
 #include <vector>
 
 #include <GL/glew.h>
@@ -15,7 +14,7 @@ namespace engine {
     Shader::Shader(std::string shaderName)
         : m_shaderName(shaderName) {
         if (!compileShader()) {
-            printf("Unable to compile shader\n");
+            std::printf("Unable to compile shader\n");
             exit(-1);
         }
     }
@@ -32,7 +31,7 @@ namespace engine {
         bool r2 = compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl");
 
         if (!r1 || !r2) {
-            printf("Unable to compile shaders\n");
+            std::printf("Unable to compile shaders\n");
             glDeleteShader(m_fragmentShaderID);
             glDeleteShader(m_vertexShaderID);
             return false;
@@ -57,7 +56,7 @@ namespace engine {
             GLchar *errorLog = new GLchar[maxLength];
             glGetProgramInfoLog(m_programID, maxLength, &maxLength, &errorLog[0]);
 
-            printf("%s\n", (char *)errorLog);
+            std::printf("%s\n", (char *)errorLog);
 
             glDeleteProgram(m_programID);
             glDeleteShader(m_vertexShaderID);
@@ -95,7 +94,7 @@ namespace engine {
             GLchar *errorLog = new GLchar[maxLength];
             glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
-            printf("%s\n", (char *)errorLog);
+            std::printf("%s\n", (char *)errorLog);
 
             glDeleteShader(shaderID);
             return false;

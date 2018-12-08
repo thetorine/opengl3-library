@@ -35,6 +35,7 @@
     <ClCompile Include="src\engine\buffer.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
     <ClCompile Include="src\input\keyboard.cpp" />
+    <ClCompile Include="src\illumination\spotlight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -54,6 +55,8 @@
     </ClInclude>
     <ClInclude Include="include\illumination\directional_light.hpp" />
     <ClInclude Include="include\input\keyboard.hpp" />
+    <ClInclude Include="include\illumination\light_type.hpp" />
+    <ClInclude Include="include\illumination\spotlight.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">

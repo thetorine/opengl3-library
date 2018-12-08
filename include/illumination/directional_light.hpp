@@ -2,15 +2,14 @@
 
 #include <glm/glm.hpp>
 
+#include "illumination/light_type.hpp"
+
 namespace illumination {
-    class DirectionalLight {
+    class DirectionalLight: public LightType {
     public:
         DirectionalLight(glm::vec3 dir, glm::vec3 color, float intensity);
         ~DirectionalLight();
-
-        glm::vec3 getDir();
-        glm::vec3 getColor();
-        float getIntensity();
+        void setShaderParams(int index);
     private:
         glm::vec3 m_dir;
         glm::vec3 m_color;

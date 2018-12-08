@@ -1,7 +1,9 @@
 #pragma once
 
-#include <tiny_obj_loader.h>
+#include <cstdio>
 #include <vector>
+
+#include <tiny_obj_loader.h>
 
 #include "utilities.hpp"
 #include "engine/shader.hpp"
@@ -22,7 +24,7 @@ namespace geometry {
         bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, file.c_str());
 
         if (!err.empty() || !ret) {
-            printf("error loading model: %s", err.c_str());
+            std::printf("error loading model: %s", err.c_str());
             exit(1);
         }
 

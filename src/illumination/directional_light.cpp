@@ -1,3 +1,6 @@
+#include <string>
+
+#include "engine/shader.hpp"
 #include "illumination/directional_light.hpp"
 
 namespace illumination {
@@ -10,15 +13,14 @@ namespace illumination {
 
     }
 
-    glm::vec3 DirectionalLight::getDir() {
-        return m_dir;
-    }
+    void DirectionalLight::setShaderParams(int index) {
+        char buffer[22];
+        snprintf(buffer, sizeof(buffer), "directionalLights[%d]", index);
+        std::string structName = buffer;
 
-    glm::vec3 DirectionalLight::getColor() {
-        return m_color;
-    }
-
-    float DirectionalLight::getIntensity() {
-        return m_intensity;
+        engine::Shader::getInstance()->setVec3(structName + ".dir", m_dir);
+        engine::Shader::getInstance()->setVec3(structName + ".color", m_color);
+        engine::Shader::getInstance()->setFloat(structName + ".intensity", m_intensity);
+        engine::Shader::getInstance()->setInt(structName + ".on", true);
     }
 }

@@ -32,6 +32,16 @@ struct point_light {
 };
 uniform point_light pointLights[LIGHT_SOURCE_COUNT];
 
+struct spotlight {
+    vec3 pos;
+    vec3 dir;
+    vec3 color;
+    float intensity;
+    float cutoff;
+    bool on;
+};
+uniform spotlight spotlights[LIGHT_SOURCE_COUNT];
+
 // Material properties
 uniform float ambientCoeff;
 uniform float diffuseCoeff;
@@ -65,6 +75,17 @@ void main() {
         if (!directionalLights[i].on) continue;
         vec3 s = (viewMatrix * vec4(directionalLights[i].dir, 0.0)).xyz;
         colorSum += getIntensity(s, v, directionalLights[i].color, directionalLights[i].intensity);
+    }
+
+    for (int i = 0; i < LIGHT_SOURCE_COUNT; i++) {
+        if (!spotlights[i].on) continue;
+        vec3 s = (viewMatrix * vec4(spotlights[i].pos, 1.0) - viewPos).xyz;
+        vec3 f = (viewMatrix * vec4(spotlights[i].dir, 0.0)).xyz;
+
+        float sfDot = dot(normalize(-s), normalize(f));
+        if (acos(sfDot) <= radians(spotlights[i].cutoff / 2.0)) { 
+            colorSum += getIntensity(s, v, spotlights[i].color, spotlights[i].intensity);
+        }
     }
     
     fragmentColor = vec4(colorSum, 1.0);

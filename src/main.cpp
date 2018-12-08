@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-
+#include <cstdio>
 #include <memory>
 #include <iostream>
 #include <vector>
@@ -9,17 +7,17 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include <lodepng.h>
 
 #include "camera.hpp"
+#include "utilities.hpp"
 #include "engine/shader.hpp"
 #include "illumination/lighting.hpp"
+#include "illumination/spotlight.hpp"
 #include "input/keyboard.hpp"
 #include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
 #include "geometry/square.hpp"
-#include "utilities.hpp"
 
 #define WIDTH 1280
 #define HEIGHT 720
@@ -38,7 +36,7 @@ int main() {
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "My Title", NULL, NULL);
     if (window == NULL) {
-        printf("Failed to open GLFW window\n");
+        std::printf("Failed to open GLFW window\n");
         glfwTerminate();
         return -1;
     }
@@ -46,7 +44,7 @@ int main() {
     glfwSwapInterval(1);
 
     if (glewInit() != GLEW_OK) {
-        printf("Failed to initialize GLEW\n");
+        std::printf("Failed to initialize GLEW\n");
         return -1;
     }
 
@@ -79,7 +77,7 @@ int main() {
     std::vector<unsigned char> image;
     unsigned int width, height;
     unsigned error = lodepng::decode(image, width, height, "res/textures/square.png");
-    printf("%d %d\n", width, height);
+    std::printf("%d %d\n", width, height);
 
     glActiveTexture(GL_TEXTURE0);
 
@@ -106,11 +104,25 @@ int main() {
     engine::Shader::createShader("local");
     engine::Shader::getInstance()->useShader();
 
+    engine::Shader::getInstance()->setProjMatrix(projMatrix);
+
+    std::shared_ptr<illumination::Spotlight> torchLight = 
+        std::make_shared<illumination::Spotlight>(
+            cam.getPos(), 
+            cam.getFacingDir(),
+            glm::vec3(1.0),
+            1.0f,
+            30.0f);
     illumination::Lighting lightingObj;
-    //lightingObj.addPointLight(glm::vec3(5, 3, -5), glm::vec3(1.0f), 1.0f);
-    //lightingObj.addPointLight(glm::vec3(-5, -3, 5), glm::vec3(1.0f), 1.0f);
-    lightingObj.addDirectionalLight(glm::vec3(1, 0, 0), glm::vec3(1.0f), 1.0f);
-    lightingObj.addDirectionalLight(glm::vec3(-1, 1, 0), glm::vec3(1.0f), 1.0f);
+    lightingObj.addSpotlight(torchLight);
+    lightingObj.addDirectionalLight(
+        glm::vec3(1.0f, 0.0f, 0.0f),
+        glm::vec3(1.0f),
+        0.8f
+    );
+
+    lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
+    lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
 
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0) {
         double currentTime = glfwGetTime();
@@ -119,7 +131,7 @@ int main() {
 
         frameCount++;
         if (currentTime - frameTime >= 1.0) {
-            printf("FPS = %d\n", frameCount);
+            std::printf("FPS = %d\n", frameCount);
             frameCount = 0;
             frameTime = currentTime;
         }
@@ -133,15 +145,13 @@ int main() {
             lightingObj.nextShaderType();
         }
 
+        torchLight->setFacingFrom(cam.getPos(), cam.getFacingDir());
+        lightingObj.updateShader();
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         engine::Shader::getInstance()->setViewMatrix(cam.getViewMatrix());
-        engine::Shader::getInstance()->setProjMatrix(projMatrix);
-
-        lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
-        lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));
-        lightingObj.updateShader();
 
         model.draw(i);
 

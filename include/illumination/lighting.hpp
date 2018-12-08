@@ -1,13 +1,13 @@
 #pragma once
 
 #include <memory>
-#include <string>
 #include <vector>
+
 #include <glm/glm.hpp>
 
 namespace illumination {
-    class DirectionalLight;
-    class PointLight;
+    class LightType;
+    class Spotlight;
 
     const int SHADER_COUNT = 3;
 
@@ -18,6 +18,7 @@ namespace illumination {
 
         void addPointLight(glm::vec3 pos, glm::vec3 color, float intensity);
         void addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity);
+        void addSpotlight(std::shared_ptr<Spotlight> spotlight);
 
         void updateShader();
 
@@ -25,8 +26,9 @@ namespace illumination {
         void setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp);
         void setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse);
     private:
-        std::vector<PointLight> m_pointLights;
-        std::vector<DirectionalLight> m_directionalLights;
+        std::vector<std::shared_ptr<LightType>> m_directionalLights;
+        std::vector<std::shared_ptr<LightType>> m_pointLights;
+        std::vector<std::shared_ptr<LightType>> m_spotlights;
         int m_currentShader = 0;
     };
 }
