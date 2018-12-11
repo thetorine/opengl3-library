@@ -19,12 +19,18 @@
 #include "geometry/sphere.hpp"
 #include "geometry/square.hpp"
 
+#include "application/test.hpp"
+
 #define WIDTH 1280
 #define HEIGHT 720
 
 void processCamera(GLFWwindow *window, engine::Camera &cam, float mdx, float mdy, float dt);
 
 int main() {
+    // TODO: wip
+    /*app::Test appInstance;
+    appInstance.start();*/
+
     glewExperimental = true;
     if (!glfwInit()) {
         return -1;
@@ -122,7 +128,7 @@ int main() {
     lightingObj.addDirectionalLight(
         glm::vec3(1.0f, 0.0f, 0.0f),
         glm::vec3(1.0f),
-        0.3f);
+        0.5f);
 
     lightingObj.setMaterialCoeffs(0.5f, 1.0f, 1.0f, 32.0f);
     lightingObj.setMaterialIntensities(glm::vec3(0.3f, 0.0f, 0.0f), glm::vec3(0.3f, 0.0f, 0.0f));

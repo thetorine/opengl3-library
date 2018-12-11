@@ -10,42 +10,42 @@ Implementing many rendering techniques used in Computer Graphics and methods to 
 ## Local Illumination
 - [x] Phong Shader
 - [x] Cel Shader
-- [] Blinn Shader (currently broken)
+- [ ] Blinn Shader (currently broken)
 - [x] Point Lights
 - [x] Directional Lights
 - [x] Spotlights
-- [] Distance Attentuation for all light types
-- [] Texturing
-- [] Normal Mapping
-- [] Reflection Mapping
-- [] Shadow Maps
+- [ ] Distance Attentuation for all light types
+- [ ] Texturing
+- [ ] Normal Mapping
+- [ ] Reflection Mapping
+- [ ] Shadow Maps
 
 ## Geometry
 - [x] Sphere
 - [x] Square
-- [] Conics
-- [] Surface of Revolution functions
-- [] Bezier Curves / Basis Splines
-- [] Drawing with Frenet Frames
-- [] L-Systems for Trees
-- [] Extrusions
-- [] Collisions
+- [ ] Conics
+- [ ] Surface of Revolution functions
+- [ ] Bezier Curves / Basis Splines
+- [ ] Drawing with Frenet Frames
+- [ ] L-Systems for Trees
+- [ ] Extrusions
+- [ ] Collisions
 
 ## Transformations
-- [] Scene Trees
+- [ ] Scene Trees
 
 ## Global Illumination
-- [] Realistic reflections
-- [] Volumetric ray tracing
+- [ ] Realistic reflections
+- [ ] Volumetric ray tracing
 
 ## Miscellaneous
-- [] Particle Systems
+- [ ] Particle Systems
 
 # Libraries used
-- GLFW3
-- Glew
-- LodePNG
-- TinyObjLoader
+- [GLFW3](https://www.glfw.org/)
+- [Glew](http://glew.sourceforge.net/)
+- [LodePNG](https://lodev.org/lodepng/)
+- [TinyObjLoader](https://github.com/syoyo/tinyobjloader)
 
 # License
 This project is licensed under the MIT License.

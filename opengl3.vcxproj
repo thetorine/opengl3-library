@@ -146,6 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\application\application.cpp" />
+    <ClCompile Include="src\application\test.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\engine\buffer.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="src\utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\application\application.hpp" />
+    <ClInclude Include="include\application\test.hpp" />
     <ClInclude Include="include\engine\buffer.hpp" />
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
