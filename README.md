@@ -1,6 +1,8 @@
 # OpenGL3 3D C++ Library (For learning purposes)
 Implementing many rendering techniques used in Computer Graphics and methods to setup complex scenes.
 
+[Screenshots](screenhots/)
+
 # Installation
 1. Clone the repository.
 2. Open the solution file in Visual Studio 2017.
