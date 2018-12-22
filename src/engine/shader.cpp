@@ -41,6 +41,7 @@ namespace engine {
         glAttachShader(m_programID, m_vertexShaderID);
         glAttachShader(m_programID, m_fragmentShaderID);
 
+        // Allows us to set these variables later on.
         glBindAttribLocation(m_programID, POSITION_LOCATION, "position");
         glBindAttribLocation(m_programID, NORMAL_POSITION, "normal");
         glBindAttribLocation(m_programID, UV_LOCATION, "uv");

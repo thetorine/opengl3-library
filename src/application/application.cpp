@@ -4,6 +4,7 @@
 #include "utilities.hpp"
 #include "application/application.hpp"
 #include "input/keyboard.hpp"
+#include "input/mouse.hpp"
 
 namespace app {
 
@@ -58,16 +59,19 @@ namespace app {
     }
 
     void Application::setInputMode() {
-        glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
         glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         glfwSetKeyCallback(m_window, &input::glfwKeyCallback);
+        glfwSetCursorPosCallback(m_window, &input::glfwMouseCallback);
     }
 
     void Application::startLoops() {
-
         double time = glfwGetTime();
         std::thread updateThread([lastTime = time, frameTime = time, frameCount = 0, this]() mutable {
             while (!m_hasExited) {
+                // Calculate the change in time since the last update tick.
+                // Use the value to ensure that objects move at the same speed,
+                // regardless of computer specs. 
+
                 double currentTime = glfwGetTime();
                 float dt = static_cast<float>(currentTime - lastTime);
                 lastTime = currentTime;
@@ -76,26 +80,24 @@ namespace app {
             }
         });
 
-        // TODO: needs synchronization for the keyboard/mouse input, so that the update thread
-        // never misses a key press.
-        // TODO: fps counter 
-        // note: rendering must be done from the main thread
-        // this breaks in a separate thread.
+        // TODO: FPS Counter 
+        // Note: Rendering must be done in the original thread as it breaks
+        // in a separate thread - not sure why, might be something to do with
+        // the thread in which the OpenGL context is created. 
         while (!m_hasExited && glfwWindowShouldClose(m_window) == 0) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
             render();
+            updateView();
 
+            // Force the cursor into the middle of the screen.
             glfwSetCursorPos(m_window, m_width / 2.0, m_height / 2.0);
 
             glfwSwapBuffers(m_window); 
-            glfwPollEvents(); // only works in main thread - hence need synchcronization
+            glfwPollEvents();
         }
 
-        // this waits until the thread has exited - when destroy is called
-        // should not deadlock because it will 
-        // only be called once destroy is called which breaks the above loop
         updateThread.join();
     }
 }

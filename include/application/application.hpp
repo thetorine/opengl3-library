@@ -18,6 +18,7 @@ namespace app {
         virtual void initialize() = 0;
         virtual void render() = 0;
         virtual void update(float dt) = 0;
+        virtual void updateView() = 0;
     protected:
         GLFWwindow *m_window;
         int m_width;

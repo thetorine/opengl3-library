@@ -13,8 +13,8 @@ namespace geometry {
 
     Mesh::Mesh(std::string file)
         : m_vertexBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
-        m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
-        m_hasIndices(false)
+          m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
+          m_hasIndices(false)
     {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -28,6 +28,7 @@ namespace geometry {
             exit(1);
         }
 
+        // Taken from https://github.com/syoyo/tinyobjloader
         for (size_t s = 0; s < shapes.size(); ++s) {
             size_t indexOffset = 0;
             for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); ++f) {
@@ -53,9 +54,9 @@ namespace geometry {
 
     Mesh::Mesh(std::vector<float> &vertices, std::vector<float> &normals, std::vector<int> &indices)
         : m_vertexBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
-        m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
-        m_indexBuffer(std::make_unique<engine::Buffer<int>>(GL_ELEMENT_ARRAY_BUFFER)),
-        m_hasIndices(true)
+          m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
+          m_indexBuffer(std::make_unique<engine::Buffer<int>>(GL_ELEMENT_ARRAY_BUFFER)),
+          m_hasIndices(true)
     {
         m_vertexBuffer->addAll(vertices);
         m_normalBuffer->addAll(normals);

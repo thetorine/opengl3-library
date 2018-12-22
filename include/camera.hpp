@@ -6,17 +6,12 @@
 #define ROTATE_SPEED 90.0f
 
 namespace engine {
-    typedef enum dir {
-        FORWARD, BACK, LEFT, RIGHT, UP, DOWN,
-    } dir_t;
-
     class Camera {
     public:
         Camera(glm::vec3 pos, glm::vec3 rotation, glm::vec3 up);
         ~Camera();
 
-        void move(dir_t dir, float dt);
-        void rotateKey(dir_t dir, float dt);
+        void updatePos(float dt);
         void rotateMouse(float dx, float dy);
 
         glm::vec3 getPos();
@@ -26,5 +21,13 @@ namespace engine {
         glm::vec3 m_pos;
         glm::vec3 m_rotation;
         glm::vec3 m_up;
+
+        unsigned int m_moveState;
+
+        void handleKeyPress(int key, int action);
+        void handleCursorMove(float dx, float dy);
+
+        void setMoveState(unsigned int bit, int action);
+        bool isMoveStateSet(unsigned int bit);
     };
 }

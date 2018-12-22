@@ -5,6 +5,14 @@
 
 namespace geometry {
 
+    // The vertex and index list can be better calculated using the surface of revolution method.
+    // Although this is relying on those ideas anyways.
+
+    // TODO: This is currently breaking at the bottom of the circle...
+
+    // TODO: Write a generic method that generates the mesh based on the
+    // parametric equation provided such as (rcos(t), rsin(t)) in the domain [0, pi]
+
     Sphere::Sphere(float radius) {
         static const float pi = static_cast<float>(std::acos(-1));
 

@@ -38,6 +38,8 @@
     <ClCompile Include="src\illumination\spotlight.cpp" />
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\application\test.cpp" />
+    <ClCompile Include="src\input\events.cpp" />
+    <ClCompile Include="src\input\mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -61,6 +63,8 @@
     <ClInclude Include="include\illumination\spotlight.hpp" />
     <ClInclude Include="include\application\application.hpp" />
     <ClInclude Include="include\application\test.hpp" />
+    <ClInclude Include="include\input\events.hpp" />
+    <ClInclude Include="include\input\mouse.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">
