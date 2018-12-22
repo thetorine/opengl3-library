@@ -1,7 +1,7 @@
 # OpenGL3 3D C++ Library (For learning purposes)
 Implementing many rendering techniques used in Computer Graphics and methods to setup complex scenes.
 
-[Screenshots](screenhots/)
+[Screenshots](screenshots/)
 
 # Installation
 1. Clone the repository.
