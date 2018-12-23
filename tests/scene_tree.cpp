@@ -75,10 +75,10 @@ TEST_CASE("scene objects attached with one parent can be translated", "[SceneObj
         // Global parent coordinate frame
         /*
             Identity:     Translated (1, 0):     Rotated (PI / 2 anticlockwise):
-            x             x                           x
+            y             y                           x
             ^             ^                           ^
             |             |                           |
-            ---->y        ---->y                 y<----
+            ---->x        ---->x                 y<----
             ^             ^                           ^
             (0, 0)        (1, 0)                      (1, 0) / (0, 0) in local frame
         */
