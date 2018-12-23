@@ -5,12 +5,12 @@
 namespace illumination {
     class Spotlight : public LightType {
     public:
-        Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color,
+        Spotlight(const glm::vec3 &pos, const glm::vec3 &dir, const glm::vec3 &color,
             float intensity, float innerCutoff, float outerCutoff,
             float attenPow, float attenDist);
         ~Spotlight();
         void setShaderParams(int index);
-        void setFacingFrom(glm::vec3 pos, glm::vec3 dir);
+        void setFacingFrom(const glm::vec3 &pos, const glm::vec3 &dir);
     private:
         glm::vec3 m_pos;
         glm::vec3 m_dir;

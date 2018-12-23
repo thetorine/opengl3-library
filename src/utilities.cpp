@@ -18,4 +18,10 @@ namespace engine {
         buffer << t.rdbuf();
         return buffer.str();
     }
+
+    bool epsilonEquals(const glm::vec3 &a, const glm::vec3 &b, float epsilon) {
+        return std::abs(a.x - b.x) <= epsilon &&
+            std::abs(a.y - b.y) <= epsilon &&
+            std::abs(a.z - b.z) <= epsilon;
+    }
 }

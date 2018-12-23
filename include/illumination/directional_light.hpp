@@ -7,7 +7,7 @@
 namespace illumination {
     class DirectionalLight: public LightType {
     public:
-        DirectionalLight(glm::vec3 dir, glm::vec3 color, float intensity);
+        DirectionalLight(const glm::vec3 &dir, const glm::vec3 &color, float intensity);
         ~DirectionalLight();
         void setShaderParams(int index);
     private:

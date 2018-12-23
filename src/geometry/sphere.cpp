@@ -53,7 +53,7 @@ namespace geometry {
 
     }
 
-    void Sphere::draw(glm::mat4 &model) {
+    void Sphere::draw(const glm::mat4 &model) {
         m_sphereMesh->draw(model);
     }
 }

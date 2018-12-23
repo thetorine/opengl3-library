@@ -16,15 +16,15 @@ namespace illumination {
         Lighting();
         ~Lighting();
 
-        void addPointLight(glm::vec3 pos, glm::vec3 color, float intensity);
-        void addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity);
-        void addSpotlight(std::shared_ptr<Spotlight> spotlight);
+        void addPointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity);
+        void addDirectionalLight(const glm::vec3 &direction, const glm::vec3 &color, float intensity);
+        void addSpotlight(const std::shared_ptr<Spotlight> &spotlight);
 
         void updateShader();
 
         void nextShaderType();
         void setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp);
-        void setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse);
+        void setMaterialIntensities(const glm::vec3 &ambient, const glm::vec3 &diffuse);
     private:
         std::vector<std::shared_ptr<LightType>> m_directionalLights;
         std::vector<std::shared_ptr<LightType>> m_pointLights;

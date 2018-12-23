@@ -8,7 +8,7 @@ namespace engine {
     {}
 
     template <class T>
-    Buffer<T>::Buffer(std::vector<T> &data, GLuint mode)
+    Buffer<T>::Buffer(const std::vector<T> &data, GLuint mode)
         : m_data(data), m_mode(mode)
     {
         transferBuffer();
@@ -37,7 +37,7 @@ namespace engine {
     }
 
     template <class T>
-    void Buffer<T>::addAll(std::vector<T> &elements) {
+    void Buffer<T>::addAll(const std::vector<T> &elements) {
         m_data.insert(std::end(m_data), std::begin(elements), std::end(elements));
     }
 

@@ -3,7 +3,7 @@
 
 namespace illumination {
 
-    PointLight::PointLight(glm::vec3 pos, glm::vec3 color, float intensity)
+    PointLight::PointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity)
         : m_pos(pos), m_color(color), m_intensity(intensity)
     {}
 

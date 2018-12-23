@@ -7,7 +7,7 @@
 namespace illumination {
     class PointLight: public LightType {
     public:
-        PointLight(glm::vec3 pos, glm::vec3 color, float intensity);
+        PointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity);
         ~PointLight();
         void setShaderParams(int index);
     private:

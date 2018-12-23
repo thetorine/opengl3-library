@@ -1,12 +1,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "application/test.hpp"
+#include "application/lighting_test.hpp"
 #include "engine/shader.hpp"
 #include "input/events.hpp"
 
 namespace app {
 
-    Test::Test()
+    LightingTest::LightingTest()
         : Application::Application("Test", 1280, 720),
         m_camera(engine::Camera(
             glm::vec3(0.0f, 0.0f, -5.0f),
@@ -16,12 +16,12 @@ namespace app {
     {
     }
 
-    Test::~Test() {
+    LightingTest::~LightingTest() {
 
     }
 
-    void Test::initialize() {
-        input::registerKeyHandler(std::bind(&Test::keyHandler, this, 
+    void LightingTest::initialize() {
+        input::registerKeyHandler(std::bind(&LightingTest::keyHandler, this, 
             std::placeholders::_1,
             std::placeholders::_2));
 
@@ -59,21 +59,20 @@ namespace app {
         m_model = std::make_unique<geometry::Mesh>("res/models/teapot.obj");
     }
 
-    void Test::render() {
-        glm::mat4 modelMatrix(1.0f);
-        m_model->draw(modelMatrix);
+    void LightingTest::render() {
+        m_model->draw(glm::mat4(1.0f));
     }
 
-    void Test::update(float dt) {
+    void LightingTest::update(float dt) {
         m_camera.updatePos(dt);
     }
 
-    void Test::updateView() {
+    void LightingTest::updateView() {
         m_lighting.updateShader();
         engine::Shader::getInstance()->setViewMatrix(m_camera.getViewMatrix());
     }
 
-    void Test::keyHandler(int key, int action) {
+    void LightingTest::keyHandler(int key, int action) {
         // Exit the window
         if (key == GLFW_KEY_ESCAPE)
             destroy();

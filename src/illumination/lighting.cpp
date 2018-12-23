@@ -15,15 +15,15 @@ namespace illumination {
 
     }
 
-    void Lighting::addPointLight(glm::vec3 pos, glm::vec3 color, float intensity) {
+    void Lighting::addPointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity) {
         m_pointLights.push_back(std::make_shared<PointLight>(pos, color, intensity));
     }
 
-    void Lighting::addDirectionalLight(glm::vec3 direction, glm::vec3 color, float intensity) {
+    void Lighting::addDirectionalLight(const glm::vec3 &direction, const glm::vec3 &color, float intensity) {
         m_directionalLights.push_back(std::make_shared<DirectionalLight>(direction, color, intensity));
     }
 
-    void Lighting::addSpotlight(std::shared_ptr<Spotlight> spotlight) {
+    void Lighting::addSpotlight(const std::shared_ptr<Spotlight> &spotlight) {
         m_spotlights.push_back(spotlight);
     }
 
@@ -49,7 +49,7 @@ namespace illumination {
         engine::Shader::getInstance()->setFloat("phongExp", phongExp);
     }
 
-    void Lighting::setMaterialIntensities(glm::vec3 ambient, glm::vec3 diffuse) {
+    void Lighting::setMaterialIntensities(const glm::vec3 &ambient, const glm::vec3 &diffuse) {
         engine::Shader::getInstance()->setVec3("ambientIntensity", ambient);
         engine::Shader::getInstance()->setVec3("diffuseIntensity", diffuse);
     }

@@ -8,13 +8,13 @@ namespace engine {
     class Buffer {
     public:
         Buffer(GLuint mode);
-        Buffer(std::vector<T> &data, GLuint mode);
+        Buffer(const std::vector<T> &data, GLuint mode);
         ~Buffer();
         void transferBuffer();
         void useBuffer();
 
         void addElement(T element);
-        void addAll(std::vector<T> &elements);
+        void addAll(const std::vector<T> &elements);
         size_t size();
     private:
         GLuint m_bufferIndex;

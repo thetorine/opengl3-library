@@ -1,9 +1,9 @@
 #include <lodepng.h>
 
-#include "application/test.hpp"
+#include "application/lighting_test.hpp"
 
 int main() {
-    app::Test appInstance;
+    app::LightingTest appInstance;
     appInstance.start();
 
     // Old texturing code - keeping for future reference. 

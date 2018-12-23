@@ -12,7 +12,7 @@ namespace geometry {
     public:
         Square();
         ~Square();
-        void draw(glm::mat4 &model);
+        void draw(const glm::mat4 &model);
     private:
         std::unique_ptr<Mesh> m_squareMesh;
     };

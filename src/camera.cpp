@@ -10,7 +10,7 @@ namespace engine {
         FORWARD = 32, RIGHT = 16, BACKWARD = 8, LEFT = 4, UP = 2, DOWN = 1
     } dir_t;
 
-    Camera::Camera(glm::vec3 pos, glm::vec3 rotation, glm::vec3 up)
+    Camera::Camera(const glm::vec3 &pos, const glm::vec3 &rotation, const glm::vec3 &up)
         : m_pos(pos), m_rotation(rotation), m_up(up) 
     {
         input::registerKeyHandler(std::bind(&Camera::handleKeyPress, this,
@@ -43,11 +43,11 @@ namespace engine {
         m_rotation.y -= dx;
     }
 
-    glm::vec3 Camera::getPos() {
+    const glm::vec3 &Camera::getPos() const {
         return m_pos;
     }
 
-    glm::vec3 Camera::getFacingDir() {
+    glm::vec3 Camera::getFacingDir() const {
         // TODO: Use quaternions.
         // Currently, the camera behaves weirdly when looking down.
         // Gimbal lock is also occurring. 
@@ -58,7 +58,7 @@ namespace engine {
         ));
     }
 
-    glm::mat4 Camera::getViewMatrix() {
+    glm::mat4 Camera::getViewMatrix() const {
         return glm::lookAt(m_pos, m_pos + getFacingDir(), m_up);
     }
 

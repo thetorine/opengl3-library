@@ -11,7 +11,7 @@ namespace geometry {
     public:
         Sphere(float radius);
         ~Sphere();
-        void draw(glm::mat4 &model);
+        void draw(const glm::mat4 &model);
     private:
         std::unique_ptr<Mesh> m_sphereMesh;
     };

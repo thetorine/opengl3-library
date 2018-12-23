@@ -6,6 +6,6 @@ namespace geometry {
     class Shape {
     public:
         virtual ~Shape() = default;
-        virtual void draw(glm::mat4 &model) = 0;
+        virtual void draw(const glm::mat4 &model) = 0;
     };
 }

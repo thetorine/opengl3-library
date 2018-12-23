@@ -30,7 +30,7 @@ namespace geometry {
 
     }
 
-    void Square::draw(glm::mat4 &model) {
+    void Square::draw(const glm::mat4 &model) {
         m_squareMesh->draw(model);
     }
 }

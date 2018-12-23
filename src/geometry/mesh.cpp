@@ -52,7 +52,7 @@ namespace geometry {
         m_normalBuffer->transferBuffer();
     }
 
-    Mesh::Mesh(std::vector<float> &vertices, std::vector<float> &normals, std::vector<int> &indices)
+    Mesh::Mesh(const std::vector<float> &vertices, const std::vector<float> &normals, const std::vector<int> &indices)
         : m_vertexBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
           m_normalBuffer(std::make_unique<engine::Buffer<float>>(GL_ARRAY_BUFFER)),
           m_indexBuffer(std::make_unique<engine::Buffer<int>>(GL_ELEMENT_ARRAY_BUFFER)),
@@ -71,7 +71,7 @@ namespace geometry {
 
     }
 
-    void Mesh::draw(glm::mat4 &model) {
+    void Mesh::draw(const glm::mat4 &model) {
         engine::Shader::getInstance()->setModelMatrix(model);
 
         glEnableVertexAttribArray(POSITION_LOCATION);

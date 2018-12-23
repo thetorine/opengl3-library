@@ -5,7 +5,7 @@
 
 namespace illumination {
 
-    Spotlight::Spotlight(glm::vec3 pos, glm::vec3 dir, glm::vec3 color, 
+    Spotlight::Spotlight(const glm::vec3 &pos, const glm::vec3 &dir, const glm::vec3 &color, 
         float intensity, float innerCutoff, float outerCutoff,
         float attenPow, float attenDist) 
         : m_pos(pos),
@@ -38,7 +38,7 @@ namespace illumination {
         engine::Shader::getInstance()->setInt(structName + ".on", true);
     }
 
-    void Spotlight::setFacingFrom(glm::vec3 pos, glm::vec3 dir) {
+    void Spotlight::setFacingFrom(const glm::vec3 &pos, const glm::vec3 &dir) {
         m_pos = pos;
         m_dir = dir;
     }

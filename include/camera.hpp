@@ -8,15 +8,15 @@
 namespace engine {
     class Camera {
     public:
-        Camera(glm::vec3 pos, glm::vec3 rotation, glm::vec3 up);
+        Camera(const glm::vec3 &pos, const glm::vec3 &rotation, const glm::vec3 &up);
         ~Camera();
 
         void updatePos(float dt);
         void rotateMouse(float dx, float dy);
 
-        glm::vec3 getPos();
-        glm::vec3 getFacingDir();
-        glm::mat4 getViewMatrix();
+        const glm::vec3 &getPos() const;
+        glm::vec3 getFacingDir() const;
+        glm::mat4 getViewMatrix() const;
     private:
         glm::vec3 m_pos;
         glm::vec3 m_rotation;

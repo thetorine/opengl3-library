@@ -37,9 +37,12 @@
     <ClCompile Include="src\input\keyboard.cpp" />
     <ClCompile Include="src\illumination\spotlight.cpp" />
     <ClCompile Include="src\application\application.cpp" />
-    <ClCompile Include="src\application\test.cpp" />
     <ClCompile Include="src\input\events.cpp" />
     <ClCompile Include="src\input\mouse.cpp" />
+    <ClCompile Include="src\application\lighting_test.cpp" />
+    <ClCompile Include="src\scene\scene_object.cpp" />
+    <ClCompile Include="tests\test.cpp" />
+    <ClCompile Include="tests\scene_tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -62,9 +65,11 @@
     <ClInclude Include="include\illumination\light_type.hpp" />
     <ClInclude Include="include\illumination\spotlight.hpp" />
     <ClInclude Include="include\application\application.hpp" />
-    <ClInclude Include="include\application\test.hpp" />
     <ClInclude Include="include\input\events.hpp" />
     <ClInclude Include="include\input\mouse.hpp" />
+    <ClInclude Include="include\application\lighting_test.hpp" />
+    <ClInclude Include="include\scene\scene.hpp" />
+    <ClInclude Include="include\scene\scene_object.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">

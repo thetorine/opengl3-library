@@ -5,7 +5,7 @@
 
 namespace illumination {
 
-    DirectionalLight::DirectionalLight(glm::vec3 dir, glm::vec3 color, float intensity)
+    DirectionalLight::DirectionalLight(const glm::vec3 &dir, const glm::vec3 &color, float intensity)
         : m_dir(dir), m_color(color), m_intensity(intensity)
     {}
 

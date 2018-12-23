@@ -11,9 +11,9 @@ namespace geometry {
     class Mesh : public Shape {
     public:
         Mesh(std::string file);
-        Mesh(std::vector<float> &vertices, std::vector<float> &normals, std::vector<int> &indices);
+        Mesh(const std::vector<float> &vertices, const std::vector<float> &normals, const std::vector<int> &indices);
         ~Mesh();
-        void draw(glm::mat4 &model);
+        void draw(const glm::mat4 &model);
     private:
         std::unique_ptr<engine::Buffer<float>> m_vertexBuffer;
         std::unique_ptr<engine::Buffer<float>> m_normalBuffer;

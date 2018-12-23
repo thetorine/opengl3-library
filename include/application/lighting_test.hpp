@@ -8,10 +8,10 @@
 #include "illumination/lighting.hpp"
 
 namespace app {
-    class Test : public Application {
+    class LightingTest : public Application {
     public:
-        Test();
-        ~Test();
+        LightingTest();
+        ~LightingTest();
         void initialize();
         void render();
         void update(float dt);

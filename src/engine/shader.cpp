@@ -108,29 +108,29 @@ namespace engine {
         glUseProgram(m_programID);
     }
 
-    void Shader::setModelMatrix(glm::mat4 matrix) {
+    void Shader::setModelMatrix(const glm::mat4 &matrix) const {
         glUniformMatrix4fv(m_modelMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
     }
 
-    void Shader::setViewMatrix(glm::mat4 matrix) {
+    void Shader::setViewMatrix(const glm::mat4 &matrix) const {
         glUniformMatrix4fv(m_viewMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
     }
 
-    void Shader::setProjMatrix(glm::mat4 matrix) {
+    void Shader::setProjMatrix(const glm::mat4 &matrix) const {
         glUniformMatrix4fv(m_projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
     }
 
-    void Shader::setVec3(std::string var, glm::vec3 value) {
+    void Shader::setVec3(std::string var, const glm::vec3 &value) const {
         GLint location = glGetUniformLocation(m_programID, var.c_str());
         glUniform3fv(location, 1, &value[0]);
     }
 
-    void Shader::setInt(std::string var, int value) {
+    void Shader::setInt(std::string var, int value) const {
         GLint location = glGetUniformLocation(m_programID, var.c_str());
         glUniform1i(location, value);
     }
 
-    void Shader::setFloat(std::string var, float value) {
+    void Shader::setFloat(std::string var, float value) const {
         GLint location = glGetUniformLocation(m_programID, var.c_str());
         glUniform1f(location, value);
     }
@@ -139,7 +139,7 @@ namespace engine {
         shaderObj = std::make_unique<Shader>(shaderName);
     }
 
-    std::unique_ptr<Shader> &Shader::getInstance() {
+    const std::unique_ptr<Shader> &Shader::getInstance() {
         return shaderObj;
     }
 }

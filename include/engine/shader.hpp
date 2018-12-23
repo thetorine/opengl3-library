@@ -21,15 +21,15 @@ namespace engine {
         bool compileShader();
         void useShader();
 
-        void setModelMatrix(glm::mat4 matrix);
-        void setViewMatrix(glm::mat4 matrix);
-        void setProjMatrix(glm::mat4 matrix);
-        void setVec3(std::string var, glm::vec3 value);
-        void setInt(std::string var, int value);
-        void setFloat(std::string var, float value);
+        void setModelMatrix(const glm::mat4 &matrix) const;
+        void setViewMatrix(const glm::mat4 &matrix) const;
+        void setProjMatrix(const glm::mat4 &matrix) const;
+        void setVec3(std::string var, const glm::vec3 &value) const;
+        void setInt(std::string var, int value) const;
+        void setFloat(std::string var, float value) const;
 
         static void createShader(std::string shaderName);
-        static std::unique_ptr<Shader> &getInstance();
+        static const std::unique_ptr<Shader> &getInstance();
     private:
         bool compileShader(GLuint shaderID, std::string file);
 
