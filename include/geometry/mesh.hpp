@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "engine/buffer.hpp"
@@ -15,9 +16,10 @@ namespace geometry {
         ~Mesh();
         void draw(const glm::mat4 &model);
     private:
-        std::unique_ptr<engine::Buffer<float>> m_vertexBuffer;
-        std::unique_ptr<engine::Buffer<float>> m_normalBuffer;
-        std::unique_ptr<engine::Buffer<int>> m_indexBuffer;
+        engine::Buffer<float> m_vertexBuffer;
+        engine::Buffer<float> m_normalBuffer;
+        engine::Buffer<int> m_indexBuffer;
+        engine::Buffer<float> m_colorBuffer;
 
         bool m_hasIndices;
     };
