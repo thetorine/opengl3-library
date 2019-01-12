@@ -5,8 +5,10 @@
 
 #include <glm/glm.hpp>
 
-namespace illumination {
+namespace gl::illumination {
     class LightType;
+    class PointLight;
+    class DirectionalLight;
     class Spotlight;
 
     const int SHADER_COUNT = 3;
@@ -16,8 +18,8 @@ namespace illumination {
         Lighting();
         ~Lighting();
 
-        void addPointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity);
-        void addDirectionalLight(const glm::vec3 &direction, const glm::vec3 &color, float intensity);
+        void addPointLight(const std::shared_ptr<PointLight> &pointLight);
+        void addDirectionalLight(const std::shared_ptr<DirectionalLight> &directionalLight);
         void addSpotlight(const std::shared_ptr<Spotlight> &spotlight);
 
         void updateShader();

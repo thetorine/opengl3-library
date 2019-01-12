@@ -7,7 +7,7 @@
 #include "geometry/mesh.hpp"
 #include "illumination/lighting.hpp"
 
-namespace app {
+namespace gl::app {
     class LightingTest : public Application {
     public:
         LightingTest();

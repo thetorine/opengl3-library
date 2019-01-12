@@ -2,8 +2,8 @@
 
 #include "input/events.hpp"
 
-namespace input {
-    
+namespace gl::input {
+
     std::vector<std::function<void(int key, int action)>> keyCallbackList;
     std::vector<std::function<void(float dx, float dy)>> mouseCallbackList;
 
@@ -16,16 +16,14 @@ namespace input {
     }
 
     void onKeyPress(int key, int action) {
-        auto iter = keyCallbackList.begin();
-        while (iter != keyCallbackList.end()) {
-            (*iter++)(key, action);
+        for (const auto &iter : keyCallbackList) {
+            (iter)(key, action);
         }
     }
 
     void onCursorMove(float dx, float dy) {
-        auto iter = mouseCallbackList.begin();
-        while (iter != mouseCallbackList.end()) {
-            (*iter++)(dx, dy);
+        for (const auto &iter : mouseCallbackList) {
+            (iter)(dx, dy);
         }
     }
 }

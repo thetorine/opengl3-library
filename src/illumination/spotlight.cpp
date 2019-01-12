@@ -3,20 +3,20 @@
 #include "engine/shader.hpp"
 #include "illumination/spotlight.hpp"
 
-namespace illumination {
+namespace gl::illumination {
 
-    Spotlight::Spotlight(const glm::vec3 &pos, const glm::vec3 &dir, const glm::vec3 &color, 
-        float intensity, float innerCutoff, float outerCutoff,
-        float attenPow, float attenDist) 
+    Spotlight::Spotlight(const glm::vec3 &pos, const glm::vec3 &dir, const glm::vec3 &color,
+                         float intensity, float innerCutoff, float outerCutoff,
+                         float attenPow, float attenDist)
         : m_pos(pos),
-          m_dir(dir),
-          m_color(color),
-          m_intensity(intensity),
-          m_innerCutoff(innerCutoff),
-          m_outerCutoff(outerCutoff),
-          m_attenPow(attenPow),
-          m_attenDist(attenDist)
-    {}
+        m_dir(dir),
+        m_color(color),
+        m_intensity(intensity),
+        m_innerCutoff(innerCutoff),
+        m_outerCutoff(outerCutoff),
+        m_attenPow(attenPow),
+        m_attenDist(attenDist) {
+    }
 
     Spotlight::~Spotlight() {
 
@@ -25,7 +25,7 @@ namespace illumination {
     void Spotlight::setShaderParams(int index) {
         char buffer[14];
         snprintf(buffer, sizeof(buffer), "spotlights[%d]", index);
-        std::string structName = buffer;
+        std::string structName { buffer };
 
         engine::Shader::getInstance()->setVec3(structName + ".pos", m_pos);
         engine::Shader::getInstance()->setVec3(structName + ".dir", m_dir);

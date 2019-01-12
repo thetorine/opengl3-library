@@ -2,6 +2,6 @@
 
 #include <GLFW/glfw3.h>
 
-namespace input {
+namespace gl::input {
     void glfwKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 }

@@ -6,7 +6,7 @@
 #include "illumination/point_light.hpp"
 #include "illumination/spotlight.hpp"
 
-namespace illumination {
+namespace gl::illumination {
 
     Lighting::Lighting() {
     }
@@ -15,12 +15,12 @@ namespace illumination {
 
     }
 
-    void Lighting::addPointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity) {
-        m_pointLights.push_back(std::make_shared<PointLight>(pos, color, intensity));
+    void Lighting::addPointLight(const std::shared_ptr<PointLight> &pointLight) {
+        m_pointLights.push_back(pointLight);
     }
 
-    void Lighting::addDirectionalLight(const glm::vec3 &direction, const glm::vec3 &color, float intensity) {
-        m_directionalLights.push_back(std::make_shared<DirectionalLight>(direction, color, intensity));
+    void Lighting::addDirectionalLight(const std::shared_ptr<DirectionalLight> &directionalLight) {
+        m_directionalLights.push_back(directionalLight);
     }
 
     void Lighting::addSpotlight(const std::shared_ptr<Spotlight> &spotlight) {
@@ -49,6 +49,7 @@ namespace illumination {
         engine::Shader::getInstance()->setFloat("phongExp", phongExp);
     }
 
+    // TODO: Add the ability to change the specular light color. 
     void Lighting::setMaterialIntensities(const glm::vec3 &ambient, const glm::vec3 &diffuse) {
         engine::Shader::getInstance()->setVec3("ambientIntensity", ambient);
         engine::Shader::getInstance()->setVec3("diffuseIntensity", diffuse);

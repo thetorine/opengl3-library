@@ -1,16 +1,15 @@
 #include "engine/buffer.hpp"
 
-namespace engine {
+namespace gl::engine {
 
     template <class T>
     Buffer<T>::Buffer(GLuint mode)
-        : m_mode(mode)
-    {}
+        : m_mode(mode) {
+    }
 
     template <class T>
     Buffer<T>::Buffer(const std::vector<T> &data, GLuint mode)
-        : m_data(data), m_mode(mode)
-    {
+        : m_data(data), m_mode(mode) {
         transferBuffer();
     }
 

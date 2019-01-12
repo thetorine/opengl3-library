@@ -1,23 +1,26 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include "camera.hpp"
 #include "input/events.hpp"
 
-namespace engine {
+namespace gl::engine {
 
     typedef enum dir {
         FORWARD = 32, RIGHT = 16, BACKWARD = 8, LEFT = 4, UP = 2, DOWN = 1
     } dir_t;
 
-    Camera::Camera(const glm::vec3 &pos, const glm::vec3 &rotation, const glm::vec3 &up)
-        : m_pos(pos), m_rotation(rotation), m_up(up) 
-    {
+    const static glm::vec3 UP_VECTOR(0.0f, 1.0f, 0.0f);
+    const static glm::vec3 FORWARD_VECTOR(0.0f, 0.0f, 1.0f);
+
+    Camera::Camera(const glm::vec3 &pos, const glm::vec3 &rotation)
+        : m_pos(pos), m_rotation(rotation) {
         input::registerKeyHandler(std::bind(&Camera::handleKeyPress, this,
-            std::placeholders::_1, std::placeholders::_2
+                                            std::placeholders::_1, std::placeholders::_2
         ));
-        input::registerCursorMovedHandler(std::bind(&Camera::handleCursorMove, this, 
-            std::placeholders::_1, std::placeholders::_2
+        input::registerCursorMovedHandler(std::bind(&Camera::handleCursorMove, this,
+                                                    std::placeholders::_1, std::placeholders::_2
         ));
     }
 
@@ -25,41 +28,44 @@ namespace engine {
 
     void Camera::updatePos(float dt) {
         if (isMoveStateSet(FORWARD))
-            m_pos += getFacingDir() * MOVE_SPEED * dt;
+            m_pos += getForward() * MOVE_SPEED * dt;
         if (isMoveStateSet(BACKWARD))
-            m_pos -= getFacingDir() * MOVE_SPEED * dt;
+            m_pos -= getForward() * MOVE_SPEED * dt;
         if (isMoveStateSet(RIGHT))
-            m_pos += glm::cross(getFacingDir(), m_up) * MOVE_SPEED * dt;
+            m_pos += glm::cross(getForward(), getUp()) * MOVE_SPEED * dt;
         if (isMoveStateSet(LEFT))
-            m_pos += glm::cross(m_up, getFacingDir()) * MOVE_SPEED * dt;
+            m_pos -= glm::cross(getForward(), getUp()) * MOVE_SPEED * dt;
         if (isMoveStateSet(UP))
-            m_pos += m_up * MOVE_SPEED * dt;
+            m_pos += getUp() * MOVE_SPEED * dt;
         if (isMoveStateSet(DOWN))
-            m_pos -= m_up * MOVE_SPEED * dt;
+            m_pos -= getUp() * MOVE_SPEED * dt;
     }
 
     void Camera::rotateMouse(float dx, float dy) {
         m_rotation.x -= dy;
-        m_rotation.y -= dx;
+        m_rotation.y += dx;
     }
 
     const glm::vec3 &Camera::getPos() const {
         return m_pos;
     }
 
-    glm::vec3 Camera::getFacingDir() const {
-        // TODO: Use quaternions.
-        // Currently, the camera behaves weirdly when looking down.
-        // Gimbal lock is also occurring. 
-        return glm::normalize(glm::vec3(
-            glm::sin(glm::radians(m_rotation.y)) * glm::cos(glm::radians(m_rotation.x)),
-            glm::sin(glm::radians(m_rotation.x)),
-            glm::cos(glm::radians(m_rotation.y)) * glm::cos(glm::radians(m_rotation.x))
-        ));
+    glm::quat Camera::getOrientation() const {
+        // TODO: Currently, the camera behaves weirdly when looking down.
+        return glm::angleAxis(glm::radians(m_rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)) *
+            glm::angleAxis(glm::radians(m_rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
+    glm::vec3 Camera::getForward() const {
+        return FORWARD_VECTOR * getOrientation();
+    }
+
+    glm::vec3 Camera::getUp() const {
+        return UP_VECTOR * getOrientation();
     }
 
     glm::mat4 Camera::getViewMatrix() const {
-        return glm::lookAt(m_pos, m_pos + getFacingDir(), m_up);
+        return glm::lookAt(m_pos, m_pos + getForward(), getUp());
     }
 
     void Camera::handleKeyPress(int key, int action) {

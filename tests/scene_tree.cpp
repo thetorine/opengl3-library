@@ -3,133 +3,473 @@
 #include <catch.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/string_cast.hpp>
 
-#include "utilities.hpp"
+#include "math/constants.hpp"
+#include "math/epsilon.hpp"
+#include "math/matrix.hpp"
+#include "scene/scene.hpp"
 #include "scene/scene_object.hpp"
 
-const float PI = static_cast<float>(std::acos(-1));
+const float FLOAT_EPSILON { 1.0e-5f };
 
-// Tests to write:
-/*
-    Shear tests
-    Rotation and translation have no effect on scale.
-*/
+TEST_CASE("Scene Tree Storage", "[SceneTree]") {
+    gl::scene::Scene sceneRoot;
 
-TEST_CASE("scene objects attached to the root parent can be transformed", "[SceneObject]") {
-    scene::SceneObject sceneObj;
+    SECTION("Scene tree with no parents") {
+        REQUIRE(sceneRoot.getTreeSize() == 0);
+    }
 
-    REQUIRE(sceneObj.getTranslation() == glm::vec3(0.0f));
-    REQUIRE(sceneObj.getRotation() == glm::quat(glm::vec3(0.0f)));
-    REQUIRE(sceneObj.getScale() == glm::vec3(1.0f));
-    REQUIRE(sceneObj.getModel() == glm::mat4(1.0f));
+    SECTION("Scene tree with one parent") {
+        auto parent { gl::scene::SceneObject::create() };
+        sceneRoot.addChild(parent);
 
-    SECTION("the scene object can be translated") {
-        glm::vec3 dm(1.0f, 0.0f, 1.0f);
-        sceneObj.move(dm);
+        REQUIRE(sceneRoot.getTreeSize() == 1);
+    }
 
-        SECTION("adding a translation vector changes the local translation") {
-            REQUIRE(sceneObj.getTranslation() == dm);
+    SECTION("Scene tree with one parent and child") {
+        auto parent { gl::scene::SceneObject::create() };
+        auto child { gl::scene::SceneObject::create() };
+
+        parent->addChild(child);
+        sceneRoot.addChild(parent);
+
+        REQUIRE(sceneRoot.getTreeSize() == 2);
+        REQUIRE(child->getParent() == parent);
+    }
+
+    SECTION("Scene tree with one parent, child and grandchild") {
+        auto parent { gl::scene::SceneObject::create() };
+        auto child { gl::scene::SceneObject::create() };
+        auto grandchild { gl::scene::SceneObject::create() };
+
+        parent->addChild(child);
+        child->addChild(grandchild);
+        sceneRoot.addChild(parent);
+
+        REQUIRE(sceneRoot.getTreeSize() == 3);
+        REQUIRE(child->getParent() == parent);
+        REQUIRE(grandchild->getParent() == child);
+    }
+
+    SECTION("Scene tree with one parent, two children and one child having a grandchild") {
+        auto parent { gl::scene::SceneObject::create() };
+        auto child1 { gl::scene::SceneObject::create() };
+        auto child2 { gl::scene::SceneObject::create() };
+        auto grandchild { gl::scene::SceneObject::create() };
+
+        parent->addChild(child1);
+        parent->addChild(child2);
+        child1->addChild(grandchild);
+        sceneRoot.addChild(parent);
+
+        REQUIRE(sceneRoot.getTreeSize() == 4);
+        REQUIRE(child1->getParent() == parent);
+        REQUIRE(child2->getParent() == parent);
+        REQUIRE(grandchild->getParent() == child1);
+    }
+
+    SECTION("Scene tree as a linked list") {
+        // The structure of the scene tree at the end of the test should be:
+        /*
+            Object -> Object -> Object -> ... -> Object
+        */
+        int childCount { 100 };
+
+        auto parent { gl::scene::SceneObject::create() };
+        sceneRoot.addChild(parent);
+
+        for (int i { 0 }; i < childCount; i++) {
+            auto child { gl::scene::SceneObject::create() };
+            parent->addChild(child);
+            parent = child;
         }
 
-        SECTION("adding a translation vector changes the local model matrix") {
-            glm::mat4 modelMatrix = sceneObj.getModel();
-            // Get the translation matrix from the affine transformation matrix
-            glm::vec3 localTranslation = glm::vec3(modelMatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        REQUIRE(sceneRoot.getTreeSize() == childCount + 1);
+    }
 
-            REQUIRE(localTranslation == dm);
+    // TODO: parent->addChild(nullptr) is invalid
+    // Currently results in a segfault.
+    // Should use precondition?
+    SECTION("Add a null child") {
+    }
+
+    // TODO: Should not be able to do parent->addChild(parent)
+    // Is this is a runtime exception?
+    // Or a precondition?
+    SECTION("Disconnected tree") {
+    }
+}
+
+TEST_CASE("Transformations", "[SceneTree]") {
+    auto parent { gl::scene::SceneObject::create() };
+    auto child { gl::scene::SceneObject::create() };
+    auto grandchild { gl::scene::SceneObject::create() };
+
+    parent->addChild(child);
+    child->addChild(grandchild);
+
+    SECTION("Translations") {
+        SECTION("No translation") {
+            glm::vec3 parentTranslation { gl::math::getTranslationFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childTranslation { gl::math::getTranslationFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildTranslation { gl::math::getTranslationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentTranslation, glm::vec3(0.0f), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childTranslation, glm::vec3(0.0f), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildTranslation, glm::vec3(0.0f), FLOAT_EPSILON));
+        }
+
+        SECTION("Parent translated") {
+            glm::vec3 dt(1.0f, 0.0f, 0.0f);
+            parent->translate(dt);
+
+            glm::vec3 parentTranslation { gl::math::getTranslationFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childTranslation { gl::math::getTranslationFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildTranslation { gl::math::getTranslationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentTranslation, dt, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childTranslation, dt, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildTranslation, dt, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent and child translated") {
+            glm::vec3 dt(1.0f, 0.0f, 0.0f);
+            parent->translate(dt);
+            child->translate(dt);
+
+            glm::vec3 parentTranslation { gl::math::getTranslationFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childTranslation { gl::math::getTranslationFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildTranslation { gl::math::getTranslationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentTranslation, dt, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childTranslation, dt * 2.0f, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildTranslation, dt * 2.0f, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent, child and grandchild translated") {
+            glm::vec3 dt(1.0f, 0.0f, 0.0f);
+            parent->translate(dt);
+            child->translate(dt);
+            grandchild->translate(dt);
+
+            glm::vec3 parentTranslation { gl::math::getTranslationFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childTranslation { gl::math::getTranslationFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildTranslation { gl::math::getTranslationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentTranslation, dt, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childTranslation, dt * 2.0f, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildTranslation, dt * 3.0f, FLOAT_EPSILON));
+        }
+    }
+
+    SECTION("Rotations") {
+        SECTION("No rotation") {
+            glm::quat parentRotation = { gl::math::getRotationFromMat4(parent->getGlobalModel()) };
+            glm::quat childRotation = { gl::math::getRotationFromMat4(child->getGlobalModel()) };
+            glm::quat grandchildRotation = { gl::math::getRotationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentRotation, glm::quat(glm::vec3(0.0f)), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childRotation, glm::quat(glm::vec3(0.0f)), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildRotation, glm::quat(glm::vec3(0.0f)), FLOAT_EPSILON));
+        }
+
+        SECTION("Parent rotated") {
+            glm::vec3 dr(gl::math::PI / 3.0f, 0.0f, 0.0f);
+            parent->rotate(dr);
+
+            glm::quat qDr = glm::angleAxis(gl::math::PI / 3.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
+            glm::quat parentRotation = { gl::math::getRotationFromMat4(parent->getGlobalModel()) };
+            glm::quat childRotation = { gl::math::getRotationFromMat4(child->getGlobalModel()) };
+            glm::quat grandchildRotation = { gl::math::getRotationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentRotation, qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childRotation, qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildRotation, qDr, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent and child rotated") {
+            glm::vec3 dr(gl::math::PI / 3.0f, 0.0f, 0.0f);
+            parent->rotate(dr);
+            child->rotate(dr);
+
+            glm::quat qDr = glm::angleAxis(gl::math::PI / 3.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
+            glm::quat parentRotation = { gl::math::getRotationFromMat4(parent->getGlobalModel()) };
+            glm::quat childRotation = { gl::math::getRotationFromMat4(child->getGlobalModel()) };
+            glm::quat grandchildRotation = { gl::math::getRotationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentRotation, qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childRotation, qDr * qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildRotation, qDr * qDr, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent, child and grandchild rotated") {
+            glm::vec3 dr(gl::math::PI / 2.0f, 0.0f, 0.0f);
+            parent->rotate(dr);
+            child->rotate(dr);
+            grandchild->rotate(dr);
+
+            glm::quat qDr = glm::angleAxis(gl::math::PI / 2.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
+            glm::quat parentRotation = { gl::math::getRotationFromMat4(parent->getGlobalModel()) };
+            glm::quat childRotation = { gl::math::getRotationFromMat4(child->getGlobalModel()) };
+            glm::quat grandchildRotation = { gl::math::getRotationFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentRotation, qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childRotation, qDr * qDr, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildRotation, qDr * qDr * qDr, FLOAT_EPSILON));
+        }
+    }
+
+    SECTION("Scaling") {
+        SECTION("No scaling") {
+            glm::vec3 parentScale { gl::math::getScaleFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childScale { gl::math::getScaleFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildScale { gl::math::getScaleFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentScale, glm::vec3(1.0f), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childScale, glm::vec3(1.0f), FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildScale, glm::vec3(1.0f), FLOAT_EPSILON));
+        }
+
+        SECTION("Parent scaled") {
+            glm::vec3 ds(0.5f);
+            parent->scale(ds);
+
+            glm::vec3 parentScale { gl::math::getScaleFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childScale { gl::math::getScaleFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildScale { gl::math::getScaleFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentScale, ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childScale, ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildScale, ds, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent and child scaled") {
+            glm::vec3 ds(0.5f);
+            parent->scale(ds);
+            child->scale(ds);
+
+            glm::vec3 parentScale { gl::math::getScaleFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childScale { gl::math::getScaleFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildScale { gl::math::getScaleFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentScale, ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childScale, ds * ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildScale, ds * ds, FLOAT_EPSILON));
+        }
+
+        SECTION("Parent, child and grandchild scaled") {
+            glm::vec3 ds(0.5f);
+            parent->scale(ds);
+            child->scale(ds);
+            grandchild->scale(ds);
+
+            glm::vec3 parentScale { gl::math::getScaleFromMat4(parent->getGlobalModel()) };
+            glm::vec3 childScale { gl::math::getScaleFromMat4(child->getGlobalModel()) };
+            glm::vec3 grandchildScale { gl::math::getScaleFromMat4(grandchild->getGlobalModel()) };
+
+            REQUIRE(gl::math::epsilonEquals(parentScale, ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(childScale, ds * ds, FLOAT_EPSILON));
+            REQUIRE(gl::math::epsilonEquals(grandchildScale, ds * ds * ds, FLOAT_EPSILON));
         }
     }
 }
 
-TEST_CASE("scene objects attached with one parent can be translated", "[SceneObject]") {
-    scene::SceneObject parent;
-    scene::SceneObject child;
-    
-    glm::vec3 parentTranslation(1.0f, 0.0f, 0.0f);
-    parent.move(parentTranslation);
+TEST_CASE("Complete transformation", "[SceneTree]") {
+    auto parent { gl::scene::SceneObject::create() };
 
-    glm::mat4 parentMatrix = parent.getModel();
+    glm::vec3 dt(1.0f, 0.0f, 0.0f);
+    glm::vec3 dr(gl::math::PI / 2.0f, 0.0f, 0.0f);
+    glm::vec3 ds(0.5f);
 
-    SECTION("the childs global translation is based on the parents local translation") {
-        glm::vec3 childTranslation = child.getGlobalTranslation(parentMatrix);
-        REQUIRE(childTranslation == parentTranslation);
+    parent->translate(dt);
+    parent->rotate(dr);
+    parent->scale(ds);
+
+    SECTION("Decomposition of global transformation matrix") {
+        glm::vec3 globalTranslation;
+        glm::quat globalRotation;
+        glm::vec3 globalScale;
+
+        gl::math::decomposeMat4(parent->getGlobalModel(),
+                                globalTranslation,
+                                globalRotation,
+                                globalScale);
+
+        glm::quat quatDr { glm::angleAxis(gl::math::PI / 2.0f, glm::vec3(1.0f, 0.0f, 0.0f)) };
+
+        REQUIRE(gl::math::epsilonEquals(dt, globalTranslation, FLOAT_EPSILON));
+        REQUIRE(gl::math::epsilonEquals(quatDr, globalRotation, FLOAT_EPSILON));
+        REQUIRE(gl::math::epsilonEquals(ds, globalScale, FLOAT_EPSILON));
     }
 
-    SECTION("the childs global translation is offset from the parents local translation") {
-        glm::vec3 localTranslation = glm::vec3(0.0f, 1.0f, 0.0f);
-        child.move(localTranslation);
-        glm::vec3 childTranslation = child.getGlobalTranslation(parentMatrix);
-        
-        REQUIRE(childTranslation == parentTranslation + localTranslation);
-    }
+    SECTION("Decomposition of child global transformation matrix") {
+        auto child { gl::scene::SceneObject::create() };
+        parent->addChild(child);
 
-    SECTION("the childs global translation is offset from a translated and rotated parent") {
-        glm::vec3 parentRotation(0.0f, 0.0f, PI / 2.0f);
-        parent.rotate(parentRotation);
-        parentMatrix = parent.getModel();
+        glm::vec3 cDt(1.0f, 0.0f, 0.0f);
+        glm::vec3 cDr(gl::math::PI / 2.0f, 0.0f, 0.0f);
+        glm::vec3 cDs(0.5f);
 
-        glm::vec3 localTranslation = glm::vec3(1.0f, 0.0f, 0.0f);
-        child.move(localTranslation);
-        glm::vec3 childTranslation = child.getGlobalTranslation(parentMatrix);
-        
-        // Global parent coordinate frame
+        child->translate(cDt);
+        child->rotate(cDr);
+        child->scale(cDs);
+
+        // Calculating the childs global transformation matrix:
         /*
-            Identity:     Translated (1, 0):     Rotated (PI / 2 anticlockwise):
-            y             y                           x
-            ^             ^                           ^
-            |             |                           |
-            ---->x        ---->x                 y<----
-            ^             ^                           ^
-            (0, 0)        (1, 0)                      (1, 0) / (0, 0) in local frame
+            Parents global transformation matrix:
+                = Local Translation Matrix * Local Rotation Matrix * Local Scale Matrix
+
+                = |1.00  0.00  0.00  1.00|   |1.00  0.00  0.00  0.00|   |0.50  0.00  0.00  0.00|
+                  |0.00  1.00  0.00  0.00| * |0.00  0.00 -1.00  0.00| * |0.00  0.50  0.00  0.00|
+                  |0.00  0.00  1.00  0.00|   |0.00  1.00  0.00  0.00|   |0.00  0.00  0.50  0.00|
+                  |0.00  0.00  0.00  1.00|   |0.00  0.00  0.00  1.00|   |0.00  0.00  0.00  1.00|
+
+                = |0.50  0.00  0.00  1.00|
+                  |0.00  0.00 -0.50  0.00|
+                  |0.00  0.50  0.00  0.00|
+                  |0.00  0.00  0.00  1.00|
+
+            Childs local transformation matrix:
+                = Local Translation Matrix * Local Rotation Matrix * Local Scale Matrix
+
+                = |1.00  0.00  0.00  1.00|   |1.00  0.00  0.00  0.00|   |0.50  0.00  0.00  0.00|
+                  |0.00  1.00  0.00  0.00| * |0.00  0.00 -1.00  0.00| * |0.00  0.50  0.00  0.00|
+                  |0.00  0.00  1.00  0.00|   |0.00  1.00  0.00  0.00|   |0.00  0.00  0.50  0.00|
+                  |0.00  0.00  0.00  1.00|   |0.00  0.00  0.00  1.00|   |0.00  0.00  0.00  1.00|
+
+                = |0.50  0.00  0.00  1.00|
+                  |0.00  0.00 -0.50  0.00|
+                  |0.00  0.50  0.00  0.00|
+                  |0.00  0.00  0.00  1.00|
+
+            Childs global transformation matrix:
+                = Childs local transformation matrix * Parents global transformation matrix:
+
+                = |0.50  0.00  0.00  1.00|   |0.50  0.00  0.00  1.00|
+                  |0.00  0.00 -0.50  0.00| * |0.00  0.00 -0.50  0.00|
+                  |0.00  0.50  0.00  0.00|   |0.00  0.50  0.00  0.00|
+                  |0.00  0.00  0.00  1.00|   |0.00  0.00  0.00  1.00|
+
+                = |0.25  0.00  0.00  1.50|
+                  |0.00 -0.25  0.00  0.00|
+                  |0.00  0.00 -0.25  0.00|
+                  |0.00  0.00  0.00  1.00|
         */
 
-        // Global child coordinate frame
-        /*
-            Translated (1, 0) in the parents frame
-                 x
-                 ^
-                 |
-            y<---- < Child(1, 1) / (1, 0) in parents local frame
-                 x
-                 ^
-                 |
-            y<----
-                 ^
-                 Parent(1, 0) / (0, 0) in local frame
+        glm::mat4 result(
+            glm::vec4(0.25f, 0.0f, 0.0f, 0.0f),
+            glm::vec4(0.0f, -0.25f, 0.0f, 0.0f),
+            glm::vec4(0.0f, 0.0f, -0.25f, 0.0f),
+            glm::vec4(1.5f, 0.0f, 0.0f, 1.0f));
 
-            Therefore the global translation should be (1, 1)
-        */
-
-        // TODO: Figure out how you are supposed to use the epsilonEquals
-        // function provided in the GLM library.
-        // Written my own for now
-        REQUIRE(engine::epsilonEquals(
-            childTranslation,
-            glm::vec3(1.0f, 1.0f, 0.0f),
-            std::numeric_limits<float>::epsilon()
-        ));
+        REQUIRE(gl::math::epsilonEquals(result, child->getGlobalModel(), FLOAT_EPSILON));
     }
 }
 
-TEST_CASE("scene objects attached with one parent can be scaled", "[SceneObject]") {
-    scene::SceneObject parent;
-    scene::SceneObject child;
+TEST_CASE("Reparenting", "[SceneTree]") {
+    auto parent { gl::scene::SceneObject::create() };
 
-    glm::vec3 parentScale = glm::vec3(0.5f);
-    parent.scale(parentScale);
+    SECTION("Remove child") {
+        // Perhaps this should raise a runtime exception
+        SECTION("Remove a null object") {
+            auto child { gl::scene::SceneObject::create() };
+            parent->addChild(child);
+            parent->removeChild(nullptr);
 
-    glm::mat4 parentMatrix = parent.getModel();
+            REQUIRE(parent->getSize() == 2);
+        }
 
-    SECTION("the childs global scale is based on the parents local scale") {
-        glm::vec3 childScale = child.getGlobalScale(parentMatrix);
-        REQUIRE(childScale == parentScale);
+        SECTION("Remove a object that is not connected to the parent") {
+            auto child { gl::scene::SceneObject::create() };
+            parent->removeChild(child);
+
+            REQUIRE(parent->getSize() == 1);
+        }
+
+        SECTION("Only one child") {
+            auto child { gl::scene::SceneObject::create() };
+            parent->addChild(child);
+            parent->removeChild(child);
+
+            REQUIRE(parent->getSize() == 1);
+        }
+
+        SECTION("Multiple children") {
+            auto mainChild { gl::scene::SceneObject::create() };
+            auto otherChild1 { gl::scene::SceneObject::create() };
+            auto otherChild2 { gl::scene::SceneObject::create() };
+            auto otherChild3 { gl::scene::SceneObject::create() };
+
+            parent->addChild(mainChild);
+            parent->addChild(otherChild1);
+            parent->addChild(otherChild2);
+            parent->addChild(otherChild3);
+
+            parent->removeChild(mainChild);
+
+            REQUIRE(parent->getSize() == 4);
+        }
     }
 
-    SECTION("the childs global scale is offset from the parents local scale") {
-        glm::vec3 localScale = glm::vec3(0.5f);
-        child.scale(localScale);
-        glm::vec3 childScale = child.getGlobalScale(parentMatrix);
+    SECTION("Reparent") {
+        auto parent { gl::scene::SceneObject::create() };
 
-        REQUIRE(childScale == parentScale * localScale);
+        SECTION("Reparent a child to another child") {
+            auto child1 { gl::scene::SceneObject::create() };
+            auto child2 { gl::scene::SceneObject::create() };
+
+            parent->addChild(child1);
+            parent->addChild(child2);
+
+            child2->reparent(child1);
+
+            REQUIRE(parent->getSize() == 3);
+            REQUIRE(child1->getParent() == parent);
+            REQUIRE(child2->getParent() == child1);
+        }
+
+        SECTION("Reparent a child with grandchildren") {
+            auto child1 { gl::scene::SceneObject::create() };
+            auto child2 { gl::scene::SceneObject::create() };
+            auto grandchild { gl::scene::SceneObject::create() };
+
+            parent->addChild(child1);
+            parent->addChild(child2);
+            child1->addChild(grandchild);
+
+            child1->reparent(child2);
+
+            REQUIRE(parent->getSize() == 4);
+            REQUIRE(child1->getParent() == child2);
+            REQUIRE(child2->getParent() == parent);
+            REQUIRE(grandchild->getParent() == child1);
+        }
+
+        SECTION("The global transformation matrix does not change") {
+            auto child1 { gl::scene::SceneObject::create() };
+            auto child2 { gl::scene::SceneObject::create() };
+
+            parent->translate(glm::vec3(1.0f, 0.0f, 0.0f));
+            parent->rotate(glm::vec3(gl::math::PI / 2.0f, 0.0f, 0.0f));
+            parent->scale(glm::vec3(0.5f, 0.0f, 0.0f));
+
+            child1->rotate(glm::vec3(gl::math::PI / 3.0f, 0.0f, 0.0f));
+            child2->translate(glm::vec3(-1.0f, 0.0f, 0.0f));
+
+            parent->addChild(child1);
+            parent->addChild(child2);
+
+            glm::mat4 originalGlobal { child1->getGlobalModel() };
+
+            child1->reparent(child2);
+
+            glm::mat4 newGlobal { child1->getGlobalModel() };
+
+            REQUIRE(gl::math::epsilonEquals(originalGlobal, newGlobal, FLOAT_EPSILON));
+        }
     }
 }

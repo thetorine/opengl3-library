@@ -8,15 +8,15 @@
 #include "engine/shader.hpp"
 #include "geometry/mesh.hpp"
 
-namespace geometry {
+namespace gl::geometry {
 
     // TODO: Add support for texturing with a [s, v] texture buffer.
 
     Mesh::Mesh(std::string file)
-        : m_vertexBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
-        m_normalBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
-        m_indexBuffer(engine::Buffer<int>(GL_ELEMENT_ARRAY_BUFFER)),
-        m_colorBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
+        : m_vertexBuffer(GL_ARRAY_BUFFER),
+        m_normalBuffer(GL_ARRAY_BUFFER),
+        m_indexBuffer(GL_ELEMENT_ARRAY_BUFFER),
+        m_colorBuffer(GL_ARRAY_BUFFER),
         m_hasIndices(false) {
 
         tinyobj::attrib_t attrib;
@@ -70,10 +70,10 @@ namespace geometry {
     }
 
     Mesh::Mesh(const std::vector<float> &vertices, const std::vector<float> &normals, const std::vector<int> &indices)
-        : m_vertexBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
-        m_normalBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
-        m_indexBuffer(engine::Buffer<int>(GL_ELEMENT_ARRAY_BUFFER)),
-        m_colorBuffer(engine::Buffer<float>(GL_ARRAY_BUFFER)),
+        : m_vertexBuffer(GL_ARRAY_BUFFER),
+        m_normalBuffer(GL_ARRAY_BUFFER),
+        m_indexBuffer(GL_ELEMENT_ARRAY_BUFFER),
+        m_colorBuffer(GL_ARRAY_BUFFER),
         m_hasIndices(true) {
         m_vertexBuffer.addAll(vertices);
         m_normalBuffer.addAll(normals);

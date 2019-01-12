@@ -1,26 +1,28 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
-#define MOVE_SPEED 5.0f
-#define ROTATE_SPEED 90.0f
+namespace gl::engine {
+    const float MOVE_SPEED = 5.0f;
+    const float ROTATE_SPEED = 90.0f;
 
-namespace engine {
     class Camera {
     public:
-        Camera(const glm::vec3 &pos, const glm::vec3 &rotation, const glm::vec3 &up);
+        Camera(const glm::vec3 &pos, const glm::vec3 &rotation);
         ~Camera();
 
         void updatePos(float dt);
         void rotateMouse(float dx, float dy);
 
         const glm::vec3 &getPos() const;
-        glm::vec3 getFacingDir() const;
+        glm::quat getOrientation() const;
+        glm::vec3 getForward() const;
+        glm::vec3 getUp() const;
         glm::mat4 getViewMatrix() const;
     private:
         glm::vec3 m_pos;
         glm::vec3 m_rotation;
-        glm::vec3 m_up;
 
         unsigned int m_moveState;
 

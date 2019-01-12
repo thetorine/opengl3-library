@@ -1,24 +1,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "application/lighting_test.hpp"
+#include "application/geometry_test.hpp"
 #include "engine/shader.hpp"
 #include "illumination/directional_light.hpp"
 #include "input/events.hpp"
 
 namespace gl::app {
 
-    LightingTest::LightingTest()
+    GeometryTest::GeometryTest()
         : Application::Application("Test", 1280, 720),
         m_camera(glm::vec3(0.0f, 0.0f, -5.0f),
                  glm::vec3(0.0, 0.0f, 0.0f)) {
     }
 
-    LightingTest::~LightingTest() {
+    GeometryTest::~GeometryTest() {
 
     }
 
-    void LightingTest::initialize() {
-        input::registerKeyHandler(std::bind(&LightingTest::keyHandler, this,
+    void GeometryTest::initialize() {
+        input::registerKeyHandler(std::bind(&GeometryTest::keyHandler, this,
                                             std::placeholders::_1,
                                             std::placeholders::_2));
 
@@ -39,7 +39,7 @@ namespace gl::app {
         ));
 
         m_lighting.addDirectionalLight(std::make_shared<illumination::DirectionalLight>(
-            glm::vec3(1.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 0.0f, -1.0f),
             glm::vec3(1.0f),
             1.0f)
         );
@@ -52,23 +52,29 @@ namespace gl::app {
             glm::vec3(0.3f, 0.0f, 0.0f)
         );
 
-        m_model = std::make_unique<geometry::Mesh>("res/models/teapot.obj");
+        m_geomLine = std::make_unique<geometry::Line>(glm::vec3(), glm::vec3(1.0f, 0.0f, 0.0f));
+        m_geomPoint = std::make_unique<geometry::Point>(glm::vec3());
+        m_geomSphere = std::make_unique<geometry::Sphere>(1.0f);
+        m_geomSquare = std::make_unique<geometry::Square>();
     }
 
-    void LightingTest::render() {
-        m_model->draw();
+    void GeometryTest::render() {
+        m_geomLine->draw();
+        m_geomPoint->draw();
+        m_geomSphere->draw(glm::translate(glm::mat4(1.0f), glm::vec3(2.0f, 0.0f, 0.0f)));
+        m_geomSquare->draw(glm::translate(glm::mat4(1.0f), glm::vec3(-2.0f, 0.0f, 0.0f)));
     }
 
-    void LightingTest::update(float dt) {
+    void GeometryTest::update(float dt) {
         m_camera.updatePos(dt);
     }
 
-    void LightingTest::updateView() {
+    void GeometryTest::updateView() {
         m_lighting.updateShader();
         engine::Shader::getInstance()->setViewMatrix(m_camera.getViewMatrix());
     }
 
-    void LightingTest::keyHandler(int key, int action) {
+    void GeometryTest::keyHandler(int key, int action) {
         // Exit the window
         if (key == GLFW_KEY_ESCAPE)
             destroy();

@@ -1,7 +1,7 @@
 #include "geometry/mesh.hpp"
 #include "geometry/square.hpp"
 
-namespace geometry {
+namespace gl::geometry {
 
     std::vector<float> squareVertices {
         0.0f, 0.0f, 0.0f,
@@ -22,8 +22,8 @@ namespace geometry {
         2, 0, 3
     };
 
-    Square::Square() {
-        m_squareMesh = std::make_unique<Mesh>(squareVertices, squareNormals, squareIndices);
+    Square::Square()
+        : m_squareMesh(squareVertices, squareNormals, squareIndices) {
     }
 
     Square::~Square() {
@@ -31,6 +31,6 @@ namespace geometry {
     }
 
     void Square::draw(const glm::mat4 &model) {
-        m_squareMesh->draw(model);
+        m_squareMesh.draw(model);
     }
 }

@@ -7,7 +7,7 @@
 #include "engine/shader.hpp"
 #include "utilities.hpp"
 
-namespace engine {
+namespace gl::engine {
 
     static std::unique_ptr<Shader> shaderObj;
 
@@ -20,15 +20,15 @@ namespace engine {
     }
 
     Shader::~Shader() {
-
+        glDeleteProgram(m_programID);
     }
 
     bool Shader::compileShader() {
         m_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
         m_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-        bool r1 = compileShader(m_vertexShaderID, SHADER_DIR + m_shaderName + "/vertex.glsl");
-        bool r2 = compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl");
+        bool r1 { compileShader(m_vertexShaderID, SHADER_DIR + m_shaderName + "/vertex.glsl") };
+        bool r2 { compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl") };
 
         if (!r1 || !r2) {
             std::printf("Unable to compile shaders\n");
@@ -47,14 +47,14 @@ namespace engine {
         glBindAttribLocation(m_programID, UV_LOCATION, "uv");
         glLinkProgram(m_programID);
 
-        GLint linkStatus = 0;
+        GLint linkStatus { 0 };
         glGetProgramiv(m_programID, GL_LINK_STATUS, &linkStatus);
 
         if (linkStatus == GL_FALSE) {
-            GLint maxLength = 0;
+            GLint maxLength { 0 };
             glGetProgramiv(m_programID, GL_INFO_LOG_LENGTH, &maxLength);
 
-            GLchar *errorLog = new GLchar[maxLength];
+            GLchar *errorLog { new GLchar[maxLength] };
             glGetProgramInfoLog(m_programID, maxLength, &maxLength, &errorLog[0]);
 
             std::printf("%s\n", (char *)errorLog);
@@ -62,6 +62,8 @@ namespace engine {
             glDeleteProgram(m_programID);
             glDeleteShader(m_vertexShaderID);
             glDeleteShader(m_fragmentShaderID);
+
+            delete errorLog;
 
             return false;
         }
@@ -80,24 +82,26 @@ namespace engine {
     }
 
     bool Shader::compileShader(GLuint shaderID, std::string file) {
-        GLint success = 0;
-        std::string shaderCode = readFile(file);
-        const GLchar *shaderString = (GLchar *)shaderCode.c_str();
+        GLint success { 0 };
+        std::string shaderCode { readFile(file) };
+        const GLchar *shaderString { shaderCode.c_str() };
 
         glShaderSource(shaderID, 1, &shaderString, NULL);
         glCompileShader(shaderID);
         glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
 
         if (success == GL_FALSE) {
-            GLint maxLength = 0;
+            GLint maxLength { 0 };
             glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 
-            GLchar *errorLog = new GLchar[maxLength];
+            GLchar *errorLog { new GLchar[maxLength] };
             glGetShaderInfoLog(shaderID, maxLength, &maxLength, &errorLog[0]);
 
             std::printf("%s\n", (char *)errorLog);
 
             glDeleteShader(shaderID);
+            delete errorLog;
+
             return false;
         }
 
@@ -121,22 +125,22 @@ namespace engine {
     }
 
     void Shader::setVec3(std::string var, const glm::vec3 &value) const {
-        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        GLint location { glGetUniformLocation(m_programID, var.c_str()) };
         glUniform3fv(location, 1, &value[0]);
     }
 
     void Shader::setInt(std::string var, int value) const {
-        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        GLint location { glGetUniformLocation(m_programID, var.c_str()) };
         glUniform1i(location, value);
     }
 
     void Shader::setFloat(std::string var, float value) const {
-        GLint location = glGetUniformLocation(m_programID, var.c_str());
+        GLint location { glGetUniformLocation(m_programID, var.c_str()) };
         glUniform1f(location, value);
     }
 
     void Shader::createShader(std::string shaderName) {
-        shaderObj = std::make_unique<Shader>(shaderName);
+        shaderObj = std::unique_ptr<Shader>(new Shader(shaderName));
     }
 
     const std::unique_ptr<Shader> &Shader::getInstance() {

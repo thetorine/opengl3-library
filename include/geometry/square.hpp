@@ -3,17 +3,15 @@
 #include <memory>
 #include <vector>
 
-#include "geometry/shape.hpp"
+#include "geometry/mesh.hpp"
 
-namespace geometry {
-    class Mesh;
-
+namespace gl::geometry {
     class Square : public Shape {
     public:
         Square();
         ~Square();
-        void draw(const glm::mat4 &model);
+        void draw(const glm::mat4 &model = glm::mat4(1.0f));
     private:
-        std::unique_ptr<Mesh> m_squareMesh;
+        Mesh m_squareMesh;
     };
 }

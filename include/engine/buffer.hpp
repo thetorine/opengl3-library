@@ -3,7 +3,7 @@
 #include <vector>
 #include <GL/glew.h>
 
-namespace engine {
+namespace gl::engine {
     template <class T>
     class Buffer {
     public:

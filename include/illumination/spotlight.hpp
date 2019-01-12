@@ -2,12 +2,12 @@
 
 #include "illumination/light_type.hpp"
 
-namespace illumination {
+namespace gl::illumination {
     class Spotlight : public LightType {
     public:
         Spotlight(const glm::vec3 &pos, const glm::vec3 &dir, const glm::vec3 &color,
-            float intensity, float innerCutoff, float outerCutoff,
-            float attenPow, float attenDist);
+                  float intensity, float innerCutoff, float outerCutoff,
+                  float attenPow, float attenDist);
         ~Spotlight();
         void setShaderParams(int index);
         void setFacingFrom(const glm::vec3 &pos, const glm::vec3 &dir);

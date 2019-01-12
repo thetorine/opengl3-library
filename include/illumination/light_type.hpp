@@ -1,6 +1,6 @@
 #pragma once
 
-namespace illumination {
+namespace gl::illumination {
     class LightType {
     public:
         virtual ~LightType() = default;

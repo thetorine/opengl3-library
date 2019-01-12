@@ -2,19 +2,100 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{c9e39322-aa31-453f-aa64-609b1e9dd4e6}</UniqueIdentifier>
+      <UniqueIdentifier>{c36ca62b-f347-4e84-8beb-189f51d8c088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\application">
+      <UniqueIdentifier>{c9c4ea4f-fdf7-447f-add6-bda8e40a8bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine">
+      <UniqueIdentifier>{9048bfd0-b07a-429f-9e3a-b87e028b7cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\geometry">
+      <UniqueIdentifier>{797cc619-9c11-4485-8508-27bd3a68209e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\illumination">
+      <UniqueIdentifier>{6fad9904-3115-4d8b-b2ee-d4f1187b42cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\input">
+      <UniqueIdentifier>{d0f0ee8b-6585-4930-bd69-d546db37a9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\math">
+      <UniqueIdentifier>{a4199fee-63d4-45ac-b761-ffc96996fa41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{42ce52eb-1246-4871-8c55-79a4a45f0687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{dd699bba-b642-451d-9268-a9a2d6820c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packages\LodePNG.1.1.0\lib\native\src">
+      <UniqueIdentifier>{2df3cff6-b608-4748-8d50-1c1c64b7b199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packages\LodePNG.1.1.0\lib\native">
+      <UniqueIdentifier>{c0083e69-5ddd-477e-878d-0be2f63a311f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packages\LodePNG.1.1.0\lib">
+      <UniqueIdentifier>{87a0c2c0-7e17-4c00-a91a-03850719b62a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packages\LodePNG.1.1.0">
+      <UniqueIdentifier>{462bdfa1-6f7e-4dd4-b45d-5022f5ed053f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packages">
+      <UniqueIdentifier>{7006d215-e9a1-4528-bd63-34084ae48c91}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{afa733b5-715a-49e4-94a2-5a372ec61966}</UniqueIdentifier>
+      <UniqueIdentifier>{51c3acfc-303b-4927-848a-7039ed01b915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\engine">
+      <UniqueIdentifier>{8af949af-56e8-4bd1-adfb-275f77e3a23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\application">
+      <UniqueIdentifier>{42151697-c0da-451a-b49b-42c4aeaf2839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\geometry">
+      <UniqueIdentifier>{4e15b3df-a301-4655-9a06-3039ddf6a7fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\illumination">
+      <UniqueIdentifier>{2570e85b-dd07-45a1-9795-ca7279ac837a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\input">
+      <UniqueIdentifier>{fc3e2ceb-fb30-494e-a4ab-3a7072ed5ad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math">
+      <UniqueIdentifier>{48167141-9402-4717-a18d-2b3387e19ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\scene">
+      <UniqueIdentifier>{cdc8cd64-4fe3-4d00-94d1-0349b64f6f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\tinyobjloader\include">
+      <UniqueIdentifier>{4f1281dc-3c11-4a62-94e6-2b78de9e2037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\tinyobjloader">
+      <UniqueIdentifier>{5d7b0428-4f3c-4c32-b080-ba7d452db58b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{9469362d-6c6c-4d41-80a6-9d8f791f81cf}</UniqueIdentifier>
     </Filter>
     <Filter Include="res\textures">
-      <UniqueIdentifier>{497fee91-011b-4db1-ae13-1165932cda9f}</UniqueIdentifier>
+      <UniqueIdentifier>{cc66a2dd-9bf0-4739-8ccb-ae164e442a90}</UniqueIdentifier>
     </Filter>
     <Filter Include="res">
-      <UniqueIdentifier>{90ed4206-6bbe-4ed1-8170-623a0e06ed36}</UniqueIdentifier>
+      <UniqueIdentifier>{03b78b00-b472-4027-9248-8ec7278d8571}</UniqueIdentifier>
     </Filter>
-    <Filter Include="res\shaders">
-      <UniqueIdentifier>{943709d6-463f-4b44-b854-8cc23bdd01a0}</UniqueIdentifier>
+    <Filter Include="shaders\phong">
+      <UniqueIdentifier>{b1e9bd88-41ad-492c-800a-f538b28c054b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{6d17dc4b-22aa-432f-b7da-8e53f7c4449d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\blinn">
+      <UniqueIdentifier>{add625a5-c578-47b2-98e8-a31d4e444013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\local">
+      <UniqueIdentifier>{c49db2b3-bd08-456b-badf-3cc63e4f2ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\models">
+      <UniqueIdentifier>{889789f9-d1d6-4b0c-80e9-e6bb7f76c430}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,52 +105,166 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\application\application.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\geometry_test.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\lighting_test.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\scene_test.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\buffer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\line.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\mesh.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\point.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\sphere.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\directional_light.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\lighting.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\point_light.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\spotlight.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\events.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\keyboard.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\mouse.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\square.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\matrix.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene_object.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\scene_tree.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\lodepng.cpp" />
-    <ClCompile Include="src\utilities.cpp" />
-    <ClCompile Include="src\geometry\square.cpp" />
-    <ClCompile Include="src\geometry\mesh.cpp" />
-    <ClCompile Include="src\geometry\sphere.cpp" />
-    <ClCompile Include="src\illumination\lighting.cpp" />
-    <ClCompile Include="src\illumination\point_light.cpp" />
-    <ClCompile Include="src\illumination\directional_light.cpp" />
-    <ClCompile Include="src\engine\buffer.cpp" />
-    <ClCompile Include="src\engine\shader.cpp" />
-    <ClCompile Include="src\input\keyboard.cpp" />
-    <ClCompile Include="src\illumination\spotlight.cpp" />
-    <ClCompile Include="src\application\application.cpp" />
-    <ClCompile Include="src\input\events.cpp" />
-    <ClCompile Include="src\input\mouse.cpp" />
-    <ClCompile Include="src\application\lighting_test.cpp" />
-    <ClCompile Include="src\scene\scene_object.cpp" />
-    <ClCompile Include="tests\test.cpp" />
-    <ClCompile Include="tests\scene_tree.cpp" />
+    <ClCompile Include="src\math\constants.cpp" />
+    <ClCompile Include="src\math\epsilon.cpp" />
+    <ClCompile Include="tests\math.cpp" />
+    <ClCompile Include="src\scene\scene_shape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\utilities.hpp" />
-    <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h" />
-    <ClInclude Include="include\geometry\shape.hpp" />
-    <ClInclude Include="include\geometry\square.hpp" />
-    <ClInclude Include="include\geometry\mesh.hpp" />
-    <ClInclude Include="include\geometry\sphere.hpp" />
-    <ClInclude Include="include\illumination\lighting.hpp" />
-    <ClInclude Include="include\illumination\point_light.hpp" />
-    <ClInclude Include="include\engine\buffer.hpp" />
     <ClInclude Include="include\engine\shader.hpp">
+      <Filter>include\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\application\application.hpp">
+      <Filter>include\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\application\geometry_test.hpp">
+      <Filter>include\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\application\lighting_test.hpp">
+      <Filter>include\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\application\scene_test.hpp">
+      <Filter>include\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\buffer.hpp">
+      <Filter>include\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\line.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\mesh.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\point.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\sphere.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\directional_light.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\lighting.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\light_type.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\point_light.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\shape.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\square.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\spotlight.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\events.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\keyboard.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\mouse.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\matrix.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene\scene.hpp">
+      <Filter>include\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene\scene_object.hpp">
+      <Filter>include\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\illumination\directional_light.hpp" />
-    <ClInclude Include="include\input\keyboard.hpp" />
-    <ClInclude Include="include\illumination\light_type.hpp" />
-    <ClInclude Include="include\illumination\spotlight.hpp" />
-    <ClInclude Include="include\application\application.hpp" />
-    <ClInclude Include="include\input\events.hpp" />
-    <ClInclude Include="include\input\mouse.hpp" />
-    <ClInclude Include="include\application\lighting_test.hpp" />
-    <ClInclude Include="include\scene\scene.hpp" />
-    <ClInclude Include="include\scene\scene_object.hpp" />
+    <ClInclude Include="lib\tinyobjloader\include\tiny_obj_loader.h">
+      <Filter>lib\tinyobjloader\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\constants.hpp" />
+    <ClInclude Include="include\math\epsilon.hpp" />
+    <ClInclude Include="include\scene\scene_shape.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\square.png">
@@ -77,21 +272,33 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="shaders\phong\fragment.glsl">
+      <Filter>shaders\phong</Filter>
+    </None>
+    <None Include="shaders\phong\vertex.glsl">
+      <Filter>shaders\phong</Filter>
+    </None>
+    <None Include="shaders\blinn\fragment.glsl">
+      <Filter>shaders\blinn</Filter>
+    </None>
+    <None Include="shaders\blinn\vertex.glsl">
+      <Filter>shaders\blinn</Filter>
+    </None>
+    <None Include="shaders\local\fragment.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
+    <None Include="shaders\local\vertex.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
     <None Include=".gitignore" />
-    <None Include="res\shaders\phong\fragment.glsl">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\phong\vertex.glsl">
-      <Filter>res\shaders</Filter>
-    </None>
-    <None Include="res\shaders\blinn\fragment.glsl" />
-    <None Include="res\shaders\blinn\vertex.glsl" />
-    <None Include="res\shaders\local\fragment.glsl" />
-    <None Include="res\shaders\local\vertex.glsl" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Object Include="res\models\cube.obj" />
-    <Object Include="res\models\teapot.obj" />
+    <Object Include="res\models\cube.obj">
+      <Filter>res\models</Filter>
+    </Object>
+    <Object Include="res\models\teapot.obj">
+      <Filter>res\models</Filter>
+    </Object>
   </ItemGroup>
 </Project>

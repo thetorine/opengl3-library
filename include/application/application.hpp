@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-namespace app {
+namespace gl::app {
     class Application {
     public:
         Application(std::string title, int width, int height);
@@ -20,7 +20,7 @@ namespace app {
         virtual void update(float dt) = 0;
         virtual void updateView() = 0;
     protected:
-        GLFWwindow *m_window;
+        GLFWwindow * m_window;
         int m_width;
         int m_height;
         std::string m_title;

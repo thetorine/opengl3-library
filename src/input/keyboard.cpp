@@ -5,7 +5,7 @@
 #include "input/events.hpp"
 #include "input/keyboard.hpp"
 
-namespace input {
+namespace gl::input {
 
     std::map<int, bool> keyMapping;
     std::mutex keyMutex;

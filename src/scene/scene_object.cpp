@@ -1,22 +1,95 @@
-#include <glm/gtc/matrix_transform.hpp>
+#include <algorithm>
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+#include "math/matrix.hpp"
 #include "scene/scene_object.hpp"
 
-namespace scene {
+namespace gl::scene {
 
-    SceneObject::SceneObject() 
+    std::shared_ptr<SceneObject> SceneObject::create() {
+        return std::shared_ptr<SceneObject>(new SceneObject());
+    }
+
+    SceneObject::SceneObject()
         : m_translation(glm::vec3(0.0f)),
-          m_rotation(glm::vec3(0.0f)),
-          m_scale(glm::vec3(1.0f))
-    {}
+        m_rotation(glm::vec3(0.0f)),
+        m_scale(glm::vec3(1.0f)) {
+    }
 
     SceneObject::~SceneObject() {}
 
-    void SceneObject::addChild(std::shared_ptr<SceneObject> child) {
-        m_children.push_back(child);
+    void SceneObject::setParent(const std::shared_ptr<SceneObject> &parent) {
+        m_parent = parent;
     }
 
-    void SceneObject::move(const glm::vec3 &dm) {
+    void SceneObject::addChild(const std::shared_ptr<SceneObject> &child) {
+        m_children.push_back(child);
+        child->setParent(shared_from_this());
+    }
+
+    void SceneObject::removeChild(const std::shared_ptr<SceneObject> &child) {
+        m_children.erase(std::remove(std::begin(m_children), std::end(m_children), child), std::end(m_children));
+    }
+
+    void SceneObject::draw() const {
+        // Traverse children and then perform draw self
+        for (const auto &child : m_children) {
+            child->draw();
+        }
+        drawSelf();
+    }
+
+    void SceneObject::drawSelf() const {}
+
+    void SceneObject::update(float dt) {
+        for (const auto &child : m_children) {
+            child->update(dt);
+        }
+        updateSelf(dt);
+    }
+
+    void SceneObject::updateSelf(float dt) {}
+
+    void SceneObject::reparent(const std::shared_ptr<SceneObject> &newParent) {
+        /*
+            Let this objects global matrix = gc
+            Let this objects local matrix = lc
+            Let this objects new local matrix = lcn
+            Let the original parents global matrix = go
+            Let the new parents global matrix = gn
+            Let the new parents inverse global matrix = gn^-1
+
+            Originally:
+                gc = go * lc
+
+            When the scene object is reparented, we want its global matrix to
+            remain unchanged.
+
+            Hence:
+                gc = gn * lcn
+
+            As gc and gn are known, we must determine the value for lcn:
+                lcn = gn^-1 * gc
+        */
+
+        glm::mat4 gc = getGlobalModel(); // gc
+        glm::mat4 inverseGn = glm::inverse(newParent->getGlobalModel()); // gn^-1
+        glm::mat4 lcn = inverseGn * gc; // lcn = gn^-1 * gc
+
+        // Decompose the new local matrix into its components
+        math::decomposeMat4(lcn, m_translation, m_rotation, m_scale);
+
+        // Update the tree so that the reparenting is correctly reflected. 
+        std::shared_ptr<SceneObject> thisSptr = shared_from_this();
+
+        m_parent->removeChild(thisSptr);
+        newParent->addChild(thisSptr);
+        m_parent = newParent;
+    }
+
+    void SceneObject::translate(const glm::vec3 &dm) {
         m_translation += dm;
     }
 
@@ -28,11 +101,23 @@ namespace scene {
         m_scale *= ds;
     }
 
+    void SceneObject::setTranslation(const glm::vec3 &dm) {
+        m_translation = dm;
+    }
+
+    void SceneObject::setRotation(const glm::vec3 &dr) {
+        m_rotation = glm::quat(dr);
+    }
+
+    void SceneObject::setScale(const glm::vec3 &ds) {
+        m_scale = ds;
+    }
+
     glm::mat4 SceneObject::getModel() const {
-        glm::mat4 result =
+        glm::mat4 result {
             glm::translate(glm::mat4(1.0f), m_translation) *
             glm::toMat4(m_rotation) *
-            glm::scale(glm::mat4(1.0f), m_scale);
+            glm::scale(glm::mat4(1.0f), m_scale) };
         return result;
     }
 
@@ -48,55 +133,24 @@ namespace scene {
         return m_scale;
     }
 
-    glm::mat4 SceneObject::getGlobalModel(const glm::mat4 &parentMatrix) const {
+    glm::mat4 SceneObject::getGlobalModel() const {
         // Note: Matrix multiplications are read from right to left.
-        // The following is the local model matrix multiplied by the global model matrix. 
-        return parentMatrix * getModel();
+        // The following is the local model matrix multiplied by the global model matrix.
+        if (m_parent == nullptr) {
+            return getModel();
+        }
+        return m_parent->getGlobalModel() * getModel();
     }
 
-    glm::vec3 SceneObject::getGlobalTranslation(const glm::mat4 &parentMatrix) const {
-        glm::mat4 globalMatrix = getGlobalModel(parentMatrix);
-        // The translation vector in an affine transformation matrix is the 4th column.
-        /*
-           | a b c x |
-           | d e f y |
-           | g h i z |
-           | 0 0 0 1 |
-        
-        */
-        return static_cast<glm::vec3>(globalMatrix[3]);
+    size_t SceneObject::getSize() const {
+        size_t size = 1;
+        for (const auto &child : m_children) {
+            size += child->getSize();
+        }
+        return size;
     }
 
-    glm::quat SceneObject::getGlobalRotation(const glm::mat4 &parentMatrix) const {
-        // Extract the rotation matrix from the global matrix and then
-        // use quat_cast to get the quaternion.
-        // TODO: GLM might have a function to decompose an affine transformation matrix
-        // into translation, rotation and scale matrices. 
-        glm::mat4 globalMatrix = getGlobalModel(parentMatrix);
-        glm::vec3 globalScale = getGlobalScale(parentMatrix);
-        glm::mat4 rotationMatrix = glm::mat4(
-            globalMatrix[0] / globalScale[0],
-            globalMatrix[1] / globalScale[1],
-            globalMatrix[2] / globalScale[2],
-            glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
-        );
-
-        return glm::quat_cast(rotationMatrix);
-    }
-
-    glm::vec3 SceneObject::getGlobalScale(const glm::mat4 &parentMatrix) const {
-        glm::mat4 globalMatrix = getGlobalModel(parentMatrix);
-
-        glm::vec3 i = static_cast<glm::vec3>(globalMatrix[0]);
-        glm::vec3 j = static_cast<glm::vec3>(globalMatrix[1]);
-        glm::vec3 k = static_cast<glm::vec3>(globalMatrix[2]);
-
-        // The scale of each axis in an affine transformation matrix is the
-        // length of each axis vector. 
-        return glm::vec3(
-            glm::length(i),
-            glm::length(j),
-            glm::length(k)
-        );
+    const std::shared_ptr<SceneObject> &SceneObject::getParent() const {
+        return m_parent;
     }
 }

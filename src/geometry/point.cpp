@@ -1,29 +1,26 @@
-#include <memory>
-
 #include "engine/shader.hpp"
-#include "geometry/line.hpp"
+#include "geometry/point.hpp"
 
 namespace gl::geometry {
 
-    Line::Line(const glm::vec3 &p1, const glm::vec3 &p2)
+    Point::Point(const glm::vec3 &pos)
         : m_vertexBuffer(GL_ARRAY_BUFFER) {
-        m_vertexBuffer.addAll({ p1.x, p1.y, p1.z,
-                                p2.x, p2.y, p2.z });
+        m_vertexBuffer.addAll({ pos.x, pos.y, pos.z });
         m_vertexBuffer.transferBuffer();
     }
 
-    Line::~Line() {
+    Point::~Point() {}
 
-    }
-
-    void Line::draw(const glm::mat4 &model) {
+    void Point::draw(const glm::mat4 &model) {
         engine::Shader::getInstance()->setModelMatrix(model);
+
+        glPointSize(10.0f);
 
         glEnableVertexAttribArray(POSITION_LOCATION);
         m_vertexBuffer.useBuffer();
         glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-        glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(m_vertexBuffer.size()));
+        glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(m_vertexBuffer.size()));
 
         glDisableVertexAttribArray(POSITION_LOCATION);
     }

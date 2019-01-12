@@ -8,6 +8,7 @@
 // Incoming from vertex shader
 in vec3 m;
 in vec4 viewPos;
+in vec3 vertColor;
 
 // Outgoing from fragment shader
 out vec4 fragmentColor;
@@ -56,7 +57,7 @@ uniform float phongExp;
 uniform vec3 ambientIntensity;
 uniform vec3 diffuseIntensity;
 
-// 0 = Phong, 1 = Cel
+// 0 = Phong, 1 = Blinn, 2 = Cel
 uniform int shaderType;
 
 vec3 getIntensity(vec3 s, vec3 v, vec3 color, float intensity);
@@ -124,8 +125,8 @@ vec3 getPhongIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
     vec3 r = normalize(reflect(-s, m));
     float dotResult = dot(m, normalize(s));
 
-    vec3 ambient = ambientIntensity * ambientCoeff * color * intensity;
-    vec3 diffuse = max(diffuseIntensity * diffuseCoeff * color * intensity * dotResult, 0.0);
+    vec3 ambient = vertColor * ambientCoeff * color * intensity;
+    vec3 diffuse = max(vertColor * diffuseCoeff * color * intensity * dotResult, 0.0);
     vec3 specular = vec3(0.0);
 
     if (dotResult > 0)
@@ -139,7 +140,7 @@ vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
     vec3 r = normalize(reflect(-s, m));
     float dotResult = dot(m, normalize(s));
 
-    vec3 ambient = ambientIntensity * ambientCoeff * color * intensity;
+    vec3 ambient = vertColor * ambientCoeff * color * intensity;
     vec3 diffuse = vec3(0.0);
     vec3 specular = vec3(0.0);
 
@@ -148,7 +149,7 @@ vec3 getCelIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
         float specularTerm = pow(specularCoeff * dot(r, v), phongExp);
 
         int bands = 3;
-        diffuse = round(diffuseTerm * bands) / bands * diffuseIntensity * diffuseCoeff * color * intensity;
+        diffuse = round(diffuseTerm * bands) / bands * vertColor * diffuseCoeff * color * intensity;
 
         if (specularTerm > 0.5)
             specular = vec3(intensity * max(pow(specularCoeff, phongExp), 0.0));
@@ -166,8 +167,8 @@ vec3 getBlinnIntensity(vec3 s, vec3 v, vec3 color, float intensity) {
     vec3 h = normalize((normalize(s) + v) / 2.0);
     float dotResult = dot(m, normalize(s));
 
-    vec3 ambient = ambientIntensity * ambientCoeff * color * intensity;
-    vec3 diffuse = max(diffuseIntensity * diffuseCoeff * color * intensity * dotResult, 0.0);
+    vec3 ambient = vertColor * ambientCoeff * color * intensity;
+    vec3 diffuse = max(vertColor * diffuseCoeff * color * intensity * dotResult, 0.0);
     vec3 specular = vec3(0.0);
 
     if (dotResult > 0)

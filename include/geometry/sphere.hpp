@@ -4,14 +4,14 @@
 
 #include "geometry/shape.hpp"
 
-namespace geometry {
+namespace gl::geometry {
     class Mesh;
 
     class Sphere : public Shape {
     public:
         Sphere(float radius);
         ~Sphere();
-        void draw(const glm::mat4 &model);
+        void draw(const glm::mat4 &model = glm::mat4(1.0f));
     private:
         std::unique_ptr<Mesh> m_sphereMesh;
     };

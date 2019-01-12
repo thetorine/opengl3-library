@@ -1,7 +1,7 @@
 #include "input/events.hpp"
 #include "input/mouse.hpp"
 
-namespace input {
+namespace gl::input {
 
     void glfwMouseCallback(GLFWwindow *window, double xPos, double yPos) {
         int width, height;
@@ -16,9 +16,12 @@ namespace input {
         // If the y position is above the center, then the difference
         // returned will be negative and positive otherwise. 
 
-        float dx = static_cast<float>(xPos - width / 2);
-        float dy = static_cast<float>(yPos - height / 2);
+        float dx { static_cast<float>(xPos - width / 2) };
+        float dy { static_cast<float>(yPos - height / 2) };
 
-        onCursorMove(dx, dy);
+        int focused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+        if (focused) {
+            onCursorMove(dx, dy);
+        }
     }
 }

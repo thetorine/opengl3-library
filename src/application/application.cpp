@@ -6,11 +6,10 @@
 #include "input/keyboard.hpp"
 #include "input/mouse.hpp"
 
-namespace app {
+namespace gl::app {
 
-    Application::Application(std::string title, int width, int height) 
-        : m_width(width), m_height(height), m_title(title)
-    {
+    Application::Application(std::string title, int width, int height)
+        : m_width(width), m_height(height), m_title(title) {
     }
 
     Application::~Application() {
@@ -65,26 +64,35 @@ namespace app {
     }
 
     void Application::startLoops() {
-        double time = glfwGetTime();
-        std::thread updateThread([lastTime = time, frameTime = time, frameCount = 0, this]() mutable {
-            while (!m_hasExited) {
-                // Calculate the change in time since the last update tick.
-                // Use the value to ensure that objects move at the same speed,
-                // regardless of computer specs. 
+        double time { glfwGetTime() };
+        //std::thread updateThread([lastTime { time }, frameTime { time }, frameCount { 0 }, this]() mutable {
+        //    while (!m_hasExited) {
+        //        // Calculate the change in time since the last update tick.
+        //        // Use the value to ensure that objects move at the same speed,
+        //        // regardless of computer specs. 
 
-                double currentTime = glfwGetTime();
-                float dt = static_cast<float>(currentTime - lastTime);
-                lastTime = currentTime;
+        //        double currentTime { glfwGetTime() };
+        //        float dt { static_cast<float>(currentTime - lastTime) };
+        //        lastTime = currentTime;
 
-                update(dt);
-            }
-        });
+        //        update(dt);
+        //    }
+        //});
+
+        double lastTime { time };
 
         // TODO: FPS Counter 
         // Note: Rendering must be done in the original thread as it breaks
         // in a separate thread - not sure why, might be something to do with
         // the thread in which the OpenGL context is created. 
         while (!m_hasExited && glfwWindowShouldClose(m_window) == 0) {
+            // TODO: Really weird issue going on with using a separate thread for update...
+            double currentTime { glfwGetTime() };
+            float dt { static_cast<float>(currentTime - lastTime) };
+            lastTime = currentTime;
+
+            update(dt);
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -94,10 +102,10 @@ namespace app {
             // Force the cursor into the middle of the screen.
             glfwSetCursorPos(m_window, m_width / 2.0, m_height / 2.0);
 
-            glfwSwapBuffers(m_window); 
+            glfwSwapBuffers(m_window);
             glfwPollEvents();
         }
 
-        updateThread.join();
+        //updateThread.join();
     }
 }

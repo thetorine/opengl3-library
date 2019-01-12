@@ -4,8 +4,8 @@
 
 #include "illumination/light_type.hpp"
 
-namespace illumination {
-    class DirectionalLight: public LightType {
+namespace gl::illumination {
+    class DirectionalLight : public LightType {
     public:
         DirectionalLight(const glm::vec3 &dir, const glm::vec3 &color, float intensity);
         ~DirectionalLight();

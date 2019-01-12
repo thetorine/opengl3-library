@@ -6,19 +6,17 @@
 #include <gl/glew.h>
 #include <glm/glm.hpp>
 
-#define SHADER_DIR "res/shaders/"
+#define SHADER_DIR "shaders/"
 
 #define POSITION_LOCATION 0
 #define NORMAL_POSITION 1
 #define UV_LOCATION 2
 
-namespace engine {
+namespace gl::engine {
     class Shader {
     public:
-        Shader(std::string shaderName);
         ~Shader();
 
-        bool compileShader();
         void useShader();
 
         void setModelMatrix(const glm::mat4 &matrix) const;
@@ -31,10 +29,12 @@ namespace engine {
         static void createShader(std::string shaderName);
         static const std::unique_ptr<Shader> &getInstance();
     private:
+        Shader(std::string shaderName);
+        bool compileShader();
         bool compileShader(GLuint shaderID, std::string file);
 
         std::string m_shaderName;
-
+        // TODO: Refactor to remove the following except for m_programId.
         GLuint m_vertexShaderID;
         GLuint m_fragmentShaderID;
         GLuint m_programID;

@@ -4,8 +4,8 @@
 
 #include "illumination/light_type.hpp"
 
-namespace illumination {
-    class PointLight: public LightType {
+namespace gl::illumination {
+    class PointLight : public LightType {
     public:
         PointLight(const glm::vec3 &pos, const glm::vec3 &color, float intensity);
         ~PointLight();
