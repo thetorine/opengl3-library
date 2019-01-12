@@ -1,7 +1,23 @@
 # OpenGL3 3D C++ Library (For learning purposes)
 Implementing many rendering techniques used in Computer Graphics and methods to setup complex scenes.
 
-[Screenshots](screenshots/)
+# Screenshots
+
+Phong Shader:
+
+![Phong Shader](screenshots/phong-shader.png)
+
+Cel Shader:
+
+![Cel Shader](screenshots/cel-shader.png)
+
+Spotlight:
+
+![Spotlight](screenshots/spotlight.png)
+
+Scene Tree:
+
+![Scene Tree](screenshots/scene_tree.gif)
 
 # Installation
 1. Clone the repository.
@@ -34,7 +50,7 @@ Implementing many rendering techniques used in Computer Graphics and methods to 
 - [ ] Collisions
 
 ## Transformations
-- [ ] Scene Trees
+- [x] Scene Trees
 
 ## Global Illumination
 - [ ] Realistic reflections
