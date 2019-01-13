@@ -22,7 +22,8 @@ Scene Tree:
 # Installation
 1. Clone the repository.
 2. Open the solution file in Visual Studio 2017.
-3. Open opengl3 project and run.
+3. Set the sample project as the default startup project.
+4. Run
 
 # Features
 ## Local Illumination
