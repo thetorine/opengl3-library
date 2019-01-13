@@ -19,7 +19,7 @@ Scene Tree:
 
 ![Scene Tree](screenshots/scene_tree.gif)
 
-# Installation
+# Setup
 1. Clone the repository.
 2. Open the solution file in Visual Studio 2017.
 3. Set the sample project as the default startup project.
