@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shaders\local">
+      <UniqueIdentifier>{c3bbc90f-f7ff-40bf-b456-ae45887f779f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{eeadc38d-b014-4aa0-8421-e2f473e40c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c4db2969-9b10-4507-b317-0f1c353a910a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\application">
+      <UniqueIdentifier>{982a3201-6c05-40a1-a292-796abe800eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine">
+      <UniqueIdentifier>{635384fb-d357-4648-b9be-a211aad03328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\geometry">
+      <UniqueIdentifier>{6f0856f1-748b-404f-ab6d-3c958e758896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\illumination">
+      <UniqueIdentifier>{243a8e98-da09-434a-b90a-f6db92747e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\input">
+      <UniqueIdentifier>{db3fdb55-64cb-45c6-93b9-dcc3354c5cf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\math">
+      <UniqueIdentifier>{b7e09d21-12c3-43ab-b06d-4d3b34f87c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{7ab89fd8-0090-4fdd-ab18-5a0338df0644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{df4770f5-9b74-43af-9b15-5daa0cdda895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\application">
+      <UniqueIdentifier>{272d4b90-65e5-4f4a-a18e-08031bcfd49f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\engine">
+      <UniqueIdentifier>{48735dc9-6cc6-405d-ba3f-8768f68b147b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\geometry">
+      <UniqueIdentifier>{535956e0-6a53-4ccd-8767-46907ebcc009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\illumination">
+      <UniqueIdentifier>{971bae04-b2e5-48e4-9988-a004e0525caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\input">
+      <UniqueIdentifier>{4cf19934-91d6-48d1-9308-d6093f6f7178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\math">
+      <UniqueIdentifier>{4bae1b34-7330-4ef1-b18d-882ed0985f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\scene">
+      <UniqueIdentifier>{bc6fad8b-9d88-441d-b25d-983e5b792294}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\local\fragment.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
+    <None Include="shaders\local\vertex.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utilities.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\application\application.cpp">
+      <Filter>src\application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\buffer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\shader.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\line.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\mesh.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\point.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\sphere.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry\square.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\directional_light.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\lighting.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\point_light.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\illumination\spotlight.cpp">
+      <Filter>src\illumination</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\events.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\keyboard.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\input\mouse.cpp">
+      <Filter>src\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\constants.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\epsilon.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\matrix.cpp">
+      <Filter>src\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene_object.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene_shape.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\camera.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\application\application.hpp">
+      <Filter>include\application</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\buffer.hpp">
+      <Filter>include\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\shader.hpp">
+      <Filter>include\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\line.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\mesh.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\point.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\shape.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\sphere.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\square.hpp">
+      <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\directional_light.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\lighting.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\light_type.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\point_light.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\illumination\spotlight.hpp">
+      <Filter>include\illumination</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\events.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\keyboard.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\input\mouse.hpp">
+      <Filter>include\input</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\constants.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\epsilon.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math\matrix.hpp">
+      <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene\scene.hpp">
+      <Filter>include\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene\scene_object.hpp">
+      <Filter>include\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scene\scene_shape.hpp">
+      <Filter>include\scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
