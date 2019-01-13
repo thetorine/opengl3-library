@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{222aad4d-b2a2-4fd3-be80-3442ee18da4b}</UniqueIdentifier>
+      <UniqueIdentifier>{5130cedf-4656-4ebb-9641-ada50a956bcc}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{354e7b3d-1d18-42cd-8694-31cd69f71a90}</UniqueIdentifier>
+      <UniqueIdentifier>{e98f99a9-532d-4c2a-b92d-db7adb4342b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,5 +21,9 @@
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="shaders\local\fragment.glsl" />
+    <None Include="shaders\local\vertex.glsl" />
+  </ItemGroup>
 </Project>

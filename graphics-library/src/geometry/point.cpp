@@ -3,9 +3,9 @@
 
 namespace gl::geometry {
 
-    Point::Point(const glm::vec3 &pos)
+    Point::Point(const std::vector<float> &vertices)
         : m_vertexBuffer(GL_ARRAY_BUFFER) {
-        m_vertexBuffer.addAll({ pos.x, pos.y, pos.z });
+        m_vertexBuffer.addAll(vertices);
         m_vertexBuffer.transferBuffer();
     }
 

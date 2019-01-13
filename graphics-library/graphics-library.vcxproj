@@ -39,6 +39,7 @@
     <ClCompile Include="src\math\constants.cpp" />
     <ClCompile Include="src\math\epsilon.cpp" />
     <ClCompile Include="src\math\matrix.cpp" />
+    <ClCompile Include="src\math\revolution.cpp" />
     <ClCompile Include="src\scene\scene.cpp" />
     <ClCompile Include="src\scene\scene_object.cpp" />
     <ClCompile Include="src\scene\scene_shape.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="include\math\constants.hpp" />
     <ClInclude Include="include\math\epsilon.hpp" />
     <ClInclude Include="include\math\matrix.hpp" />
+    <ClInclude Include="include\math\revolution.hpp" />
     <ClInclude Include="include\scene\scene.hpp" />
     <ClInclude Include="include\scene\scene_object.hpp" />
     <ClInclude Include="include\scene\scene_shape.hpp" />
@@ -73,8 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="shaders\local\fragment.glsl" />
-    <None Include="shaders\local\vertex.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

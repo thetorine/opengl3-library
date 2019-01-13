@@ -7,6 +7,7 @@
 #include "illumination/point_light.hpp"
 #include "input/events.hpp"
 #include "math/constants.hpp"
+#include "math/revolution.hpp"
 
 Sample::Sample()
     : Application::Application("Test", 1280, 720),
@@ -20,8 +21,8 @@ Sample::~Sample() {
 
 void Sample::initialize() {
     gl::input::registerKeyHandler(std::bind(&Sample::keyHandler, this,
-                                        std::placeholders::_1,
-                                        std::placeholders::_2));
+                                            std::placeholders::_1,
+                                            std::placeholders::_2));
 
     // Tells OpenGL to take into account the z coordinate of the 
     // fragment to ensure that it draws fragments in the correct order. 
@@ -40,7 +41,6 @@ void Sample::initialize() {
     ));
 
     glm::vec3 lightPos(1.0f, 1.0f, 0.0f);
-    m_lightSource = std::make_unique<gl::geometry::Point>(lightPos);
     m_lighting.addPointLight(std::make_shared<gl::illumination::PointLight>(
         lightPos,
         glm::vec3(1.0f),

@@ -6,7 +6,7 @@
 namespace gl::geometry {
     class Point : public Shape {
     public:
-        Point(const glm::vec3 &pos);
+        Point(const std::vector<float> &vertices);
         ~Point();
         void draw(const glm::mat4 &model = glm::mat4(1.0f));
     private:
