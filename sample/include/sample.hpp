@@ -5,6 +5,7 @@
 
 #include "camera.hpp"
 #include "application/application.hpp"
+#include "geometry/point.hpp"
 #include "illumination/lighting.hpp"
 #include "scene/scene.hpp"
 #include "scene/scene_shape.hpp"
@@ -21,6 +22,8 @@ private:
     gl::engine::Camera m_camera;
     gl::illumination::Lighting m_lighting;
     gl::scene::Scene m_scene;
+
+    std::unique_ptr<gl::geometry::Point> m_lightPoint;
 
     std::vector<std::shared_ptr<gl::scene::SceneObject>> m_sceneObjects;
 

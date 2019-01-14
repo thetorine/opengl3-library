@@ -41,6 +41,7 @@ void Sample::initialize() {
     ));
 
     glm::vec3 lightPos(1.0f, 1.0f, 0.0f);
+    m_lightPoint = std::make_unique<gl::geometry::Point>(std::vector<float>({ lightPos.x, lightPos.y, lightPos.z }));
     m_lighting.addPointLight(std::make_shared<gl::illumination::PointLight>(
         lightPos,
         glm::vec3(1.0f),
@@ -84,6 +85,7 @@ void Sample::initialize() {
 
 void Sample::render() {
     m_scene.drawScene();
+    m_lightPoint->draw();
 }
 
 void Sample::update(float dt) {

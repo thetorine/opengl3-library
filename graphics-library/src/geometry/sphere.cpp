@@ -15,9 +15,9 @@ namespace gl::geometry {
 
         std::vector<float> vertices { gl::math::generateVertices(fx, fy, bounds, 0.1f) };
         std::vector<int> indices { gl::math::generateIndices(vertices, bounds, 0.1f) };
+        std::vector<float> normals { gl::math::generateNormals(vertices, indices) };
 
-        // For a sphere, normals are the same as the vertices.
-        m_sphereMesh = std::make_unique<Mesh>(vertices, vertices, indices);
+        m_sphereMesh = std::make_unique<Mesh>(vertices, normals, indices);
     }
 
     Sphere::~Sphere() {

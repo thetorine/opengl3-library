@@ -7,11 +7,13 @@
 // needs vertices, indices and normals
 
 namespace gl::math {
-    std::vector<float> generateVertices(std::function<float(float t)> fx,
-                                        std::function<float(float t)> fy,
-                                        std::pair<float, float> bounds,
+    std::vector<float> generateVertices(const std::function<float(float t)> &fx,
+                                        const std::function<float(float t)> &fy,
+                                        const std::pair<float, float> &bounds,
                                         float sampleRate);
-    std::vector<int> generateIndices(std::vector<float> vertices,
-                                     std::pair<float, float> bounds,
+    std::vector<int> generateIndices(const std::vector<float> &vertices,
+                                     const std::pair<float, float> &bounds,
                                      float sampleRate);
+    std::vector<float> generateNormals(const std::vector<float> &vertices,
+                                       const std::vector<int> &indices);
 }
