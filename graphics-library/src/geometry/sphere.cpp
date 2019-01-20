@@ -13,9 +13,9 @@ namespace gl::geometry {
         std::function<float(float)> fy = [radius](float t) { return radius * std::cos(t); };
         std::pair<float, float> bounds = std::make_pair<float, float>(0.0f, gl::math::PI * 1.0f);
 
-        std::vector<float> vertices { gl::math::generateVertices(fx, fy, bounds, 0.1f) };
-        std::vector<int> indices { gl::math::generateIndices(vertices, bounds, 0.1f) };
-        std::vector<float> normals { gl::math::generateNormals(vertices, indices) };
+        std::vector<float> vertices { gl::math::generateVertices(fx, fy, bounds) };
+        std::vector<int> indices { gl::math::generateIndices(vertices, bounds) };
+        std::vector<float> normals { gl::math::generateNormals(fx, fy, bounds) };
 
         m_sphereMesh = std::make_unique<Mesh>(vertices, normals, indices);
     }
