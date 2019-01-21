@@ -26,10 +26,10 @@ namespace gl::math {
         std::function<float(float t)> getZ() const;
         float getT() const;
     private:
-        float p(int k, float t) const;
+        float p(float t, int pointIndex) const;
         float bernstein(int k, float t) const;
 
-        int m_order;
+        int m_degree;
         std::vector<glm::vec3> m_controlPoints;
     };
 }
