@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include "math/epsilon.hpp"
+#include "math/functions.hpp"
 
 const float FLOAT_EPSILON { 1.0e-5f };
 
@@ -58,4 +59,24 @@ TEST_CASE("Epsilon", "[Math]") {
             REQUIRE(gl::math::epsilonEquals(a, a, FLOAT_EPSILON));
         }
     }
+}
+
+TEST_CASE("Binomial Coefficient", "[Math]") {
+    int c = gl::math::binomialCoeff(0, 0);
+    REQUIRE(c == 1);
+
+    c = gl::math::binomialCoeff(1, 0);
+    REQUIRE(c == 1);
+
+    c = gl::math::binomialCoeff(1, 1);
+    REQUIRE(c == 1);
+
+    c = gl::math::binomialCoeff(4, 0);
+    REQUIRE(c == 1);
+
+    c = gl::math::binomialCoeff(4, 4);
+    REQUIRE(c == 1);
+
+    c = gl::math::binomialCoeff(4, 2);
+    REQUIRE(c == 6);
 }

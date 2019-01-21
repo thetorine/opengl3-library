@@ -2,10 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
-      <UniqueIdentifier>{5130cedf-4656-4ebb-9641-ada50a956bcc}</UniqueIdentifier>
+      <UniqueIdentifier>{54683647-8de6-48c4-b2a9-37362615f10a}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
-      <UniqueIdentifier>{e98f99a9-532d-4c2a-b92d-db7adb4342b0}</UniqueIdentifier>
+      <UniqueIdentifier>{b4c1ec44-c393-43d1-a1c6-d5a117a12d87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\local">
+      <UniqueIdentifier>{d6274238-6e1f-4f9a-8f4d-fbaa5d4a7efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{f9b1f1d1-1315-423d-9a0f-8966f87f74df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,8 +28,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="shaders\local\fragment.glsl" />
-    <None Include="shaders\local\vertex.glsl" />
+    <None Include="shaders\local\fragment.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
+    <None Include="shaders\local\vertex.glsl">
+      <Filter>shaders\local</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -36,8 +36,10 @@
     <ClCompile Include="src\input\events.cpp" />
     <ClCompile Include="src\input\keyboard.cpp" />
     <ClCompile Include="src\input\mouse.cpp" />
+    <ClCompile Include="src\math\bezier.cpp" />
     <ClCompile Include="src\math\constants.cpp" />
     <ClCompile Include="src\math\epsilon.cpp" />
+    <ClCompile Include="src\math\functions.cpp" />
     <ClCompile Include="src\math\matrix.cpp" />
     <ClCompile Include="src\math\revolution.cpp" />
     <ClCompile Include="src\scene\scene.cpp" />
@@ -64,8 +66,10 @@
     <ClInclude Include="include\input\events.hpp" />
     <ClInclude Include="include\input\keyboard.hpp" />
     <ClInclude Include="include\input\mouse.hpp" />
+    <ClInclude Include="include\math\bezier.hpp" />
     <ClInclude Include="include\math\constants.hpp" />
     <ClInclude Include="include\math\epsilon.hpp" />
+    <ClInclude Include="include\math\functions.hpp" />
     <ClInclude Include="include\math\matrix.hpp" />
     <ClInclude Include="include\math\revolution.hpp" />
     <ClInclude Include="include\scene\scene.hpp" />
@@ -233,7 +237,6 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\LodePNG.1.1.0\build\native\lodepng.targets" Condition="Exists('..\packages\LodePNG.1.1.0\build\native\lodepng.targets')" />
     <Import Project="..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets" Condition="Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" />
     <Import Project="..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets" Condition="Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" />
     <Import Project="..\packages\glm.0.9.9.300\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.9.300\build\native\glm.targets')" />
@@ -242,7 +245,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\LodePNG.1.1.0\build\native\lodepng.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LodePNG.1.1.0\build\native\lodepng.targets'))" />
     <Error Condition="!Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets'))" />
     <Error Condition="!Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets'))" />
     <Error Condition="!Exists('..\packages\glm.0.9.9.300\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.9.300\build\native\glm.targets'))" />
