@@ -19,6 +19,9 @@ Scene Tree:
 
 ![Scene Tree](screenshots/scene_tree.gif)
 
+Bézier curve and mesh generated based on that curve by rotating about the y axis:
+![Bezier Curve](screenshots/bezier.png)
+
 # Setup
 1. Clone the repository.
 2. Open the solution file in Visual Studio 2017.
@@ -43,8 +46,9 @@ Scene Tree:
 - [x] Sphere
 - [x] Square
 - [ ] Conics
-- [ ] Surface of Revolution functions
-- [ ] Bezier Curves / Basis Splines
+- [x] Surface of Revolution functions
+- [x] Bezier Curves / Splines
+- [ ] Basis Splines
 - [ ] Drawing with Frenet Frames
 - [ ] L-Systems for Trees
 - [ ] Extrusions
