@@ -24,6 +24,7 @@
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\engine\buffer.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
+    <ClCompile Include="src\geometry\curve.cpp" />
     <ClCompile Include="src\geometry\line.cpp" />
     <ClCompile Include="src\geometry\mesh.cpp" />
     <ClCompile Include="src\geometry\point.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\engine\buffer.hpp" />
     <ClInclude Include="include\engine\shader.hpp" />
+    <ClInclude Include="include\geometry\curve.hpp" />
     <ClInclude Include="include\geometry\line.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
     <ClInclude Include="include\geometry\point.hpp" />

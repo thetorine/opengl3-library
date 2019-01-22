@@ -4,12 +4,13 @@
 #include <utility>
 #include <vector>
 
-// needs vertices, indices and normals
+// this could be a class..
 
 namespace gl::math {
     std::vector<float> generateVertices(const std::function<float(float t)> &fx,
                                         const std::function<float(float t)> &fy,
-                                        const std::pair<float, float> &bounds);
+                                        const std::pair<float, float> &bounds,
+                                        bool rotate = true);
     std::vector<float> generateNormals(const std::function<float(float t)> &fx,
                                         const std::function<float(float t)> &fy,
                                         const std::pair<float, float> &bounds);

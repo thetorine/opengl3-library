@@ -5,12 +5,6 @@
 
 #include <glm/glm.hpp>
 
-// should be able to define the number of control points for a single bezier curve - call this n
-// the total number of control points passed will satisfy the condition TOTAL_POINTS % n == 0
-// all points greater than n will form a bezier spline. 
-// should be able to get a function to pass into revolution.hpp
-// should be able to form a bezier curve/spline from either 2d or 3d points. 
-
 namespace gl::math {
     class Bezier {
     public:

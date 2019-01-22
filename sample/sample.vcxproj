@@ -166,6 +166,18 @@
     <None Include="shaders\local\fragment.glsl" />
     <None Include="shaders\local\vertex.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\models\cube.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="res\models\teapot.obj">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\glm.0.9.9.300\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.9.300\build\native\glm.targets')" />

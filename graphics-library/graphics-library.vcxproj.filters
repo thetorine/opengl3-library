@@ -129,6 +129,9 @@
     <ClCompile Include="src\math\functions.cpp">
       <Filter>src\math</Filter>
     </ClCompile>
+    <ClCompile Include="src\geometry\curve.cpp">
+      <Filter>src\geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\camera.hpp">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="include\math\functions.hpp">
       <Filter>include\math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\geometry\curve.hpp">
+      <Filter>include\geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

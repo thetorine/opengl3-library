@@ -6,6 +6,8 @@
 #include "camera.hpp"
 #include "application/application.hpp"
 #include "geometry/point.hpp"
+#include "geometry/curve.hpp"
+#include "geometry/mesh.hpp"
 #include "illumination/lighting.hpp"
 #include "scene/scene.hpp"
 #include "scene/scene_shape.hpp"
@@ -24,6 +26,8 @@ private:
     gl::scene::Scene m_scene;
 
     std::unique_ptr<gl::geometry::Point> m_lightPoint;
+    std::unique_ptr<gl::geometry::Curve> m_bezierCurve;
+    std::unique_ptr<gl::geometry::Mesh> m_bezierMesh;
 
     std::vector<std::shared_ptr<gl::scene::SceneObject>> m_sceneObjects;
 

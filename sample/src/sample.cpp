@@ -2,11 +2,11 @@
 
 #include "sample.hpp"
 #include "engine/shader.hpp"
-#include "geometry/mesh.hpp"
 #include "geometry/sphere.hpp"
 #include "illumination/point_light.hpp"
 #include "input/events.hpp"
 #include "math/constants.hpp"
+#include "math/bezier.hpp"
 #include "math/revolution.hpp"
 
 Sample::Sample()
@@ -27,6 +27,7 @@ void Sample::initialize() {
     // Tells OpenGL to take into account the z coordinate of the 
     // fragment to ensure that it draws fragments in the correct order. 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
     // Set lighting properties
     gl::engine::Shader::createShader("local");
@@ -81,11 +82,32 @@ void Sample::initialize() {
     m_scene.addChild(m_parentObj);
 
     m_sceneObjects.insert(std::end(m_sceneObjects), { m_parentObj, m_child1Obj, m_child2Obj, m_grandchild1Obj });
+
+    gl::math::Bezier curve(3, std::vector<glm::vec3>({
+        glm::vec3(0.0f, 1.0f, 0.0f),
+        glm::vec3(0.0f, 1.5f, 0.0f),
+        glm::vec3(2.5f, 1.0f, 0.0f),
+        glm::vec3(0.0f, -1.5f, 0.0f),
+        glm::vec3(0.0f, -1.0f, 0.0f) }));
+    std::vector<float> verticesCurve { gl::math::generateVertices(
+        curve.getX(), curve.getY(), std::make_pair<float, float>(0.0f, curve.getT()), false
+    ) };
+    std::vector<float> verticesMesh { gl::math::generateVertices(
+        curve.getX(), curve.getY(), std::make_pair<float, float>(0.0f, curve.getT())
+    ) };
+    std::vector<float> normals { gl::math::generateNormals(
+        curve.getX(), curve.getY(), std::make_pair<float, float>(0.0f, curve.getT())
+    ) };
+    std::vector<int> indices { gl::math::generateIndices(verticesMesh, std::make_pair<float, float>(0.0f, curve.getT())) };
+    m_bezierCurve = std::make_unique<gl::geometry::Curve>(verticesCurve);
+    m_bezierMesh = std::make_unique<gl::geometry::Mesh>(verticesMesh, normals, indices);
 }
 
 void Sample::render() {
     m_scene.drawScene();
     m_lightPoint->draw();
+    m_bezierCurve->draw(glm::translate(glm::mat4(1.0f), glm::vec3(5.0f, 0.0f, 5.0f)));
+    m_bezierMesh->draw(glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 5.0f)));
 }
 
 void Sample::update(float dt) {
