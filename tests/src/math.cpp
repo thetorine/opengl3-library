@@ -79,4 +79,7 @@ TEST_CASE("Binomial Coefficient", "[Math]") {
 
     c = gl::math::binomialCoeff(4, 2);
     REQUIRE(c == 6);
+
+    c = gl::math::binomialCoeff(30, 15);
+    REQUIRE(c == 155117520);
 }
