@@ -41,7 +41,7 @@ void Sample::initialize() {
         0.1f
     ));
 
-    glm::vec3 lightPos(1.0f, 1.0f, 0.0f);
+    glm::vec3 lightPos(1.0f, 5.0f, 0.0f);
     m_lightPoint = std::make_unique<gl::geometry::Point>(std::vector<float>({ lightPos.x, lightPos.y, lightPos.z }));
     m_lighting.addPointLight(std::make_shared<gl::illumination::PointLight>(
         lightPos,
@@ -83,12 +83,14 @@ void Sample::initialize() {
 
     m_sceneObjects.insert(std::end(m_sceneObjects), { m_parentObj, m_child1Obj, m_child2Obj, m_grandchild1Obj });
 
-    gl::math::Bezier curve(3, std::vector<glm::vec3>({
-        glm::vec3(0.0f, 1.0f, 0.0f),
-        glm::vec3(0.0f, 1.5f, 0.0f),
-        glm::vec3(2.5f, 1.0f, 0.0f),
-        glm::vec3(0.0f, -1.5f, 0.0f),
-        glm::vec3(0.0f, -1.0f, 0.0f) }));
+    gl::math::Bezier curve(2, std::vector<glm::vec3>({
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.5f, 0.0f),
+        glm::vec3(2.0f, 0.5f, 0.0f),
+        glm::vec3(3.0f, 2.0f, 0.0f),
+        glm::vec3(3.5f, 2.0f, 0.0f),
+        glm::vec3(3.0f, 1.0f, 0.0f),
+        glm::vec3(1.5f, 0.0f, 0.0f) }));
     std::vector<float> verticesCurve { gl::math::generateVertices(
         curve.getX(), curve.getY(), std::make_pair<float, float>(0.0f, curve.getT()), false
     ) };
@@ -106,8 +108,8 @@ void Sample::initialize() {
 void Sample::render() {
     m_scene.drawScene();
     m_lightPoint->draw();
-    m_bezierCurve->draw(glm::translate(glm::mat4(1.0f), glm::vec3(5.0f, 0.0f, 5.0f)));
-    m_bezierMesh->draw(glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 0.0f, 5.0f)));
+    m_bezierCurve->draw(glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 5.0f)), glm::vec3(0.3f)));
+    m_bezierMesh->draw(glm::scale(glm::translate(glm::mat4(1.0f), glm::vec3(2.5f, 0.0f, 5.0f)), glm::vec3(0.3f)));
 }
 
 void Sample::update(float dt) {

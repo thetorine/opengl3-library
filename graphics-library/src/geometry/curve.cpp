@@ -22,7 +22,7 @@ namespace gl::geometry {
         m_vertexBuffer.useBuffer();
         glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-        glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(m_vertexBuffer.size() / 3.0f));
+        glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(m_vertexBuffer.size() / 3.0f));
 
         glDisableVertexAttribArray(POSITION_LOCATION);
     }

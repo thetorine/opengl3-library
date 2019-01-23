@@ -20,6 +20,7 @@ Scene Tree:
 ![Scene Tree](screenshots/scene_tree.gif)
 
 Bézier curve and mesh generated based on that curve by rotating about the y axis:
+
 ![Bezier Curve](screenshots/bezier.png)
 
 # Setup
