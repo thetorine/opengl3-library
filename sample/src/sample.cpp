@@ -1,7 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "sample.hpp"
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "geometry/sphere.hpp"
 #include "illumination/point_light.hpp"
 #include "input/events.hpp"
@@ -29,18 +29,18 @@ void Sample::initialize() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
 
-    // Set lighting properties
-    gl::engine::Shader::createShader("local");
-    gl::engine::Shader::getInstance()->useShader();
+    shader = std::make_shared<gl::engine::Shader>("shaders/local/vertex.glsl", "shaders/local/fragment.glsl");
+    gl::engine::ShaderController::getInstance()->setShader(shader);
 
     // Clip the fragments that are outside of the 60 degrees FOV
     // and the fragments that are closer than 0.1 units. 
-    gl::engine::Shader::getInstance()->setProjMatrix(glm::infinitePerspective(
+    gl::engine::ShaderController::getInstance()->setMat4("projMatrix", glm::infinitePerspective(
         glm::radians(60.0f),
         static_cast<float>(m_width) / static_cast<float>(m_height),
         0.1f
     ));
 
+    // Set lighting properties
     glm::vec3 lightPos(1.0f, 5.0f, 0.0f);
     m_lightPoint = std::make_unique<gl::geometry::Point>(std::vector<float>({ lightPos.x, lightPos.y, lightPos.z }));
     m_lighting.addPointLight(std::make_shared<gl::illumination::PointLight>(
@@ -144,7 +144,7 @@ void Sample::update(float dt) {
 
 void Sample::updateView() {
     m_lighting.updateShader();
-    gl::engine::Shader::getInstance()->setViewMatrix(m_camera.getViewMatrix());
+    gl::engine::ShaderController::getInstance()->setMat4("viewMatrix", m_camera.getViewMatrix());
 }
 
 void Sample::keyHandler(int key, int action) {

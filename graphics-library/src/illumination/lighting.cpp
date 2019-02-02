@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "illumination/lighting.hpp"
 #include "illumination/directional_light.hpp"
 #include "illumination/point_light.hpp"
@@ -29,7 +29,7 @@ namespace gl::illumination {
 
     void Lighting::nextShaderType() {
         m_currentShader = (m_currentShader + 1) % SHADER_COUNT;
-        engine::Shader::getInstance()->setInt("shaderType", m_currentShader);
+        engine::ShaderController::getInstance()->setInt("shaderType", m_currentShader);
     }
 
     void Lighting::updateShader() {
@@ -43,15 +43,15 @@ namespace gl::illumination {
     }
 
     void Lighting::setMaterialCoeffs(float ambient, float diffuse, float specular, float phongExp) {
-        engine::Shader::getInstance()->setFloat("ambientCoeff", ambient);
-        engine::Shader::getInstance()->setFloat("diffuseCoeff", diffuse);
-        engine::Shader::getInstance()->setFloat("specularCoeff", specular);
-        engine::Shader::getInstance()->setFloat("phongExp", phongExp);
+        engine::ShaderController::getInstance()->setFloat("ambientCoeff", ambient);
+        engine::ShaderController::getInstance()->setFloat("diffuseCoeff", diffuse);
+        engine::ShaderController::getInstance()->setFloat("specularCoeff", specular);
+        engine::ShaderController::getInstance()->setFloat("phongExp", phongExp);
     }
 
     // TODO: Add the ability to change the specular light color. 
     void Lighting::setMaterialIntensities(const glm::vec3 &ambient, const glm::vec3 &diffuse) {
-        engine::Shader::getInstance()->setVec3("ambientIntensity", ambient);
-        engine::Shader::getInstance()->setVec3("diffuseIntensity", diffuse);
+        engine::ShaderController::getInstance()->setVec3("ambientIntensity", ambient);
+        engine::ShaderController::getInstance()->setVec3("diffuseIntensity", diffuse);
     }
 }

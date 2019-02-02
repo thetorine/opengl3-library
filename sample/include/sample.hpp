@@ -5,6 +5,7 @@
 
 #include "camera.hpp"
 #include "application/application.hpp"
+#include "engine/shader.hpp"
 #include "geometry/point.hpp"
 #include "geometry/curve.hpp"
 #include "geometry/mesh.hpp"
@@ -21,6 +22,7 @@ public:
     void update(float dt);
     void updateView();
 private:
+    std::shared_ptr<gl::engine::Shader> shader;
     gl::engine::Camera m_camera;
     gl::illumination::Lighting m_lighting;
     gl::scene::Scene m_scene;

@@ -1,6 +1,6 @@
 #include <string>
 
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "illumination/spotlight.hpp"
 
 namespace gl::illumination {
@@ -27,15 +27,15 @@ namespace gl::illumination {
         snprintf(buffer, sizeof(buffer), "spotlights[%d]", index);
         std::string structName { buffer };
 
-        engine::Shader::getInstance()->setVec3(structName + ".pos", m_pos);
-        engine::Shader::getInstance()->setVec3(structName + ".dir", m_dir);
-        engine::Shader::getInstance()->setVec3(structName + ".color", m_color);
-        engine::Shader::getInstance()->setFloat(structName + ".intensity", m_intensity);
-        engine::Shader::getInstance()->setFloat(structName + ".innerCutoff", m_innerCutoff);
-        engine::Shader::getInstance()->setFloat(structName + ".outerCutoff", m_outerCutoff);
-        engine::Shader::getInstance()->setFloat(structName + ".attenPow", m_attenPow);
-        engine::Shader::getInstance()->setFloat(structName + ".attenDist", m_attenDist);
-        engine::Shader::getInstance()->setInt(structName + ".on", true);
+        engine::ShaderController::getInstance()->setVec3(structName + ".pos", m_pos);
+        engine::ShaderController::getInstance()->setVec3(structName + ".dir", m_dir);
+        engine::ShaderController::getInstance()->setVec3(structName + ".color", m_color);
+        engine::ShaderController::getInstance()->setFloat(structName + ".intensity", m_intensity);
+        engine::ShaderController::getInstance()->setFloat(structName + ".innerCutoff", m_innerCutoff);
+        engine::ShaderController::getInstance()->setFloat(structName + ".outerCutoff", m_outerCutoff);
+        engine::ShaderController::getInstance()->setFloat(structName + ".attenPow", m_attenPow);
+        engine::ShaderController::getInstance()->setFloat(structName + ".attenDist", m_attenDist);
+        engine::ShaderController::getInstance()->setInt(structName + ".on", true);
     }
 
     void Spotlight::setFacingFrom(const glm::vec3 &pos, const glm::vec3 &dir) {

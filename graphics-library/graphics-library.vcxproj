@@ -20,6 +20,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\engine\shader_controller.cpp" />
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\engine\buffer.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\engine\buffer.hpp" />
     <ClInclude Include="include\engine\shader.hpp" />
+    <ClInclude Include="include\engine\shader_controller.hpp" />
     <ClInclude Include="include\geometry\curve.hpp" />
     <ClInclude Include="include\geometry\line.hpp" />
     <ClInclude Include="include\geometry\mesh.hpp" />
@@ -74,6 +76,7 @@
     <ClInclude Include="include\math\functions.hpp" />
     <ClInclude Include="include\math\matrix.hpp" />
     <ClInclude Include="include\math\revolution.hpp" />
+    <ClInclude Include="include\particle\emitter.hpp" />
     <ClInclude Include="include\scene\scene.hpp" />
     <ClInclude Include="include\scene\scene_object.hpp" />
     <ClInclude Include="include\scene\scene_shape.hpp" />

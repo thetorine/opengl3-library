@@ -9,11 +9,8 @@
 
 namespace gl::engine {
 
-    static std::unique_ptr<Shader> shaderObj;
-
-    Shader::Shader(std::string shaderName)
-        : m_shaderName(shaderName) {
-        if (!compileShader()) {
+    Shader::Shader(std::string vertexDir, std::string fragmentDir) {
+        if (!initShader(vertexDir, fragmentDir)) {
             std::printf("Unable to compile shader\n");
             exit(-1);
         }
@@ -23,28 +20,27 @@ namespace gl::engine {
         glDeleteProgram(m_programID);
     }
 
-    bool Shader::compileShader() {
-        m_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-        m_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+    bool Shader::initShader(std::string vertexDir, std::string fragmentDir) {
+        GLuint vertexShaderID { glCreateShader(GL_VERTEX_SHADER) };
+        GLuint fragmentShaderID { glCreateShader(GL_FRAGMENT_SHADER) };
 
-        bool r1 { compileShader(m_vertexShaderID, SHADER_DIR + m_shaderName + "/vertex.glsl") };
-        bool r2 { compileShader(m_fragmentShaderID, SHADER_DIR + m_shaderName + "/fragment.glsl") };
+        bool r1 { compileShader(vertexShaderID, vertexDir) };
+        bool r2 { compileShader(fragmentShaderID, fragmentDir) };
 
         if (!r1 || !r2) {
             std::printf("Unable to compile shaders\n");
-            glDeleteShader(m_fragmentShaderID);
-            glDeleteShader(m_vertexShaderID);
+            glDeleteShader(fragmentShaderID);
+            glDeleteShader(vertexShaderID);
             return false;
         }
 
         m_programID = glCreateProgram();
-        glAttachShader(m_programID, m_vertexShaderID);
-        glAttachShader(m_programID, m_fragmentShaderID);
+        glAttachShader(m_programID, vertexShaderID);
+        glAttachShader(m_programID, fragmentShaderID);
 
-        // Allows us to set these variables later on.
-        glBindAttribLocation(m_programID, POSITION_LOCATION, "position");
-        glBindAttribLocation(m_programID, NORMAL_POSITION, "normal");
-        glBindAttribLocation(m_programID, UV_LOCATION, "uv");
+        glBindAttribLocation(m_programID, POSITION_UNIFORM, "position");
+        glBindAttribLocation(m_programID, NORMAL_UNIFORM, "normal");
+        glBindAttribLocation(m_programID, UV_UNIFORM, "uv");
         glLinkProgram(m_programID);
 
         GLint linkStatus { 0 };
@@ -60,23 +56,19 @@ namespace gl::engine {
             std::printf("%s\n", (char *)errorLog);
 
             glDeleteProgram(m_programID);
-            glDeleteShader(m_vertexShaderID);
-            glDeleteShader(m_fragmentShaderID);
+            glDeleteShader(vertexShaderID);
+            glDeleteShader(fragmentShaderID);
 
             delete errorLog;
 
             return false;
         }
 
-        glDetachShader(m_programID, m_vertexShaderID);
-        glDetachShader(m_programID, m_fragmentShaderID);
+        glDetachShader(m_programID, vertexShaderID);
+        glDetachShader(m_programID, fragmentShaderID);
 
-        glDeleteShader(m_vertexShaderID);
-        glDeleteShader(m_fragmentShaderID);
-
-        m_modelMatrixUniform = glGetUniformLocation(m_programID, "modelMatrix");
-        m_viewMatrixUniform = glGetUniformLocation(m_programID, "viewMatrix");
-        m_projMatrixUniform = glGetUniformLocation(m_programID, "projMatrix");
+        glDeleteShader(vertexShaderID);
+        glDeleteShader(fragmentShaderID);
 
         return true;
     }
@@ -112,16 +104,9 @@ namespace gl::engine {
         glUseProgram(m_programID);
     }
 
-    void Shader::setModelMatrix(const glm::mat4 &matrix) const {
-        glUniformMatrix4fv(m_modelMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
-    }
-
-    void Shader::setViewMatrix(const glm::mat4 &matrix) const {
-        glUniformMatrix4fv(m_viewMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
-    }
-
-    void Shader::setProjMatrix(const glm::mat4 &matrix) const {
-        glUniformMatrix4fv(m_projMatrixUniform, 1, GL_FALSE, &matrix[0][0]);
+    void Shader::setMat4(std::string var, const glm::mat4 &matrix) const {
+        GLint location { glGetUniformLocation(m_programID, var.c_str()) };
+        glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
     }
 
     void Shader::setVec3(std::string var, const glm::vec3 &value) const {
@@ -137,13 +122,5 @@ namespace gl::engine {
     void Shader::setFloat(std::string var, float value) const {
         GLint location { glGetUniformLocation(m_programID, var.c_str()) };
         glUniform1f(location, value);
-    }
-
-    void Shader::createShader(std::string shaderName) {
-        shaderObj = std::unique_ptr<Shader>(new Shader(shaderName));
-    }
-
-    const std::unique_ptr<Shader> &Shader::getInstance() {
-        return shaderObj;
     }
 }

@@ -5,7 +5,7 @@
 
 #include <tiny_obj_loader.h>
 
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "geometry/mesh.hpp"
 
 namespace gl::geometry {
@@ -96,19 +96,19 @@ namespace gl::geometry {
     }
 
     void Mesh::draw(const glm::mat4 &model) {
-        engine::Shader::getInstance()->setModelMatrix(model);
+        engine::ShaderController::getInstance()->setMat4("modelMatrix", model);
 
-        glEnableVertexAttribArray(POSITION_LOCATION);
+        glEnableVertexAttribArray(engine::POSITION_UNIFORM);
         m_vertexBuffer.useBuffer();
-        glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glVertexAttribPointer(engine::POSITION_UNIFORM, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-        glEnableVertexAttribArray(NORMAL_POSITION);
+        glEnableVertexAttribArray(engine::NORMAL_UNIFORM);
         m_normalBuffer.useBuffer();
-        glVertexAttribPointer(NORMAL_POSITION, 3, GL_FLOAT, GL_TRUE, 0, nullptr);
+        glVertexAttribPointer(engine::NORMAL_UNIFORM, 3, GL_FLOAT, GL_TRUE, 0, nullptr);
 
-        glEnableVertexAttribArray(UV_LOCATION);
+        glEnableVertexAttribArray(engine::UV_UNIFORM);
         m_colorBuffer.useBuffer();
-        glVertexAttribPointer(UV_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glVertexAttribPointer(engine::UV_UNIFORM, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
         if (!m_hasIndices)
             glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(m_vertexBuffer.size()));
@@ -117,7 +117,8 @@ namespace gl::geometry {
             glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indexBuffer.size()), GL_UNSIGNED_INT, (void *)0);
         }
 
-        glDisableVertexAttribArray(POSITION_LOCATION);
-        glDisableVertexAttribArray(UV_LOCATION);
+        glDisableVertexAttribArray(engine::POSITION_UNIFORM);
+        glDisableVertexAttribArray(engine::NORMAL_UNIFORM);
+        glDisableVertexAttribArray(engine::UV_UNIFORM);
     }
 }

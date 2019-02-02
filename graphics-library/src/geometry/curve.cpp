@@ -1,6 +1,6 @@
 #include <memory>
 
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "geometry/curve.hpp"
 
 namespace gl::geometry {
@@ -16,14 +16,14 @@ namespace gl::geometry {
     }
 
     void Curve::draw(const glm::mat4 &model) {
-        engine::Shader::getInstance()->setModelMatrix(model);
+        engine::ShaderController::getInstance()->setMat4("modelMatrix", model);
 
-        glEnableVertexAttribArray(POSITION_LOCATION);
+        glEnableVertexAttribArray(engine::POSITION_UNIFORM);
         m_vertexBuffer.useBuffer();
-        glVertexAttribPointer(POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glVertexAttribPointer(engine::POSITION_UNIFORM, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
         glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(m_vertexBuffer.size() / 3.0f));
 
-        glDisableVertexAttribArray(POSITION_LOCATION);
+        glDisableVertexAttribArray(engine::POSITION_UNIFORM);
     }
 }

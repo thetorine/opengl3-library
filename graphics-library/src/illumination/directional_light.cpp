@@ -1,6 +1,6 @@
 #include <string>
 
-#include "engine/shader.hpp"
+#include "engine/shader_controller.hpp"
 #include "illumination/directional_light.hpp"
 
 namespace gl::illumination {
@@ -18,9 +18,9 @@ namespace gl::illumination {
         snprintf(buffer, sizeof(buffer), "directionalLights[%d]", index);
         std::string structName { buffer };
 
-        engine::Shader::getInstance()->setVec3(structName + ".dir", m_dir);
-        engine::Shader::getInstance()->setVec3(structName + ".color", m_color);
-        engine::Shader::getInstance()->setFloat(structName + ".intensity", m_intensity);
-        engine::Shader::getInstance()->setInt(structName + ".on", true);
+        engine::ShaderController::getInstance()->setVec3(structName + ".dir", m_dir);
+        engine::ShaderController::getInstance()->setVec3(structName + ".color", m_color);
+        engine::ShaderController::getInstance()->setFloat(structName + ".intensity", m_intensity);
+        engine::ShaderController::getInstance()->setInt(structName + ".on", true);
     }
 }

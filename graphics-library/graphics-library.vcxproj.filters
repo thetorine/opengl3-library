@@ -49,6 +49,12 @@
     <Filter Include="include\illumination">
       <UniqueIdentifier>{c1fd2814-bdba-4615-ac73-d9df5a16ae96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\particle">
+      <UniqueIdentifier>{9e78fc27-c0f6-43e9-a50b-dffd2fab0a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\particle">
+      <UniqueIdentifier>{ae9c1147-8790-4f7b-a3a2-dd23b8403e32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp">
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="src\geometry\curve.cpp">
       <Filter>src\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="include\engine\shader_controller.cpp">
+      <Filter>src\engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="include\geometry\curve.hpp">
       <Filter>include\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\particle\emitter.hpp">
+      <Filter>include\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\shader_controller.hpp">
+      <Filter>include\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
