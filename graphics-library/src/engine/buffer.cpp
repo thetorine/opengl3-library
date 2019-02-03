@@ -68,9 +68,7 @@ namespace gl::engine {
     void Buffer<T>::resize(size_t space) {
         if (space <= m_capacity) return;
         T *newBuffer { new T[space] };
-        for (int i { 0 }; i < m_size; i++) {
-            newBuffer[i] = m_data[i];
-        }
+        memcpy(newBuffer, m_data, m_size * sizeof(T));
         delete m_data;
         m_data = newBuffer;
     }
