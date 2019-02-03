@@ -15,10 +15,17 @@ namespace gl::engine {
 
         void addElement(T element);
         void addAll(const std::vector<T> &elements);
+        void resize(size_t space);
+        void clear();
         size_t size();
+        size_t capacity();
     private:
         GLuint m_bufferIndex;
-        std::vector<T> m_data;
+        bool m_bufferCreated;
         GLuint m_mode;
+
+        T *m_data;
+        size_t m_size;
+        size_t m_capacity;
     };
 }
